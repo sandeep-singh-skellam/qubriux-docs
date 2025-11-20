@@ -30,4 +30,4 @@ That's it! Your account is now active, and you can log in to the Qubriux dashboa
 
 Now that you have an account, let's take a quick tour of the dashboard.
 
-- **Next Article:** [A Quick Tour of the Dashboard](./2-dashboard-tour.md)
+- **Next Article:** [A Quick Tour of the Dashboard](./2-profile-setup.md)

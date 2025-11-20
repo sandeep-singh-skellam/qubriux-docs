@@ -15,8 +15,10 @@ You can edit a journey by clicking on the edit button below actions.
 
 ![image info](/img/journeys/3-journeys.png)
 
->[!TIP]
-> Active and Scheduled strategies can not be edited. You first need to deactivate it to edit it.
+
+:::note
+ Active and Scheduled strategies can not be edited. You first need to deactivate it to edit it.
+:::
 
 
 # Deleting a Strategy
@@ -73,4 +75,4 @@ A block that has notes attached will be shown. The note is only for your referen
 ### What's Next?
 
 
-- **Next Article:** [Adding Condition and Events](./journeys/3-conditions.md)
+- **Next Article:** [Adding Condition and Events](../3-Core Concepts/Journeys/3-conditions.md)

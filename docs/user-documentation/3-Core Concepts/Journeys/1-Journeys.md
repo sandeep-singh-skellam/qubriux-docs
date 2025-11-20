@@ -17,4 +17,4 @@ title: How to create a Journey
 
 Journeys are created, now we will understand Journey Builder Dashboard
 
-- **Next Article:** [Journeys](./journeys/2-Navigating-journeys.md)
+- **Next Article:** [Journeys](./2-Navigating-journeys.md)

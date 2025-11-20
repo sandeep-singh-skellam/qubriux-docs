@@ -91,4 +91,4 @@ Add your channel how you want to communicate with your customer and turn on the 
 
 Profile is setup, let's setup loyalty program.
 
-- **Next Article:** [Loyalty Program](./1-loyalty-program.md)
+- **Next Article:** [Journeys](../3-Core Concepts/Journeys/1-Journeys.md)

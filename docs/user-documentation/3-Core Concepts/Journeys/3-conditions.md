@@ -19,4 +19,4 @@ Add a condition and select the event that starts the journey, such as:
 ### What's Next?
 
 
-- **Next Article:** [Filters in Journeys](./journeys/4-filters.md)
+- **Next Article:** [Filters in Journeys](./4-filters.md)

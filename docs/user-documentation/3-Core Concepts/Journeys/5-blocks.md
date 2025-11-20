@@ -154,5 +154,3 @@ Add game to engage with your customer. You can attach different games to interac
 
 ### What's Next?
 
-
-- **Next Article:** [Adding Blocks](./journeys/4-blocks.md)

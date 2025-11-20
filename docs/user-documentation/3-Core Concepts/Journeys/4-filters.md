@@ -24,4 +24,4 @@ Once filters are configured, click Save to finalise the trigger setup.
 ### What's Next?
 
 
-- **Next Article:** [Adding Blocks](./journeys/5-blocks.md)
+- **Next Article:** [Adding Blocks](./5-blocks.md)
