@@ -5,9 +5,9 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
-  favicon: 'img/favicon.ico',
+  title: 'Qubriux Documentation',
+  tagline: '',
+  favicon: 'https://qbshopper-public.s3.ap-south-1.amazonaws.com/ui/assets/icons/transparent/48_48.png',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -22,8 +22,8 @@ const config: Config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'sandeep-singh-skellam', // Usually your GitHub org/user name.
+  projectName: 'qubriux-docs', // Usually your repo name.
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -73,18 +73,33 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'My Site',
+      title: 'Qubriux',
       logo: {
-        alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        alt: 'Qubriux Logo',
+        src: 'https://qbshopper-public.s3.ap-south-1.amazonaws.com/ui/assets/icons/transparent/48_48.png',
       },
       items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
-          position: 'left',
-          label: 'Tutorial',
-        },
+         // User Documentation Dropdown
+          {
+            type: 'docSidebar',
+            sidebarId: 'userSidebar', // This must match the key in sidebars.js
+            position: 'left',
+            label: 'User Documentation',
+          },
+          // Developer Documentation Dropdown
+          {
+            type: 'docSidebar',
+            sidebarId: 'developerSidebar', // This must match the key in sidebars.js
+            position: 'left',
+            label: 'Developer Documentation',
+          },
+          // API Documentation Dropdown
+          {
+            type: 'docSidebar',
+            sidebarId: 'apiSidebar', // This must match the key in sidebars.js
+            position: 'left',
+            label: 'API Documentation',
+          },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/facebook/docusaurus',
@@ -136,7 +151,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Qubriux.`,
     },
     prism: {
       theme: prismThemes.github,
