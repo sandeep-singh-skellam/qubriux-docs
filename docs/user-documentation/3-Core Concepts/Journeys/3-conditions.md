@@ -13,7 +13,7 @@ Add a condition and select the event that starts the journey, such as:
 * Specify the time during which the event should be captured.
 * Select a combination of days for the event capture. For 24/7 coverage, enable the toggle button.
 
-![image info](/img/journeys/3.1-journeys.png)
+![image info](/img/journeys/3.1-Journeys.png)
 
 
 ### What's Next?

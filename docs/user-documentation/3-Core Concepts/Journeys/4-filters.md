@@ -18,7 +18,7 @@ Once filters are configured, click Save to finalise the trigger setup.
 
 
 
-![image info](/img/journeys/4.1-journeys.png)
+![image info](/img/journeys/4.1-Journeys.png)
 
 
 ### What's Next?
