@@ -17,7 +17,7 @@ You can edit a journey by clicking on the edit button below actions.
 
 
 :::note
- Active and Scheduled strategies can not be edited. You first need to deactivate it to edit it.
+Active and Scheduled strategies can not be edited. You first need to deactivate it to edit it.
 :::
 
 
