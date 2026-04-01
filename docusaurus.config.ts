@@ -86,13 +86,6 @@ const config: Config = {
             position: 'left',
             label: 'User Documentation',
           },
-          // Developer Documentation Dropdown
-          {
-            type: 'docSidebar',
-            sidebarId: 'developerSidebar', // This must match the key in sidebars.js
-            position: 'left',
-            label: 'Developer Documentation',
-          },
           // API Documentation Dropdown
           {
             type: 'docSidebar',
