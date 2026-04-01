@@ -79,11 +79,6 @@ const config: Config = {
             position: 'left',
             label: 'API Documentation',
           },
-        {
-          href: 'https://github.com/facebook/docusaurus',
-          label: 'GitHub',
-          position: 'right',
-        },
       ],
     },
     footer: {
@@ -112,15 +107,6 @@ const config: Config = {
             {
               label: 'X',
               href: 'https://x.com/docusaurus',
-            },
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
             },
           ],
         },
