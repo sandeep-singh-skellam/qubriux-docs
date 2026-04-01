@@ -7,7 +7,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'Qubriux Documentation',
   tagline: '',
-  favicon: 'https://qbshopper-public.s3.ap-south-1.amazonaws.com/ui/assets/icons/transparent/48_48.png',
+  favicon: 'https://qbshopper-public.s3.ap-south-1.amazonaws.com/ui/assets/icons/Q_Qubriux.png',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -73,10 +73,10 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'Qubriux',
+      title: '',
       logo: {
         alt: 'Qubriux Logo',
-        src: 'https://qbshopper-public.s3.ap-south-1.amazonaws.com/ui/assets/icons/transparent/48_48.png',
+        src: 'https://qbshopper-public.s3.ap-south-1.amazonaws.com/ui/assets/icons/QubLogo.svg',
       },
       items: [
          // User Documentation Dropdown
@@ -159,5 +159,6 @@ const config: Config = {
     },
   } satisfies Preset.ThemeConfig,
 };
+
 
 export default config;
