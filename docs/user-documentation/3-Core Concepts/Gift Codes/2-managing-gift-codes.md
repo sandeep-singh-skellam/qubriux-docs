@@ -7,7 +7,7 @@ title: Managing Gift Codes
 
 This guide covers how to view, search, update, and cancel gift codes from the Qubriux dashboard.
 
-Gift codes are issued through your customer-facing app or integration. The dashboard is where you manage existing codes — looking up what a customer has sent or received, making corrections, and cancelling codes when needed.
+Gift codes are issued through your customer-facing app or integration. The dashboard is where you manage existing codes - looking up what a customer has sent or received, making corrections, and cancelling codes when needed.
 
 ---
 
@@ -35,24 +35,24 @@ Results are paginated. Use the page controls to navigate through a customer with
 
 Each gift code record shows:
 
-- **Gift Code ID** — the unique identifier for the code
-- **Amount** — the monetary value of the code
-- **Template** — the visual template used for this code
-- **Status** — Issued, Redeemed, Expired, or Cancelled
-- **Sender** — the sender's name, mobile number, and customer ID
-- **Sender's message** — the personal message attached to the gift
-- **Receiver** — the receiver's mobile number and customer ID (if they have an account)
-- **Issue date** — when the code was created
-- **Expiry date** — when the code will expire if not redeemed
-- **Redeem date** — when the code was redeemed (only shown if status is Redeemed)
-- **Comments** — any internal notes attached to the code
-- **Cancellation comments** — the reason for cancellation (only shown if status is Cancelled)
+- **Gift Code ID** - the unique identifier for the code
+- **Amount** - the monetary value of the code
+- **Template** - the visual template used for this code
+- **Status** - Issued, Redeemed, Expired, or Cancelled
+- **Sender** - the sender's name, mobile number, and customer ID
+- **Sender's message** - the personal message attached to the gift
+- **Receiver** - the receiver's mobile number and customer ID (if they have an account)
+- **Issue date** - when the code was created
+- **Expiry date** - when the code will expire if not redeemed
+- **Redeem date** - when the code was redeemed (only shown if status is Redeemed)
+- **Comments** - any internal notes attached to the code
+- **Cancellation comments** - the reason for cancellation (only shown if status is Cancelled)
 
 ---
 
 ## Updating a Gift Code
 
-You can update a gift code that is currently in **Issued** status — meaning it has not yet been redeemed, expired, or cancelled.
+You can update a gift code that is currently in **Issued** status - meaning it has not yet been redeemed, expired, or cancelled.
 
 From the gift code detail view, click **Edit** and choose **Update**.
 
@@ -62,10 +62,10 @@ From the gift code detail view, click **Edit** and choose **Update**.
 Update the personal message from the sender to the receiver. Use this if a customer made a typo, wants to add more context, or sent the wrong message.
 
 **Receiver's mobile number**
-Change the mobile number the gift code is directed to. Use this if the sender entered the wrong number. When you update the receiver number, the customer ID association is cleared — it will re-link automatically when the new receiver redeems the code.
+Change the mobile number the gift code is directed to. Use this if the sender entered the wrong number. When you update the receiver number, the customer ID association is cleared - it will re-link automatically when the new receiver redeems the code.
 
 **Comments**
-Add or update internal comments on the gift code. These are not visible to customers — they are for your team's records only.
+Add or update internal comments on the gift code. These are not visible to customers - they are for your team's records only.
 
 Click **Save** to apply the changes. The gift code remains in Issued status and the receiver can still redeem it as normal.
 
@@ -73,7 +73,7 @@ Click **Save** to apply the changes. The gift code remains in Issued status and 
 
 ## Cancelling a Gift Code
 
-Cancelling a gift code permanently voids it. A cancelled code cannot be redeemed — even if the receiver tries to use it, the system will reject it.
+Cancelling a gift code permanently voids it. A cancelled code cannot be redeemed - even if the receiver tries to use it, the system will reject it.
 
 From the gift code detail view, click **Edit** and choose **Cancel**.
 
@@ -98,4 +98,4 @@ Click **Confirm Cancel** to complete the cancellation. The gift code status imme
 | **Issued** | Yes | Yes | Yes |
 | **Redeemed** | No | No | No |
 | **Expired** | No | No | No |
-| **Cancelled** | No | — | No |
+| **Cancelled** | No | - | No |

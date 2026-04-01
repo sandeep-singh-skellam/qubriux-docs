@@ -11,7 +11,7 @@ Segments are groups of customers defined by rules based on their behaviour, purc
 
 Qubriux evaluates your segment rules against your customer database and returns a matching list of customers. You can preview the size of a segment before saving it, so you always know how many customers will be reached before committing.
 
-Segments are dynamic — they are re-evaluated when used in campaigns and journeys, so they always reflect the current state of your customer data.
+Segments are dynamic - they are re-evaluated when used in campaigns and journeys, so they always reflect the current state of your customer data.
 
 ## Creating a Segment
 
@@ -50,11 +50,11 @@ You cannot delete a segment that is currently in use in an active Journey, Campa
 
 Qubriux provides a rich set of attributes to build segment rules. These include customer profile data, behavioural signals, and loyalty properties. Filter categories include:
 
-- **Purchase behaviour** — recency, frequency, monetary value (RFM), products bought, categories purchased
-- **Loyalty status** — tier, points balance, redemption history
-- **Customer profile** — location, registration date, tags assigned
-- **Engagement** — campaign interactions, offer redemptions, survey responses
-- **Propensity** — product propensity levels (likelihood to purchase specific categories)
+- **Purchase behaviour** - recency, frequency, monetary value (RFM), products bought, categories purchased
+- **Loyalty status** - tier, points balance, redemption history
+- **Customer profile** - location, registration date, tags assigned
+- **Engagement** - campaign interactions, offer redemptions, survey responses
+- **Propensity** - product propensity levels (likelihood to purchase specific categories)
 
 Multiple filters can be combined using AND/OR logic to create precise segments.
 
@@ -93,11 +93,11 @@ When building campaigns that target both segments and loyalty tiers, Qubriux let
 
 Once a segment is created, it can be used in:
 
-- **Journeys** — as the target audience for a journey strategy
-- **Offers** — to restrict offer eligibility to specific customer groups
-- **Challenges** — to target challenge participation
-- **Social Media Exports** — to create Custom Audiences on Meta, Snapchat, or TikTok (see [Meta](../Social%20Media/Meta.md), [Snapchat](../Social%20Media/Snapchat.md), [TikTok](../Social%20Media/tiktok.md))
-- **Campaign Audience Split** — to route different customer groups down separate journey paths
+- **Journeys** - as the target audience for a journey strategy
+- **Offers** - to restrict offer eligibility to specific customer groups
+- **Challenges** - to target challenge participation
+- **Social Media Exports** - to create Custom Audiences on Meta, Snapchat, or TikTok (see [Meta](../Social%20Media/Meta.md), [Snapchat](../Social%20Media/Snapchat.md), [TikTok](../Social%20Media/tiktok.md))
+- **Campaign Audience Split** - to route different customer groups down separate journey paths
 
 ## Viewing All Segments
 

@@ -5,17 +5,17 @@ title: Creating an Offer
 
 # Creating an Offer
 
-This guide walks you through setting up an offer in Qubriux from start to finish — from choosing your reward to getting it in front of your customers.
+This guide walks you through setting up an offer in Qubriux from start to finish - from choosing your reward to getting it in front of your customers.
 
 ---
 
-## Step 1 — Open the Offers Section
+## Step 1 - Open the Offers Section
 
 Navigate to **Offers** in the main menu. Your Offers library shows all existing offers with their current status. Click **Create Offer** to begin.
 
 ---
 
-## Step 2 — Choose Your Reward Type
+## Step 2 - Choose Your Reward Type
 
 The first thing you configure is what the customer actually receives. Select one of the seven reward types:
 
@@ -29,11 +29,11 @@ The first thing you configure is what the customer actually receives. Select one
 | Cashback | Cash credited to their wallet balance |
 | Burn Loyalty Points | Use accumulated points as currency at checkout |
 
-Your selection here shapes the rest of the form — fields that don't apply to your chosen reward type won't appear.
+Your selection here shapes the rest of the form - fields that don't apply to your chosen reward type won't appear.
 
 ---
 
-## Step 3 — Configure the Reward Value
+## Step 3 - Configure the Reward Value
 
 Fill in the specific details of the reward based on the type you selected:
 
@@ -43,23 +43,23 @@ Fill in the specific details of the reward based on the type you selected:
 
 **For Buy X Get Y:**
 - Which products the customer must buy (the "Buy X" side) and how many
-- Which product they receive as the reward (the "Get Y" side) — either free or at a reduced price
+- Which product they receive as the reward (the "Get Y" side) - either free or at a reduced price
 
 **For Free Shipping:**
 - Optionally, a minimum order amount or minimum item quantity before the offer applies
 
 **For Loyalty Points:**
-- The number of points to award — either a fixed number or a percentage of the customer's spend
+- The number of points to award - either a fixed number or a percentage of the customer's spend
 
 **For Cashback:**
-- The cashback amount — either a fixed figure or a percentage of the order value
+- The cashback amount - either a fixed figure or a percentage of the order value
 
 **For Burn Loyalty Points:**
-- This reward type does not require a specific value — it enables customers to apply their existing points balance at checkout
+- This reward type does not require a specific value - it enables customers to apply their existing points balance at checkout
 
 ---
 
-## Step 4 — Set Validity and Limits
+## Step 4 - Set Validity and Limits
 
 Control how long the offer lasts and how many times it can be used:
 
@@ -79,7 +79,7 @@ Any items the discount should not apply to. Use this to protect already-discount
 
 ---
 
-## Step 5 — Choose Your Audience
+## Step 5 - Choose Your Audience
 
 Define who receives this offer. You can include and exclude customers at the same time:
 
@@ -96,26 +96,26 @@ Any of the above can also be used as exclusions. For example, include all custom
 
 ---
 
-## Step 6 — Select Communication Channel
+## Step 6 - Select Communication Channel
 
 Choose how the offer reaches your customers. You can select multiple channels so customers receive it across more than one touchpoint:
 
-- **Email** — best for rich content and offers that require more context
-- **SMS** — best for short, urgent promotions with high open rates
-- **WhatsApp** — best for markets where WhatsApp is the primary messaging channel
-- **Push notification** — best for app users and time-sensitive alerts
+- **Email** - best for rich content and offers that require more context
+- **SMS** - best for short, urgent promotions with high open rates
+- **WhatsApp** - best for markets where WhatsApp is the primary messaging channel
+- **Push notification** - best for app users and time-sensitive alerts
 
 ---
 
-## Step 7 — Save the Offer
+## Step 7 - Save the Offer
 
-Click **Save** to store the offer as a **Draft**. A draft offer can still be edited — nothing has been sent yet and no customers have been affected.
+Click **Save** to store the offer as a **Draft**. A draft offer can still be edited - nothing has been sent yet and no customers have been affected.
 
 Review the full configuration before proceeding. Once an offer is launched, the core reward details cannot be changed.
 
 ---
 
-## Step 8 — Launch the Offer
+## Step 8 - Launch the Offer
 
 When you're ready to send, click **Launch**. You'll choose between two dispatch options:
 
@@ -123,7 +123,7 @@ When you're ready to send, click **Launch**. You'll choose between two dispatch 
 The offer is sent to your audience immediately. Use this for time-sensitive campaigns, flash sales, or reactive promotions you need to get out right now.
 
 **Scheduled**
-Pick a specific date and time for the offer to go out. Use this when you're planning ahead — for example, a Friday evening SMS you want delivered at 6pm before the weekend.
+Pick a specific date and time for the offer to go out. Use this when you're planning ahead - for example, a Friday evening SMS you want delivered at 6pm before the weekend.
 
 Once launched, the offer status moves to **Active** and customers can begin redeeming.
 
@@ -131,7 +131,7 @@ Once launched, the offer status moves to **Active** and customers can begin rede
 
 ## Editing an Offer
 
-You can edit an offer while it is still in **Draft** status. Once an offer is **Active** or **Scheduled**, most fields are locked — this protects customers who have already received the offer from having the terms change under them.
+You can edit an offer while it is still in **Draft** status. Once an offer is **Active** or **Scheduled**, most fields are locked - this protects customers who have already received the offer from having the terms change under them.
 
 To make substantial changes to a live offer, deactivate it and create a new one.
 
@@ -147,7 +147,7 @@ You can delete a draft offer at any time. Active or ended offers cannot be delet
 
 | Status | What it means |
 |--------|---------------|
-| **Draft** | Created but not yet sent — still editable |
+| **Draft** | Created but not yet sent - still editable |
 | **Scheduled** | Queued to send at a future date and time |
 | **Active** | Sent and currently redeemable by customers |
 | **Ended** | The validity period has passed; no further redemptions are possible |

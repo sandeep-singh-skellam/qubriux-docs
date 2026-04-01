@@ -23,13 +23,13 @@ You need a Snapchat Business account with Ads Manager access to connect. Persona
 
 After connecting, you need to link your Snapchat Organisation and Advertiser account so Qubriux knows which ad account to use for audience exports.
 
-### Step 1 — Select Your Organisation
+### Step 1 - Select Your Organisation
 
 1. After connecting, Qubriux fetches the organisations associated with your Snapchat account.
 2. Select the **Organisation** that contains your ad account.
 3. Click **Confirm**.
 
-### Step 2 — Select Your Advertiser Account
+### Step 2 - Select Your Advertiser Account
 
 1. Once the organisation is set, your available Advertiser accounts are displayed.
 2. Select the **Advertiser Account** you want to use for audience exports.

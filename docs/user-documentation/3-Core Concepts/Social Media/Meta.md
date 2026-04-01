@@ -5,7 +5,7 @@ title: Meta
 
 # Meta
 
-Qubriux integrates with Meta (Facebook and Instagram) to let you export customer audiences, publish posts, and track social media performance — all from within the platform. Once your Meta account is connected, you can run targeted ad campaigns using your Qubriux customer segments.
+Qubriux integrates with Meta (Facebook and Instagram) to let you export customer audiences, publish posts, and track social media performance - all from within the platform. Once your Meta account is connected, you can run targeted ad campaigns using your Qubriux customer segments.
 
 ## Connecting Your Meta Account
 
@@ -83,7 +83,7 @@ Files that fail format or size validation will be rejected before upload. Ensure
 Get a quick snapshot of your connected Meta page performance:
 
 1. Navigate to **Social Media > Meta > Analytics**.
-2. The **Overview** tab shows key metrics for your linked Facebook Page — reach, impressions, and engagement.
+2. The **Overview** tab shows key metrics for your linked Facebook Page - reach, impressions, and engagement.
 
 ### Detailed Analytics
 
@@ -113,5 +113,5 @@ To remove a connected Meta account:
 3. Click **Disconnect**.
 
 :::warning
-Disconnecting a Meta account will stop any active audience syncs associated with that connection. Active ad campaigns using those audiences are not affected — they continue running within Meta's platform — but Qubriux will no longer be able to update or refresh those audiences.
+Disconnecting a Meta account will stop any active audience syncs associated with that connection. Active ad campaigns using those audiences are not affected - they continue running within Meta's platform - but Qubriux will no longer be able to update or refresh those audiences.
 :::

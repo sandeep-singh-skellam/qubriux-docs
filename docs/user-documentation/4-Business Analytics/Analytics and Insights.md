@@ -19,10 +19,10 @@ The Sales Overview shows revenue and transaction trends across your customer bas
 
 Loyalty analytics help you understand how your programme is performing and whether it is driving incremental revenue.
 
-- **Loyalty vs. Non-Loyalty Revenue** — compare the revenue contribution of loyalty customers against non-loyalty customers.
-- **Loyalty Customer List** — browse the customers enrolled in your loyalty programme with their tier and activity details.
-- **Loyalty Customer Growth** — track how the size of your loyalty customer base has changed over time.
-- **Previous Period Comparison** — view loyalty chart data against the prior period to measure growth.
+- **Loyalty vs. Non-Loyalty Revenue** - compare the revenue contribution of loyalty customers against non-loyalty customers.
+- **Loyalty Customer List** - browse the customers enrolled in your loyalty programme with their tier and activity details.
+- **Loyalty Customer Growth** - track how the size of your loyalty customer base has changed over time.
+- **Previous Period Comparison** - view loyalty chart data against the prior period to measure growth.
 
 ## Customer Analytics
 
@@ -30,11 +30,11 @@ Loyalty analytics help you understand how your programme is performing and wheth
 
 RFM (Recency, Frequency, Monetary) analysis segments your customers into behavioural buckets based on three dimensions:
 
-- **Recency** — how recently a customer made a purchase
-- **Frequency** — how often they buy
-- **Monetary** — how much they spend
+- **Recency** - how recently a customer made a purchase
+- **Frequency** - how often they buy
+- **Monetary** - how much they spend
 
-The RFM chart shows the distribution of your customers across these dimensions. Clicking into any bucket opens the full list of customers in that group, so you can act on the insight directly — for example, building a segment from that group and targeting them with a campaign.
+The RFM chart shows the distribution of your customers across these dimensions. Clicking into any bucket opens the full list of customers in that group, so you can act on the insight directly - for example, building a segment from that group and targeting them with a campaign.
 
 ### Customer Churn
 
@@ -42,7 +42,7 @@ The churn chart shows how many customers have stopped purchasing within differen
 
 ### Repeat Customer Trend
 
-Track the trend of repeat customers over time — customers who have made more than one purchase. Drill into any period to see the list of customers contributing to that period's repeat rate.
+Track the trend of repeat customers over time - customers who have made more than one purchase. Drill into any period to see the list of customers contributing to that period's repeat rate.
 
 ### New Customer Trend
 
@@ -51,12 +51,12 @@ Monitor new customer acquisition over time. Drill into any period to see the lis
 ### Top Customers
 
 Identify your highest-value customers ranked by:
-- **Revenue** — total spend over a selected period
-- **Order count** — number of transactions over a selected period
+- **Revenue** - total spend over a selected period
+- **Order count** - number of transactions over a selected period
 
 ### Hot Leads
 
-Hot Leads are customers identified as having high purchase intent based on their recent activity — such as browsing behaviour, campaign interactions, or proximity to a redemption threshold. The Hot Leads list is paginated and ranked by intent score.
+Hot Leads are customers identified as having high purchase intent based on their recent activity - such as browsing behaviour, campaign interactions, or proximity to a redemption threshold. The Hot Leads list is paginated and ranked by intent score.
 
 ### Top Consumers
 
@@ -68,14 +68,14 @@ The Top Consumers view shows your highest-spending customers for a given period,
 
 See which products are driving the most revenue or order volume. Useful for understanding what to feature in campaigns, what to keep in stock, and where customer demand is concentrated. Available in two views:
 
-- **By revenue** — products ranked by the total revenue they generate
-- **By order count** — products ranked by the number of times they appear in orders
+- **By revenue** - products ranked by the total revenue they generate
+- **By order count** - products ranked by the number of times they appear in orders
 
 ## Segment Analytics
 
 ### Standard Segment Overview
 
-Qubriux maintains a set of system-defined RFM segments — such as Champions, Loyal Customers, At Risk, and Lost — that are automatically computed from your customer transaction data. The analytics dashboard shows:
+Qubriux maintains a set of system-defined RFM segments - such as Champions, Loyal Customers, At Risk, and Lost - that are automatically computed from your customer transaction data. The analytics dashboard shows:
 
 - Current customer count for each standard segment
 - Time series trend of how each segment's size has changed over time

@@ -32,7 +32,7 @@ This gives brands complete flexibility in designing modern loyalty and rewards s
 ---
 
 ## Credits (Adding Money/Points)
-- When a customer earns value—like cashback, points, or promotional credits—the wallet creates a **credit transaction** for that amount.  
+- When a customer earns value-like cashback, points, or promotional credits-the wallet creates a **credit transaction** for that amount.  
 - Each credit receives an expiry date (if configured), ensuring precise control over how long the value remains valid.  
 - The amount is added to the appropriate ledger balance and recorded in the transaction history so customers can track how and when they earned the value.
 
@@ -60,5 +60,5 @@ This gives brands complete flexibility in designing modern loyalty and rewards s
 ---
 
 ## Real-time Updates
-- All wallet actions—credits, debits, and expiries—reflect instantly across the app and backend systems.  
+- All wallet actions-credits, debits, and expiries-reflect instantly across the app and backend systems.  
 - Customers always see the latest balance, enabling real-time loyalty experiences like instant rewards, on-the-spot discounts, and immediate credit reflection.

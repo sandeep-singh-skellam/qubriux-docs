@@ -24,7 +24,7 @@ Most endpoints additionally accept a **JWT Bearer Token** in the `Authorization`
 Authorization: Bearer <jwt_token>
 ```
 
-Obtain a token from [`POST /openapi/auth/getAccessToken`](#post-openapiauthgetaccesstoken). The JWT is validated against the merchant context derived from the `api_key` — if they do not match, the request is rejected with a `401`.
+Obtain a token from [`POST /openapi/auth/getAccessToken`](#post-openapiauthgetaccesstoken). The JWT is validated against the merchant context derived from the `api_key` - if they do not match, the request is rejected with a `401`.
 
 :::tip
 The JWT layer is optional for basic integrations but recommended for production. It provides an additional binding between the request and a specific merchant/customer context, preventing API key misuse.
@@ -93,12 +93,12 @@ Exchanges merchant credentials for a short-lived JWT access token. The token is 
 }
 ```
 
-### Response — 200 OK
+### Response - 200 OK
 
 | Field | Type | Description |
 |-------|------|-------------|
 | `status` | string | `"success"` |
-| `data` | object | Token payload. Inspect the actual response during integration — structure is determined by the JWT provider configuration. |
+| `data` | object | Token payload. Inspect the actual response during integration - structure is determined by the JWT provider configuration. |
 
 ### Response Example
 
@@ -120,14 +120,14 @@ Exchanges merchant credentials for a short-lived JWT access token. The token is 
 | `500` | Unexpected server error |
 
 :::warning
-Store the issued token securely. Do not expose it client-side in environments where it can be intercepted. Tokens expire — handle `401` responses from other endpoints by re-fetching a token.
+Store the issued token securely. Do not expose it client-side in environments where it can be intercepted. Tokens expire - handle `401` responses from other endpoints by re-fetching a token.
 :::
 
 ---
 
 ## POST /openapi/createCustomer
 
-Registers a new customer in the Qubriux loyalty platform. On success, Qubriux creates a customer record, optionally provisions a digital wallet, and returns the internal customer ID along with a customer-scoped JWT. Call this endpoint the first time you encounter a customer — typically at sign-up or first purchase. Supply your system's customer ID in `customer_info.id` to link the Qubriux record back to your own database for all future lookups.
+Registers a new customer in the Qubriux loyalty platform. On success, Qubriux creates a customer record, optionally provisions a digital wallet, and returns the internal customer ID along with a customer-scoped JWT. Call this endpoint the first time you encounter a customer - typically at sign-up or first purchase. Supply your system's customer ID in `customer_info.id` to link the Qubriux record back to your own database for all future lookups.
 
 ### Request Headers
 
@@ -141,7 +141,7 @@ Registers a new customer in the Qubriux loyalty platform. On success, Qubriux cr
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
 | `api_key` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
-| `customer_info` | object | Yes | Customer profile data (see below) | — |
+| `customer_info` | object | Yes | Customer profile data (see below) | - |
 | `createdAt` | string | No | ISO 8601 registration timestamp in your system | `"2024-04-01T10:30:00Z"` |
 | `customer_source` | string | No | Channel or system where the customer registered | `"mobile_app"` |
 
@@ -149,12 +149,12 @@ Registers a new customer in the Qubriux loyalty platform. On success, Qubriux cr
 
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
-| `id` | string | Recommended | Your system's customer ID — links the Qubriux record to your database | `"APP-CUST-001234"` |
+| `id` | string | Recommended | Your system's customer ID - links the Qubriux record to your database | `"APP-CUST-001234"` |
 | `mobile` | string | Recommended | Mobile number with country code. Primary identifier. | `"+971501234567"` |
 | `email` | string | Recommended | Email address. Secondary identifier. | `"sarah.khan@example.com"` |
 | `firstName` | string | No | First name | `"Sarah"` |
 | `lastName` | string | No | Last name | `"Khan"` |
-| `name` | string | No | Full name — alternative to firstName + lastName | `"Sarah Khan"` |
+| `name` | string | No | Full name - alternative to firstName + lastName | `"Sarah Khan"` |
 | `dob` | string | No | Date of birth (YYYY-MM-DD). Triggers birthday rewards. | `"1990-06-15"` |
 | `anniversary_date` | string | No | Anniversary date (YYYY-MM-DD). Triggers anniversary rewards. | `"2018-03-20"` |
 | `gender` | string | No | Gender identifier | `"F"` |
@@ -167,7 +167,7 @@ Registers a new customer in the Qubriux loyalty platform. On success, Qubriux cr
 | `isEmailMarketingConsentGiven` | boolean | No | Email marketing consent | `true` |
 | `isLoyaltyConsentGiven` | boolean | No | Loyalty programme participation consent | `true` |
 | `isWalletRequired` | boolean | No | Provision a digital wallet on registration. Default: `false`. | `false` |
-| `isProfileComplete` | boolean | No | Whether the profile is complete — drives app-side prompts | `true` |
+| `isProfileComplete` | boolean | No | Whether the profile is complete - drives app-side prompts | `true` |
 | `createdAt` | string | No | Registration timestamp in your system (ISO 8601) | `"2024-04-01T10:30:00Z"` |
 | `address.line_1` | string | No | Primary address line | `"Villa 12, Al Barsha"` |
 | `address.line_2` | string | No | Secondary address line | `"Street 4"` |
@@ -206,13 +206,13 @@ Registers a new customer in the Qubriux loyalty platform. On success, Qubriux cr
 }
 ```
 
-### Response — 200 OK
+### Response - 200 OK
 
 | Field | Type | Description |
 |-------|------|-------------|
 | `data.customerId` | string | Qubriux internal customer ID. **Store this alongside your own ID.** |
 | `data.walletId` | string \| null | Digital wallet ID, if wallet was provisioned |
-| `data.availableBalance` | number | Current wallet balance — zero for new customers |
+| `data.availableBalance` | number | Current wallet balance - zero for new customers |
 | `data.userJwtToken` | string \| null | Customer-scoped JWT for use as Bearer token on subsequent calls |
 
 ### Response Example
@@ -245,7 +245,7 @@ Persist `customerId` from the response in your database. Supplying it on future 
 
 ## POST /openapi/updateCustomer
 
-Updates profile data for an existing Qubriux customer. Use this to sync changes from your system — name corrections, consent withdrawals, or new contact details — into Qubriux. The customer must already exist. Supply at least one identifier (`id`, `mobile`, or `email`) alongside the fields to update. The endpoint returns the same shape as `createCustomer` with the customer's current balance and a refreshed JWT.
+Updates profile data for an existing Qubriux customer. Use this to sync changes from your system - name corrections, consent withdrawals, or new contact details - into Qubriux. The customer must already exist. Supply at least one identifier (`id`, `mobile`, or `email`) alongside the fields to update. The endpoint returns the same shape as `createCustomer` with the customer's current balance and a refreshed JWT.
 
 ### Request Headers
 
@@ -272,7 +272,7 @@ Same schema as `createCustomer`. Include only the fields that have changed along
 }
 ```
 
-### Response — 200 OK
+### Response - 200 OK
 
 Same as `createCustomer` response. `availableBalance` reflects the customer's current balance at time of update.
 
@@ -306,7 +306,7 @@ Qubriux enforces uniqueness on mobile and email. If the updated value already be
 
 ## POST /openapi/reward/getCustomerOffers
 
-Returns the complete set of active offers available to a customer alongside their current loyalty balance, tier status, tier progression data, and redemption limits — all in a single call. Call this at the start of a transaction or when rendering a customer's wallet screen. Optionally include the live basket in the `order` field to enable dynamic offer eligibility evaluation against the current items. Use `beansExpiryAfterDays` to surface expiring points and motivate redemption.
+Returns the complete set of active offers available to a customer alongside their current loyalty balance, tier status, tier progression data, and redemption limits - all in a single call. Call this at the start of a transaction or when rendering a customer's wallet screen. Optionally include the live basket in the `order` field to enable dynamic offer eligibility evaluation against the current items. Use `beansExpiryAfterDays` to surface expiring points and motivate redemption.
 
 ### Request Headers
 
@@ -324,7 +324,7 @@ Returns the complete set of active offers available to a customer alongside thei
 | `customer_email` | string | One of these three | Customer's email address | `"sarah.khan@example.com"` |
 | `customerId` | string | One of these three | App-level or Qubriux customer ID | `"APP-CUST-001234"` |
 | `beansExpiryAfterDays` | integer | No | Show points expiring within N days | `30` |
-| `order` | object | No | Live basket for dynamic eligibility evaluation (see [Order Fields](#order-fields)) | — |
+| `order` | object | No | Live basket for dynamic eligibility evaluation (see [Order Fields](#order-fields)) | - |
 
 ### Request Example
 
@@ -353,7 +353,7 @@ Returns the complete set of active offers available to a customer alongside thei
 }
 ```
 
-### Response — 200 OK
+### Response - 200 OK
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -430,7 +430,7 @@ Returns the complete set of active offers available to a customer alongside thei
 
 ## POST /openapi/reward/validateReward
 
-Evaluates reward eligibility for a customer's current order and returns the exact discount breakdown — both at order level and per item. This is a **read-only** call: it calculates what discount will apply but does not commit any redemption. Always call this before finalising payment to show the customer their pre-discount total. Follow up with [`rewardRedeemed`](#post-openapirewardrewardredeemed) after the transaction completes to commit the deduction.
+Evaluates reward eligibility for a customer's current order and returns the exact discount breakdown - both at order level and per item. This is a **read-only** call: it calculates what discount will apply but does not commit any redemption. Always call this before finalising payment to show the customer their pre-discount total. Follow up with [`rewardRedeemed`](#post-openapirewardrewardredeemed) after the transaction completes to commit the deduction.
 
 ### Request Headers
 
@@ -444,8 +444,8 @@ Evaluates reward eligibility for a customer's current order and returns the exac
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
 | `api_key` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
-| `customer_mobile` / `customer_email` / `customerId` | string | Yes (one of) | Customer identifier | — |
-| `order` | object | Yes | Order details including items and requested points (see [Order Fields](#order-fields)) | — |
+| `customer_mobile` / `customer_email` / `customerId` | string | Yes (one of) | Customer identifier | - |
+| `order` | object | Yes | Order details including items and requested points (see [Order Fields](#order-fields)) | - |
 
 ### Request Example
 
@@ -473,7 +473,7 @@ Evaluates reward eligibility for a customer's current order and returns the exac
 }
 ```
 
-### Response — 200 OK
+### Response - 200 OK
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -531,7 +531,7 @@ This endpoint does not record a redemption. If you display the discounted total 
 
 ## POST /openapi/reward/applyCoupon
 
-Validates and applies a single coupon code explicitly entered by a customer, returning the discount breakdown. Unlike `validateReward` which evaluates all eligible rewards automatically, this endpoint targets only the coupon code in `couponCode`. Use this for coupon entry flows where the customer types or scans a code. Like `validateReward`, this call is non-committing — call `rewardRedeemed` after payment to finalise.
+Validates and applies a single coupon code explicitly entered by a customer, returning the discount breakdown. Unlike `validateReward` which evaluates all eligible rewards automatically, this endpoint targets only the coupon code in `couponCode`. Use this for coupon entry flows where the customer types or scans a code. Like `validateReward`, this call is non-committing - call `rewardRedeemed` after payment to finalise.
 
 ### Request Headers
 
@@ -545,9 +545,9 @@ Validates and applies a single coupon code explicitly entered by a customer, ret
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
 | `api_key` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
-| `customer_mobile` / `customer_email` / `customerId` | string | Yes (one of) | Customer identifier | — |
+| `customer_mobile` / `customer_email` / `customerId` | string | Yes (one of) | Customer identifier | - |
 | `couponCode` | string | Yes | Coupon code entered by the customer | `"WELCOME10"` |
-| `order` | object | Yes | Order details for eligibility evaluation (see [Order Fields](#order-fields)) | — |
+| `order` | object | Yes | Order details for eligibility evaluation (see [Order Fields](#order-fields)) | - |
 
 ### Request Example
 
@@ -575,7 +575,7 @@ Validates and applies a single coupon code explicitly entered by a customer, ret
 }
 ```
 
-### Response — 200 OK
+### Response - 200 OK
 
 Same response shape as `validateReward`.
 
@@ -627,8 +627,8 @@ Commits a reward redemption after a transaction has been completed and payment a
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
 | `api_key` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
-| `customer_mobile` / `customer_email` / `customerId` | string | Yes (one of) | Customer identifier | — |
-| `order` | object | Yes | Completed order including applied discounts at item level (see [Order Fields](#order-fields)) | — |
+| `customer_mobile` / `customer_email` / `customerId` | string | Yes (one of) | Customer identifier | - |
+| `order` | object | Yes | Completed order including applied discounts at item level (see [Order Fields](#order-fields)) | - |
 
 ### Request Example
 
@@ -660,7 +660,7 @@ Commits a reward redemption after a transaction has been completed and payment a
 }
 ```
 
-### Response — 200 OK
+### Response - 200 OK
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -686,14 +686,14 @@ Commits a reward redemption after a transaction has been completed and payment a
 | `500` | Unexpected server error |
 
 :::warning
-This is the only endpoint that returns `404` — it indicates the customer does not have a loyalty record (e.g. they never enrolled). Handle this gracefully in your integration — do not block the transaction, just skip the loyalty deduction.
+This is the only endpoint that returns `404` - it indicates the customer does not have a loyalty record (e.g. they never enrolled). Handle this gracefully in your integration - do not block the transaction, just skip the loyalty deduction.
 :::
 
 ---
 
 ## POST /openapi/reward/getCustomerLoyaltyPointsTx
 
-Returns a paginated list of loyalty point transactions for a customer, covering both earn and burn events. Use this to build a points history view in your app or customer portal. The response schema for the `data` object varies by merchant configuration — inspect the actual response during your integration.
+Returns a paginated list of loyalty point transactions for a customer, covering both earn and burn events. Use this to build a points history view in your app or customer portal. The response schema for the `data` object varies by merchant configuration - inspect the actual response during your integration.
 
 ### Request Headers
 
@@ -707,7 +707,7 @@ Returns a paginated list of loyalty point transactions for a customer, covering 
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
 | `api_key` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
-| `customer_mobile` / `customer_email` / `customerId` | string | Yes (one of) | Customer identifier | — |
+| `customer_mobile` / `customer_email` / `customerId` | string | Yes (one of) | Customer identifier | - |
 | `recordsPerPage` | integer | No | Results per page | `20` |
 | `pageNumber` | integer | No | Page number (1-based) | `1` |
 | `sortingOrder` | string | No | Sort direction: `ASC` or `DESC` | `"DESC"` |
@@ -727,7 +727,7 @@ Returns a paginated list of loyalty point transactions for a customer, covering 
 }
 ```
 
-### Response — 200 OK
+### Response - 200 OK
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -776,7 +776,7 @@ Returns a paginated list of loyalty point transactions for a customer, covering 
 
 ## POST /openapi/reward/getLoyaltyTierBenefits
 
-Returns the configured benefits for each loyalty tier in the merchant's programme as a list of tier objects. Use this to display what perks a customer currently enjoys and what awaits them upon upgrading — an effective driver of tier aspiration. The schema of each tier object varies by merchant programme configuration; inspect the actual response during integration.
+Returns the configured benefits for each loyalty tier in the merchant's programme as a list of tier objects. Use this to display what perks a customer currently enjoys and what awaits them upon upgrading - an effective driver of tier aspiration. The schema of each tier object varies by merchant programme configuration; inspect the actual response during integration.
 
 ### Request Headers
 
@@ -801,7 +801,7 @@ Returns the configured benefits for each loyalty tier in the merchant's programm
 }
 ```
 
-### Response — 200 OK
+### Response - 200 OK
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -848,7 +848,7 @@ Returns the configured benefits for each loyalty tier in the merchant's programm
 
 ## POST /openapi/reward/getLoyaltyTierDescription
 
-Returns a human-readable description of the loyalty programme's earn structure and tier rules. Use this to power an "About the Programme" or "How It Works" screen in your app. This endpoint returns its response **directly** — it does not wrap the body in the standard `{ status, data }` envelope. The schema varies by merchant configuration.
+Returns a human-readable description of the loyalty programme's earn structure and tier rules. Use this to power an "About the Programme" or "How It Works" screen in your app. This endpoint returns its response **directly** - it does not wrap the body in the standard `{ status, data }` envelope. The schema varies by merchant configuration.
 
 ### Request Headers
 
@@ -864,7 +864,7 @@ Returns a human-readable description of the loyalty programme's earn structure a
 | `api_key` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
 | `customerId` | string | No | Customer identifier | `"APP-CUST-001234"` |
 
-### Response — 200 OK
+### Response - 200 OK
 
 Raw response object. No `status`/`data` wrapper. Schema varies by merchant programme.
 
@@ -884,7 +884,7 @@ This is the only endpoint in this API that does not use the standard `{ "status"
 
 ## POST /openapi/getMerchantDetails
 
-Returns the full admin configuration object for a given merchant. Typically used during integration setup to verify programme settings or retrieve flags that drive client-side behaviour — for example, determining which loyalty features are active for a merchant. Requires the merchant ID as a query parameter in addition to the API key in the request body.
+Returns the full admin configuration object for a given merchant. Typically used during integration setup to verify programme settings or retrieve flags that drive client-side behaviour - for example, determining which loyalty features are active for a merchant. Requires the merchant ID as a query parameter in addition to the API key in the request body.
 
 ### Request Headers
 
@@ -917,12 +917,12 @@ POST /openapi/getMerchantDetails?merchantId=12345
 }
 ```
 
-### Response — 200 OK
+### Response - 200 OK
 
 | Field | Type | Description |
 |-------|------|-------------|
 | `status` | string | `"success"` |
-| `data` | object | Merchant admin configuration entity. Schema varies by merchant setup — inspect during integration. |
+| `data` | object | Merchant admin configuration entity. Schema varies by merchant setup - inspect during integration. |
 
 ### Response Example
 
@@ -966,9 +966,9 @@ Used in `getCustomerOffers`, `validateReward`, `applyCoupon`, and `rewardRedeeme
 | `source` | string | No | Origin channel (e.g. `mobile_app`, `kiosk`, `web`) | `"mobile_app"` |
 | `platformName` | string | No | Platform name | `"custom_app"` |
 | `platformVersion` | string | No | Platform version string | `"3.2.1"` |
-| `discount` | object | No | Order-level discount (see [Discount Object](#discount-object)) | — |
-| `items` | array | Recommended | Line items (see [Product Fields](#product-fields)) | — |
-| `delivery_info` | object | No | Delivery details — pass fields as available | — |
+| `discount` | object | No | Order-level discount (see [Discount Object](#discount-object)) | - |
+| `items` | array | Recommended | Line items (see [Product Fields](#product-fields)) | - |
+| `delivery_info` | object | No | Delivery details - pass fields as available | - |
 
 ### Product Fields
 
@@ -981,8 +981,8 @@ Used in `getCustomerOffers`, `validateReward`, `applyCoupon`, and `rewardRedeeme
 | `category_name` | string | No | Category display name | `"Beverages"` |
 | `rate` | number | Yes | Unit price | `22.00` |
 | `subtotal` | number | Yes | Line subtotal (rate × quantity, before item discounts) | `44.00` |
-| `discount` | object | No | Item-level discount (see [Discount Object](#discount-object)) | — |
-| `modifiers` | array | No | Add-ons or customisations applied to this item | — |
+| `discount` | object | No | Item-level discount (see [Discount Object](#discount-object)) | - |
+| `modifiers` | array | No | Add-ons or customisations applied to this item | - |
 
 ### Discount Object
 
@@ -998,9 +998,9 @@ Returned within `getCustomerOffers` response as items in `data.offers`.
 
 | Field | Type | Description | Example |
 |-------|------|-------------|---------|
-| `offer_code` | string | Unique offer code — use in `applyCoupon` requests | `"SUMMER25"` |
+| `offer_code` | string | Unique offer code - use in `applyCoupon` requests | `"SUMMER25"` |
 | `offer_name` | string | Internal offer name | `"Summer Discount 25%"` |
-| `offerNameAlias` | string \| null | Customer-facing display name | `"Beat the Heat — 25% Off"` |
+| `offerNameAlias` | string \| null | Customer-facing display name | `"Beat the Heat - 25% Off"` |
 | `discount_type` | string | Discount mechanism (see Discount Object) | `"percentage_cashback"` |
 | `discount_value` | number | Discount magnitude (amount or percentage) | `25.00` |
 | `discount_on` | string | Discount scope (e.g. `total_bill`, `specific_item`) | `"total_bill"` |
@@ -1024,7 +1024,7 @@ Returned as items in `discountDetails` and `itemLevelRedemptionDetails`.
 | `discountType` | string | Discount type | `"percentage_cashback"` |
 | `cashbackAmount` | string \| null | Cashback amount formatted as string for display | `"11.00"` |
 | `pointsToRedeem` | number \| null | Points redeemed against this specific line | `0.00` |
-| `free_product` | array \| null | Complimentary products from a give-away offer | — |
+| `free_product` | array \| null | Complimentary products from a give-away offer | - |
 
 ### Gift Code Response
 
@@ -1035,8 +1035,8 @@ Populated in `validateReward` / `applyCoupon` responses when the customer redeem
 | `giftCodeMessage` | string | Human-readable outcome message | `"Gift code applied. AED 50 credited to your wallet."` |
 | `giftCodeType` | string | Where the value was credited (`wallet`, `loyalty`) | `"wallet"` |
 | `messageKey` | integer | Internal key for message localisation | `201` |
-| `walletInfo` | object \| null | Wallet transaction details | — |
-| `loyaltyInfo` | object \| null | Loyalty transaction details | — |
+| `walletInfo` | object \| null | Wallet transaction details | - |
+| `loyaltyInfo` | object \| null | Loyalty transaction details | - |
 
 ---
 
@@ -1044,7 +1044,7 @@ Populated in `validateReward` / `applyCoupon` responses when the customer redeem
 
 | HTTP Status | When It Occurs | Notes |
 |-------------|----------------|-------|
-| `400` | Bad request — missing or malformed required data | Only returned by `rewardRedeemed` |
+| `400` | Bad request - missing or malformed required data | Only returned by `rewardRedeemed` |
 | `401` | Authentication failed | Invalid `api_key`, or JWT token mismatch with merchant context |
 | `404` | Resource not found | Only returned by `rewardRedeemed` when no loyalty record exists |
 | `422` | Business rule validation failure | Customer not found, insufficient points, coupon not eligible, duplicate record |

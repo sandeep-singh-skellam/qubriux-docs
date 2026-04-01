@@ -5,7 +5,7 @@ title: Reports
 
 # Reports
 
-Qubriux Reports lets you generate detailed, filtered data exports across key modules — Offers, Loyalty, Segmentation, A/B Testing, and Membership. Reports can be previewed inline before exporting, and full exports are delivered directly to your email as a file.
+Qubriux Reports lets you generate detailed, filtered data exports across key modules - Offers, Loyalty, Segmentation, A/B Testing, and Membership. Reports can be previewed inline before exporting, and full exports are delivered directly to your email as a file.
 
 ## Available Report Modules
 
@@ -31,8 +31,8 @@ Reports are organised by module. Navigate to **Reports** and select the module y
 Each report has its own set of filters to help you scope the data before generating it. Filters vary by report but commonly include date ranges, specific segments, offer IDs, or store selections.
 
 Filter types:
-- **Dropdown** — select a single value from a predefined list
-- **Multi-select Dropdown** — select one or more values from a list
+- **Dropdown** - select a single value from a predefined list
+- **Multi-select Dropdown** - select one or more values from a list
 - Required filters must be filled before the report can be run; optional filters further narrow the data.
 
 To apply filters:
@@ -50,7 +50,7 @@ Before exporting, you can preview the report data inline:
 3. Qubriux runs the query and displays the report data in a table directly on screen.
 
 :::note
-Some reports have preview disabled by design — for these, you must use the full export flow.
+Some reports have preview disabled by design - for these, you must use the full export flow.
 :::
 
 ## Exporting a Report
@@ -65,7 +65,7 @@ Full exports are generated asynchronously and delivered to your email:
 Qubriux queues the report for generation and sends it to the specified email address once ready. You will receive a message: *"You will receive the requested report on an email shortly."*
 
 :::tip
-For large date ranges or high-volume merchants, report generation may take a few minutes. The report is sent as soon as it is ready — you do not need to stay on the page.
+For large date ranges or high-volume merchants, report generation may take a few minutes. The report is sent as soon as it is ready - you do not need to stay on the page.
 :::
 
 ## Saving a Custom Report

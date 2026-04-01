@@ -5,7 +5,7 @@ title: CRM
 
 # CRM
 
-The CRM module in Qubriux gives you a 360° view of every customer — their profile, purchase history, loyalty activity, and survey responses. From the same interface you can manage customer data, search and filter your customer base, and handle support requests such as adjusting loyalty balances.
+The CRM module in Qubriux gives you a 360° view of every customer - their profile, purchase history, loyalty activity, and survey responses. From the same interface you can manage customer data, search and filter your customer base, and handle support requests such as adjusting loyalty balances.
 
 ## Customer List
 
@@ -16,17 +16,17 @@ The customer list is your starting point for browsing and managing all customers
 1. Navigate to **CRM > Customers**.
 2. The list displays all customers, paginated for performance.
 3. Use the controls to configure:
-   - **Records per page** — how many customers to show at once.
-   - **Page number** — navigate through the full list.
-   - **Revenue time window** — filter customers based on their revenue contribution within a selected time period.
-   - **Order count window** — filter customers based on order frequency within a selected period.
+   - **Records per page** - how many customers to show at once.
+   - **Page number** - navigate through the full list.
+   - **Revenue time window** - filter customers based on their revenue contribution within a selected time period.
+   - **Order count window** - filter customers based on order frequency within a selected period.
 
 ### Filtering by Segment or Store
 
 You can narrow the customer list to a specific audience:
 
-- **Filter by Segment** — select one or more segments to display only customers who belong to those groups.
-- **Filter by Store** — for multi-location brands, filter the list to customers associated with a specific store.
+- **Filter by Segment** - select one or more segments to display only customers who belong to those groups.
+- **Filter by Store** - for multi-location brands, filter the list to customers associated with a specific store.
 
 Both filters can be combined with the time window controls for precise targeting.
 
@@ -38,7 +38,7 @@ Type a customer name in the search bar to find matching customers. Results are p
 
 ### Advanced Search
 
-The advanced search lets you look up customers using multiple identifiers at once — such as phone number, email address, or external customer ID. You can also toggle to search within the **Leads** list instead of confirmed customers.
+The advanced search lets you look up customers using multiple identifiers at once - such as phone number, email address, or external customer ID. You can also toggle to search within the **Leads** list instead of confirmed customers.
 
 Advanced search supports all the same filters as the customer list: segment, store, revenue window, and order window.
 
@@ -50,14 +50,14 @@ Clicking on any customer in the list opens their full profile. The profile shows
 |---------|--------------|
 | **Profile Details** | Name, email, phone, registration date, store association, customer tags |
 | **Loyalty Summary** | Current tier, points balance, points earned and redeemed lifetime |
-| **Recent Orders** | Last purchases — items, value, date, store |
+| **Recent Orders** | Last purchases - items, value, date, store |
 | **Recent Activity** | Timeline of loyalty events, offer redemptions, campaign interactions |
 | **Survey Responses** | Feedback submitted by the customer, NPS scores, review content |
 | **Segment Membership** | Which segments this customer belongs to |
 
 ## Customer 360° View
 
-The **Customer 360°** view provides a deep analytical breakdown of an individual customer's purchase behaviour, preferences, and patterns — all computed from their full transaction history.
+The **Customer 360°** view provides a deep analytical breakdown of an individual customer's purchase behaviour, preferences, and patterns - all computed from their full transaction history.
 
 ### Spending Summary
 
@@ -71,29 +71,29 @@ The **Customer 360°** view provides a deep analytical breakdown of an individua
 
 ### Product & Category Preferences
 
-- **Top Products** — the products this customer orders most frequently or spends the most on
-- **Top Categories** — the product categories they purchase from most
-- **Unique Products Purchased** — count and list of all distinct products they have ever bought
-- **Unique Categories Purchased** — count and list of all distinct categories they have purchased from
-- **Favourite Product by Day Part** — which product they tend to order at breakfast, lunch, dinner, etc.
-- **Favourite Category by Day Part** — which category they prefer at each part of the day
+- **Top Products** - the products this customer orders most frequently or spends the most on
+- **Top Categories** - the product categories they purchase from most
+- **Unique Products Purchased** - count and list of all distinct products they have ever bought
+- **Unique Categories Purchased** - count and list of all distinct categories they have purchased from
+- **Favourite Product by Day Part** - which product they tend to order at breakfast, lunch, dinner, etc.
+- **Favourite Category by Day Part** - which category they prefer at each part of the day
 
 ### Visit Behaviour & Timing
 
-- **Favourite Store** — the location they visit most
-- **Favourite Day of the Week** — the day they most commonly make a purchase
-- **Favourite Day Part** — whether they typically order in the morning, afternoon, or evening
-- **Favourite Hour Bracket** — the specific hour window they most often order within
-- **Last Transaction Day of Week** — the day of the week their most recent purchase occurred on
-- **Visits by Day of Week** — breakdown of visit count across Monday–Sunday
-- **Visits by Day Part** — visit count split by morning, afternoon, and evening
-- **Weekday vs. Weekend Order Value** — comparison of how much they spend on weekdays versus weekends
+- **Favourite Store** - the location they visit most
+- **Favourite Day of the Week** - the day they most commonly make a purchase
+- **Favourite Day Part** - whether they typically order in the morning, afternoon, or evening
+- **Favourite Hour Bracket** - the specific hour window they most often order within
+- **Last Transaction Day of Week** - the day of the week their most recent purchase occurred on
+- **Visits by Day of Week** - breakdown of visit count across Monday–Sunday
+- **Visits by Day Part** - visit count split by morning, afternoon, and evening
+- **Weekday vs. Weekend Order Value** - comparison of how much they spend on weekdays versus weekends
 
 ### Purchase Cadence
 
-- **Average Days Between Purchases** — how frequently they return, expressed as the average gap between orders
-- **Average Order Value by Day Part** — how much they spend at different times of day
-- **Past 5 Orders** — a summary of their five most recent transactions
+- **Average Days Between Purchases** - how frequently they return, expressed as the average gap between orders
+- **Average Order Value by Day Part** - how much they spend at different times of day
+- **Past 5 Orders** - a summary of their five most recent transactions
 
 ### RFM Segment
 
@@ -105,7 +105,7 @@ You can edit customer information directly from the CRM:
 
 1. Open the customer's profile.
 2. Click **Edit**.
-3. Update the relevant fields — name, phone, email, or other profile attributes.
+3. Update the relevant fields - name, phone, email, or other profile attributes.
 4. Click **Save**.
 
 :::warning
@@ -124,7 +124,7 @@ To remove a customer from the system:
 Deleting a customer is permanent. All associated loyalty history, orders, and activity data tied to that customer record will be removed.
 :::
 
-You can also bulk-remove **bounced customers** — customers whose email addresses have bounced — from the CRM settings.
+You can also bulk-remove **bounced customers** - customers whose email addresses have bounced - from the CRM settings.
 
 ## Leads
 
@@ -136,7 +136,7 @@ Leads are prospective customers who have expressed interest but have not yet mad
 
 ### Hot Leads
 
-**Hot Leads** are customers identified by Qubriux's analytics as having high purchase intent — for example, customers who have browsed recently, interacted with campaigns, or are close to redemption thresholds.
+**Hot Leads** are customers identified by Qubriux's analytics as having high purchase intent - for example, customers who have browsed recently, interacted with campaigns, or are close to redemption thresholds.
 
 Navigate to **CRM > Hot Leads** to see a ranked, paginated list of hot leads with the signals driving their score.
 

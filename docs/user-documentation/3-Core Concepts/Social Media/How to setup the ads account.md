@@ -32,7 +32,7 @@ Each platform follows the same general pattern: **connect via OAuth → select y
 1. Navigate to **Social Media > Meta**.
 2. Click **Connect Meta Account**.
 3. Log in to Facebook when redirected and grant the requested permissions.
-4. Return to Qubriux — your connected Pages and Ad Accounts will be listed.
+4. Return to Qubriux - your connected Pages and Ad Accounts will be listed.
 5. Select the **Facebook Page** you want to associate.
 6. Select the **Ad Account** to use for audience exports.
 7. Click **Save**.
@@ -90,10 +90,10 @@ Once at least one ads account is connected, you can export any segment:
 
 1. Navigate to **Segments** and open the segment you want to export.
 2. Click **Export to Social Media**.
-3. Select the target platform — **Meta**, **Snapchat**, or **TikTok**.
+3. Select the target platform - **Meta**, **Snapchat**, or **TikTok**.
 4. Choose **Create New Audience** and confirm.
 
-The segment is pushed to the selected platform. Processing time varies — typically a few minutes to a few hours depending on segment size and platform.
+The segment is pushed to the selected platform. Processing time varies - typically a few minutes to a few hours depending on segment size and platform.
 
 :::note
 Custom Audiences on all three platforms require a minimum number of matched customers before they can be used for ad targeting. Very small segments may be created but won't be immediately targetable until they reach the platform's minimum threshold.

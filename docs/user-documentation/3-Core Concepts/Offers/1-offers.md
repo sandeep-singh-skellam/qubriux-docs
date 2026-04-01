@@ -5,7 +5,7 @@ title: Offers
 
 # Offers
 
-Offers are one of the most powerful tools in Qubriux. They let you send personalised rewards — discounts, free products, points, cashback — directly to your customers, at exactly the right moment.
+Offers are one of the most powerful tools in Qubriux. They let you send personalised rewards - discounts, free products, points, cashback - directly to your customers, at exactly the right moment.
 
 Think of an offer as a gift you send to a customer. You decide what the gift is, who gets it, and how it reaches them. Once set up, your offers live in your Offers library and can be used across any campaign or journey, as many times as you need.
 
@@ -15,11 +15,11 @@ Think of an offer as a gift you send to a customer. You decide what the gift is,
 
 Every offer in Qubriux is built from three parts:
 
-- **Reward** — the value you give the customer (a discount, free item, points, etc.)
-- **Audience** — who receives it (all customers, a specific segment, a tier, a list)
-- **Delivery** — how it reaches them (email, SMS, WhatsApp, push notification)
+- **Reward** - the value you give the customer (a discount, free item, points, etc.)
+- **Audience** - who receives it (all customers, a specific segment, a tier, a list)
+- **Delivery** - how it reaches them (email, SMS, WhatsApp, push notification)
 
-Once you have all three configured, your offer is ready to go — instantly or on a schedule you set.
+Once you have all three configured, your offer is ready to go - instantly or on a schedule you set.
 
 ---
 
@@ -34,7 +34,7 @@ Qubriux gives you seven reward types to choose from. Each serves a different pur
 The customer gets a percentage discount deducted from their purchase. You choose the percentage and whether it applies to the entire order, a specific product, or a product category.
 
 **When to use it:**
-Percentage off works best when you want to run a broad promotion or when customers are buying across different price points. Because the discount scales with the purchase value, higher-spending customers get more value — which naturally rewards your best buyers.
+Percentage off works best when you want to run a broad promotion or when customers are buying across different price points. Because the discount scales with the purchase value, higher-spending customers get more value - which naturally rewards your best buyers.
 
 **Examples:**
 
@@ -46,10 +46,10 @@ Percentage off works best when you want to run a broad promotion or when custome
 
 ### 2. Fixed Amount Off
 
-The customer gets a flat monetary discount — for example, $10 off their order. Like percentage off, you can apply this to the full order, a specific product, or a product category.
+The customer gets a flat monetary discount - for example, $10 off their order. Like percentage off, you can apply this to the full order, a specific product, or a product category.
 
 **When to use it:**
-Fixed amount off is ideal when you want to give customers a specific monetary incentive that feels concrete and easy to understand. "Get $10 off" is a clearer, more tangible promise than a percentage — especially for lower-price products where a percentage feels small.
+Fixed amount off is ideal when you want to give customers a specific monetary incentive that feels concrete and easy to understand. "Get $10 off" is a clearer, more tangible promise than a percentage - especially for lower-price products where a percentage feels small.
 
 **Examples:**
 
@@ -61,7 +61,7 @@ Fixed amount off is ideal when you want to give customers a specific monetary in
 
 ### 3. Buy X Get Y
 
-The customer buys a qualifying set of products (X) and receives another product for free or at a discount (Y). You configure both sides — which products trigger the reward and which products are given as the reward — along with the quantities required.
+The customer buys a qualifying set of products (X) and receives another product for free or at a discount (Y). You configure both sides - which products trigger the reward and which products are given as the reward - along with the quantities required.
 
 **When to use it:**
 Buy X Get Y is the go-to reward for increasing basket size and driving volume on specific products. It rewards customers for buying more, making it especially effective for brands with complementary product lines or categories with slow-moving stock they want to clear.
@@ -81,7 +81,7 @@ Buy X Get Y is the go-to reward for increasing basket size and driving volume on
 The customer's shipping fee is waived entirely. You can optionally require a minimum order amount or minimum item quantity before the offer applies.
 
 **When to use it:**
-Shipping cost is one of the top reasons customers abandon their cart at checkout. A free shipping offer removes that final barrier, particularly for customers who are on the fence about completing a purchase. Adding a minimum order threshold is a smart way to use this — it removes the friction while simultaneously nudging the customer to spend a little more.
+Shipping cost is one of the top reasons customers abandon their cart at checkout. A free shipping offer removes that final barrier, particularly for customers who are on the fence about completing a purchase. Adding a minimum order threshold is a smart way to use this - it removes the friction while simultaneously nudging the customer to spend a little more.
 
 **Examples:**
 
@@ -93,7 +93,7 @@ Shipping cost is one of the top reasons customers abandon their cart at checkout
 
 ### 5. Loyalty Points / Reward Coins
 
-Instead of a discount, the customer is rewarded with loyalty points credited to their wallet. You choose how many points to award — either a fixed number or a percentage of their spend — and which wallet ledger the points go into.
+Instead of a discount, the customer is rewarded with loyalty points credited to their wallet. You choose how many points to award - either a fixed number or a percentage of their spend - and which wallet ledger the points go into.
 
 **When to use it:**
 Points rewards are best when you want to build long-term loyalty rather than drive an immediate transaction. They keep customers engaged with your loyalty programme, give them a reason to return and redeem their balance, and create a sense of accumulation that feels rewarding over time.
@@ -110,7 +110,7 @@ Points rewards are best when you want to build long-term loyalty rather than dri
 
 ### 6. Cashback
 
-The customer earns a cash reward back into their wallet — either a fixed amount or a percentage of what they spent. The cashback is credited to their wallet balance, which they can then use on a future purchase.
+The customer earns a cash reward back into their wallet - either a fixed amount or a percentage of what they spent. The cashback is credited to their wallet balance, which they can then use on a future purchase.
 
 **When to use it:**
 Cashback is a highly motivating reward because it feels like real money being returned. It encourages customers to come back and spend their cashback balance, which naturally drives a second transaction. It works especially well as an ongoing programme mechanic or as a special event reward.
@@ -128,7 +128,7 @@ Cashback is a highly motivating reward because it feels like real money being re
 The customer uses their accumulated loyalty points as currency to get a discount on their purchase. The points are deducted from their wallet balance when they redeem.
 
 **When to use it:**
-Burn offers are designed to drive redemption — getting customers to actually use the points they have earned. This is important because customers with large unspent balances often feel disconnected from the programme. Prompting them to spend their points brings them back in and strengthens the loop of earn and redeem.
+Burn offers are designed to drive redemption - getting customers to actually use the points they have earned. This is important because customers with large unspent balances often feel disconnected from the programme. Prompting them to spend their points brings them back in and strengthens the loop of earn and redeem.
 
 **Examples:**
 
@@ -143,13 +143,13 @@ Burn offers are designed to drive redemption — getting customers to actually u
 After choosing your reward type, you'll set up the details:
 
 **Reward value**
-The amount your customer receives — a percentage, a fixed amount, number of points, or cashback rate. This depends on the reward type you've selected.
+The amount your customer receives - a percentage, a fixed amount, number of points, or cashback rate. This depends on the reward type you've selected.
 
 **Validity**
 How long the customer has to use the reward after receiving it. For example, a 7-day validity means the discount code expires exactly one week from the day it is sent. Shorter windows create urgency; longer windows reduce pressure and work better for high-consideration purchases.
 
 **Usage limit**
-The maximum number of times the reward code can be redeemed in total across all customers. Set this when you want to run a limited-availability promotion — for example, only the first 200 customers to redeem it get the discount.
+The maximum number of times the reward code can be redeemed in total across all customers. Set this when you want to run a limited-availability promotion - for example, only the first 200 customers to redeem it get the discount.
 
 **Once per customer**
 When turned on, each customer can only use this reward once, even if they receive it multiple times across different campaigns.
@@ -158,7 +158,7 @@ When turned on, each customer can only use this reward once, even if they receiv
 Any products or categories that the reward does not apply to. This is useful when you want to run a sitewide offer but protect your already-discounted items or high-margin products from being discounted further.
 
 **Communication channel**
-How the offer reaches your customers — Email, SMS, WhatsApp, or push notification. You can select multiple channels so customers receive it through more than one.
+How the offer reaches your customers - Email, SMS, WhatsApp, or push notification. You can select multiple channels so customers receive it through more than one.
 
 ---
 
@@ -167,18 +167,18 @@ How the offer reaches your customers — Email, SMS, WhatsApp, or push notificat
 You decide exactly who receives each offer. You can be broad or very precise.
 
 **Include customers by:**
-- **All customers** — your full registered customer base
-- **All leads** — contacts who haven't made a purchase yet
-- **Segments** — groups of customers who share a behaviour or attribute
-- **Tiers** — customers in a specific loyalty tier, such as Gold, Silver, or Bronze
-- **Customer lists** — a manually selected group of specific customers
-- **Employee lists** — internal staff groups
+- **All customers** - your full registered customer base
+- **All leads** - contacts who haven't made a purchase yet
+- **Segments** - groups of customers who share a behaviour or attribute
+- **Tiers** - customers in a specific loyalty tier, such as Gold, Silver, or Bronze
+- **Customer lists** - a manually selected group of specific customers
+- **Employee lists** - internal staff groups
 
 **Exclude customers by:**
 Any of the above can be used as an exclusion as well. This lets you precisely define who should not receive an offer.
 
 **Example:**
-> A brand wants to send a re-engagement offer to all customers who haven't bought in 60 days — but not to customers who are already in their VIP programme, since VIPs receive a separate, more generous offer. They include the **"Lapsed 60 days" segment** and exclude the **VIP tier**.
+> A brand wants to send a re-engagement offer to all customers who haven't bought in 60 days - but not to customers who are already in their VIP programme, since VIPs receive a separate, more generous offer. They include the **"Lapsed 60 days" segment** and exclude the **VIP tier**.
 
 ---
 
@@ -188,7 +188,7 @@ Any of the above can be used as an exclusion as well. This lets you precisely de
 The offer is sent as soon as you launch it. Best for time-sensitive promotions, flash sales, or reactive campaigns you want to get out immediately.
 
 **Scheduled**
-You pick a specific date and time for the offer to go out. Useful when you're planning a campaign in advance — for example, a weekend promotion that you set up on Wednesday.
+You pick a specific date and time for the offer to go out. Useful when you're planning a campaign in advance - for example, a weekend promotion that you set up on Wednesday.
 
 ---
 
@@ -196,21 +196,21 @@ You pick a specific date and time for the offer to go out. Useful when you're pl
 
 | Status | What it means |
 |--------|---------------|
-| **Draft** | Created but not yet sent — you can still edit everything |
+| **Draft** | Created but not yet sent - you can still edit everything |
 | **Scheduled** | Queued to send at a future date and time |
 | **Active** | Sent and currently redeemable by customers |
 | **Ended** | The validity period has passed; no further redemptions are possible |
 
 ---
 
-## Putting It All Together — Real Scenarios
+## Putting It All Together - Real Scenarios
 
 ### Win Back a Lapsed Customer
 
 A retail brand sees that 2,000 customers haven't purchased in 45 days. Rather than letting them go, they create a targeted win-back offer:
 
 - **Reward:** $10 Fixed Amount Off their next order
-- **Audience:** Segment — "No purchase in 45 days"
+- **Audience:** Segment - "No purchase in 45 days"
 - **Channel:** Email with a warm, personalised subject line
 - **Validity:** 14 days
 - **Dispatch:** Instant
@@ -224,7 +224,7 @@ The email lands in customers' inboxes with a clear, simple message: here is $10,
 A loyalty programme wants to celebrate their Gold tier members with something exclusive:
 
 - **Reward:** 1,000 Bonus Loyalty Points
-- **Audience:** Tier — Gold only
+- **Audience:** Tier - Gold only
 - **Channel:** Push notification and Email
 - **Validity:** 30 days
 - **Dispatch:** First day of the month, every month
@@ -251,7 +251,7 @@ Customers receive the SMS on Friday evening while they are making weekend plans.
 
 A fashion brand has excess stock of last season's accessories:
 
-- **Reward:** Buy X Get Y — Buy any 2 accessories, get 1 free
+- **Reward:** Buy X Get Y - Buy any 2 accessories, get 1 free
 - **Audience:** All customers, excluding the VIP tier (who already receive a private sale)
 - **Channel:** Email and WhatsApp
 - **Validity:** 7 days

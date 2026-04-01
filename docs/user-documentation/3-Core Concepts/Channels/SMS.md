@@ -16,7 +16,7 @@ SMS templates define the message content that gets sent to customers. Templates 
 1. Navigate to **Channels > SMS**.
 2. Click **Create New Template**.
 3. Enter a unique template name.
-4. Write your message body. Keep content concise — standard SMS messages are limited to 160 characters per segment.
+4. Write your message body. Keep content concise - standard SMS messages are limited to 160 characters per segment.
 5. Insert personalisation variables as needed (e.g. customer name, offer code).
 6. Click **Save** to store the template.
 
@@ -43,10 +43,10 @@ An SMS template that is currently in use within an active Journey cannot be dele
 
 When your template library grows, you can filter the list by:
 
-- **Channel type** — narrow down to specific SMS sub-types.
-- **Layout type** — filter by structural layout category.
-- **Message type** — distinguish between promotional, transactional, or other template types.
-- **Sort order** — sort alphabetically or by creation date.
+- **Channel type** - narrow down to specific SMS sub-types.
+- **Layout type** - filter by structural layout category.
+- **Message type** - distinguish between promotional, transactional, or other template types.
+- **Sort order** - sort alphabetically or by creation date.
 
 ## Offer-Specific SMS Templates
 

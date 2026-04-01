@@ -9,19 +9,19 @@ Email is one of the primary communication channels in Qubriux. You can design br
 
 ## Email Layouts
 
-Email layouts are the building blocks of your email communications. A layout defines the structure, design, and content of an email — including the subject line, header, body, and footer.
+Email layouts are the building blocks of your email communications. A layout defines the structure, design, and content of an email - including the subject line, header, body, and footer.
 
 Qubriux supports two types of email layouts:
 
-- **Campaign Email Layouts** — used within Journey builder nodes to send emails at specific points in a customer journey.
-- **Reward Email Layouts** — pre-configured emails tied to specific reward types (e.g. gift card delivery, cashback notification).
+- **Campaign Email Layouts** - used within Journey builder nodes to send emails at specific points in a customer journey.
+- **Reward Email Layouts** - pre-configured emails tied to specific reward types (e.g. gift card delivery, cashback notification).
 
 ### Creating an Email Layout
 
 1. Navigate to **Channels > Email**.
 2. Click **Create New Layout**.
 3. Enter a unique layout name. The platform will alert you if the name already exists.
-4. Use the drag-and-drop email builder to design your email — add text blocks, images, buttons, and dividers.
+4. Use the drag-and-drop email builder to design your email - add text blocks, images, buttons, and dividers.
 5. Insert personalisation variables (merge tags) where needed, such as customer name, points balance, or offer details.
 6. Click **Save** to store the layout as a draft.
 
@@ -57,11 +57,11 @@ Personalisation variables (also called merge tags) allow you to dynamically inse
 - Offer name or discount value
 - Reward redemption details
 
-Variables are available when editing an email layout. You can select them from the variable picker panel based on the context — general customer data, offer-specific fields, or reward-specific fields.
+Variables are available when editing an email layout. You can select them from the variable picker panel based on the context - general customer data, offer-specific fields, or reward-specific fields.
 
 ## Reward Emails
 
-Reward emails are a special category of email templates used to communicate reward events to customers — such as when a gift card is issued or a cashback reward is granted.
+Reward emails are a special category of email templates used to communicate reward events to customers - such as when a gift card is issued or a cashback reward is granted.
 
 These templates are pre-built per reward type and can be customised to match your brand. To update a reward email:
 

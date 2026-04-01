@@ -5,29 +5,29 @@ title: Creating a Partner Pool
 
 # Creating a Partner Pool
 
-This guide walks you through setting up a Partner Pool in Qubriux — from configuring the code format and reward to generating codes and exporting them for distribution.
+This guide walks you through setting up a Partner Pool in Qubriux - from configuring the code format and reward to generating codes and exporting them for distribution.
 
 ---
 
-## Step 1 — Open Partner Pools
+## Step 1 - Open Partner Pools
 
 Navigate to **Partner Pools** in the main menu. Your pool library lists all existing pools with their current status and code counts. Click **Create Pool** to begin.
 
 ---
 
-## Step 2 — Name and Describe the Pool
+## Step 2 - Name and Describe the Pool
 
 **Pool name**
-Give the pool a name that identifies the campaign or partner it's for. This is internal — customers don't see it. Be specific: "UAE Partner — Q2 2025" is more useful than "Pool 1."
+Give the pool a name that identifies the campaign or partner it's for. This is internal - customers don't see it. Be specific: "UAE Partner - Q2 2025" is more useful than "Pool 1."
 
 **Description**
 An optional note about the purpose of this pool. Useful for your team to understand the context when reviewing pools later.
 
 ---
 
-## Step 3 — Configure the Code Format
+## Step 3 - Configure the Code Format
 
-Define what the generated codes will look like. Every code in the pool follows this format — you configure it once and the system generates all codes accordingly.
+Define what the generated codes will look like. Every code in the pool follows this format - you configure it once and the system generates all codes accordingly.
 
 **Prefix** (optional)
 Fixed text added to the start of every code. For example, `UAE-` or `SPRING25-`. Use prefixes to identify which pool or partner a code came from when it's redeemed.
@@ -36,7 +36,7 @@ Fixed text added to the start of every code. For example, `UAE-` or `SPRING25-`.
 Fixed text added to the end of every code. Works the same way as a prefix but appended at the end.
 
 **Code length**
-The number of random characters in the variable part of the code — not counting the prefix or suffix. Longer codes mean more possible unique combinations, which is important for large pools.
+The number of random characters in the variable part of the code - not counting the prefix or suffix. Longer codes mean more possible unique combinations, which is important for large pools.
 
 A practical guide:
 - Up to 1,000 codes: length 4–5 is usually sufficient
@@ -45,26 +45,26 @@ A practical guide:
 
 **Character set**
 What the random characters are drawn from:
-- **Alphabets** — uppercase A–Z only
-- **Numbers** — digits 0–9 only
-- **Alphabets and Numbers** — full alphanumeric set
+- **Alphabets** - uppercase A–Z only
+- **Numbers** - digits 0–9 only
+- **Alphabets and Numbers** - full alphanumeric set
 
 Choose based on readability: if customers will type codes manually, numbers-only or a restricted character set reduces errors.
 
 **Disallowed characters**
-Specific characters to exclude from generation. Common exclusions: `O`, `0`, `I`, `1` — characters that look similar when printed. Enter them as a string (e.g. `O0I1`).
+Specific characters to exclude from generation. Common exclusions: `O`, `0`, `I`, `1` - characters that look similar when printed. Enter them as a string (e.g. `O0I1`).
 
 **Total codes**
 How many unique codes to generate for this pool. The system validates that your format can produce at least this many unique combinations before proceeding. If not, you'll be prompted to adjust the prefix, suffix, code length, or character set.
 
 ---
 
-## Step 4 — Attach a Reward
+## Step 4 - Attach a Reward
 
-Choose what customers receive when they redeem a code from this pool. This is the pool-level default — every code delivers this reward unless you override it later for individual codes.
+Choose what customers receive when they redeem a code from this pool. This is the pool-level default - every code delivers this reward unless you override it later for individual codes.
 
 **Option A: Offer**
-Select or configure an offer from your Offers library. When a customer redeems a code, the offer is applied to their purchase — a discount, points, cashback, or any other offer type.
+Select or configure an offer from your Offers library. When a customer redeems a code, the offer is applied to their purchase - a discount, points, cashback, or any other offer type.
 
 Configure the offer reward exactly as you would when creating a standard offer: reward type, value, validity, usage limits, and excluded products.
 
@@ -75,7 +75,7 @@ Set the gift code amount and any relevant settings.
 
 ---
 
-## Step 5 — Save the Pool
+## Step 5 - Save the Pool
 
 Choose how you want to proceed:
 
@@ -89,19 +89,19 @@ For large pools (tens of thousands of codes), generation may take a few minutes.
 
 ---
 
-## Step 6 — Generate Codes for a Draft Pool
+## Step 6 - Generate Codes for a Draft Pool
 
 If you saved as a Draft and want to generate codes later, open the pool from your list and click **Generate Codes**. The pool moves into Populating status and codes are generated asynchronously. Return to the pool once it shows Active status.
 
 ---
 
-## Step 7 — Export the Codes
+## Step 7 - Export the Codes
 
 Once the pool is Active, click **Export** to download the full list of generated codes.
 
 **Format options:**
-- **CSV** — a plain text file, easy to import into spreadsheets or partner systems
-- **XLSX** — a formatted Excel workbook
+- **CSV** - a plain text file, easy to import into spreadsheets or partner systems
+- **XLSX** - a formatted Excel workbook
 
 The export includes each code, its status, and associated metadata. Share the exported file with your partner, embed the codes in your campaign system, or use them however your distribution workflow requires.
 
@@ -146,4 +146,4 @@ Navigate to the **Analytics** tab within the pool or from the Partner Pools over
 
 For a per-pool view, select the specific pool. For an overview across all pools, use the overall analytics view.
 
-The **Redemption Curve** shows how quickly codes are being redeemed over time — useful for understanding whether a campaign is generating immediate action or a slow burn.
+The **Redemption Curve** shows how quickly codes are being redeemed over time - useful for understanding whether a campaign is generating immediate action or a slow burn.

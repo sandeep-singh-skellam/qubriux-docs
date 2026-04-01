@@ -41,7 +41,7 @@ A push notification template that is currently in use within an active Journey c
 
 ## Filtering Templates
 
-You can filter your push notification template library by **type** to narrow down the list — for example, to show only promotional or transactional notification templates.
+You can filter your push notification template library by **type** to narrow down the list - for example, to show only promotional or transactional notification templates.
 
 ## Using Push Notifications in Journeys
 

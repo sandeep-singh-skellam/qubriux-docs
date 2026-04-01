@@ -17,7 +17,7 @@ Before using WhatsApp, you need to connect your WhatsApp Business account to Qub
 
 1. Navigate to **Channels > WhatsApp**.
 2. Click **Connect WhatsApp Account**.
-3. Provide your WhatsApp Business details — including your Business ID and API key from 360dialog.
+3. Provide your WhatsApp Business details - including your Business ID and API key from 360dialog.
 4. Click **Submit** to complete onboarding.
 
 Once submitted, the platform verifies your credentials and links your account. You can check the connection status at any time from the WhatsApp settings page.
@@ -32,8 +32,8 @@ WhatsApp templates must be pre-approved by Meta before they can be used to send 
 
 There are two types of templates:
 
-- **Standard Templates** — pre-built templates provided by Qubriux for common use cases (e.g. order confirmation, loyalty reward notification).
-- **Custom Templates** — templates you create from scratch to match your specific campaign or communication needs.
+- **Standard Templates** - pre-built templates provided by Qubriux for common use cases (e.g. order confirmation, loyalty reward notification).
+- **Custom Templates** - templates you create from scratch to match your specific campaign or communication needs.
 
 ### Creating a Custom Template
 
@@ -41,7 +41,7 @@ There are two types of templates:
 2. Click **Create New Template**.
 3. Choose the channel type (e.g. marketing, utility, authentication).
 4. Write the message body. You can include personalisation variables using the merge tag picker.
-5. Attach media if needed — images, videos, or documents (see [Media Uploads](#media-uploads) below).
+5. Attach media if needed - images, videos, or documents (see [Media Uploads](#media-uploads) below).
 6. Click **Submit for Approval**.
 
 The template is sent to Meta for review via 360dialog. Once approved, it becomes available for use in Journeys and Offers.
@@ -83,7 +83,7 @@ Merge tags let you personalise WhatsApp messages with customer-specific data. Yo
 To use merge tags:
 1. Open a template in the editor.
 2. Click the **Merge Tags** button to open the variable picker.
-3. Select the variable you want to insert — it is placed at the cursor position in the message body.
+3. Select the variable you want to insert - it is placed at the cursor position in the message body.
 
 Qubriux resolves these variables at send time using the customer's profile data.
 

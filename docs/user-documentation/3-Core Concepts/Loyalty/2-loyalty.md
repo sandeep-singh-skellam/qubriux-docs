@@ -5,7 +5,7 @@ title: Loyalty Programme Setup
 
 # Loyalty Programme Setup
 
-The loyalty programme is the engine behind how your customers earn points, move between tiers, and redeem their balance for rewards. This guide covers everything you configure to build your programme — earn rules, redemption limits, tier structure, points conversion, and expiry settings.
+The loyalty programme is the engine behind how your customers earn points, move between tiers, and redeem their balance for rewards. This guide covers everything you configure to build your programme - earn rules, redemption limits, tier structure, points conversion, and expiry settings.
 
 Every element here works together. A customer earns points by following your earn rules, their balance grows over time, the system evaluates which tier they belong to, and when they redeem, the limits you've set control how much they can use at once. Getting these settings right creates a programme that feels fair, rewarding, and worth engaging with.
 
@@ -13,7 +13,7 @@ Every element here works together. A customer earns points by following your ear
 
 ## Earn Rules
 
-Earn rules define exactly when and how many points your customers receive. Every time a qualifying event happens — a purchase, a badge earned, a challenge completed — the system checks which earn rules apply to that customer and awards points accordingly.
+Earn rules define exactly when and how many points your customers receive. Every time a qualifying event happens - a purchase, a badge earned, a challenge completed - the system checks which earn rules apply to that customer and awards points accordingly.
 
 ---
 
@@ -22,13 +22,13 @@ Earn rules define exactly when and how many points your customers receive. Every
 Basic rules are the foundation of your points programme. They define a straightforward earn rate that applies automatically to qualifying customers without needing any additional conditions.
 
 **What you configure:**
-- **Points awarded** — how many points the customer receives when this rule fires
-- **Rule validity** — an optional start and end date for the rule; outside this window, the rule is inactive
-- **Rule frequency** — how often the rule can fire per customer (daily, weekly, monthly, or every time)
+- **Points awarded** - how many points the customer receives when this rule fires
+- **Rule validity** - an optional start and end date for the rule; outside this window, the rule is inactive
+- **Rule frequency** - how often the rule can fire per customer (daily, weekly, monthly, or every time)
 
 **Examples:**
 
-> *A café sets a basic earn rule: **5 points per purchase**. Every customer who makes any purchase earns 5 points automatically. There are no conditions — it fires every single time.*
+> *A café sets a basic earn rule: **5 points per purchase**. Every customer who makes any purchase earns 5 points automatically. There are no conditions - it fires every single time.*
 
 > *A retailer wants to run a holiday earn promotion. They create a basic rule giving **3x points** that is only valid from December 1st to December 31st. Outside that window, the standard rate applies and the holiday rule is ignored.*
 
@@ -36,7 +36,7 @@ Basic rules are the foundation of your points programme. They define a straightf
 
 ### Advanced Earn Rules
 
-Advanced rules let you layer conditions on top of a basic earn rate. Instead of awarding points on every qualifying event, an advanced rule only fires when the customer meets a specific set of criteria — such as being in a particular segment, reaching a certain spend threshold, or purchasing a specific product.
+Advanced rules let you layer conditions on top of a basic earn rate. Instead of awarding points on every qualifying event, an advanced rule only fires when the customer meets a specific set of criteria - such as being in a particular segment, reaching a certain spend threshold, or purchasing a specific product.
 
 **What you can target:**
 - Specific customer segments
@@ -45,15 +45,15 @@ Advanced rules let you layer conditions on top of a basic earn rate. Instead of 
 - Specific products or product categories
 - Specific countries
 
-You can also combine targeting with exclusions — for example, award bonus points to a segment but exclude a particular product category from earning those points.
+You can also combine targeting with exclusions - for example, award bonus points to a segment but exclude a particular product category from earning those points.
 
 **Examples:**
 
 > *A brand creates an advanced earn rule that awards **50 bonus points** to any customer in the "VIP Spenders" segment who makes a purchase above $100. Regular customers earn standard points; only VIPs who hit the threshold get the bonus.*
 
-> *A grocery chain wants to promote their new organic range. They create a rule that awards **2x points on all purchases from the Organic category**. The rule targets all customers but includes only the Organic product category — purchases from other categories earn the standard rate.*
+> *A grocery chain wants to promote their new organic range. They create a rule that awards **2x points on all purchases from the Organic category**. The rule targets all customers but includes only the Organic product category - purchases from other categories earn the standard rate.*
 
-> *A fashion brand sells across multiple countries. They configure country-wise earn rules — customers in the UAE earn **10 points per purchase** while customers in the UK earn **15 points per purchase**, reflecting local currency differences.*
+> *A fashion brand sells across multiple countries. They configure country-wise earn rules - customers in the UAE earn **10 points per purchase** while customers in the UK earn **15 points per purchase**, reflecting local currency differences.*
 
 ---
 
@@ -62,7 +62,7 @@ You can also combine targeting with exclusions — for example, award bonus poin
 A milestone earn rule fires once a customer reaches a specific cumulative target rather than on every transaction. The points are awarded as a bonus when the customer crosses the milestone, not continuously.
 
 **When to use it:**
-Milestone rules are ideal when you want to reward customers for reaching a meaningful total — a spending milestone, a visit count, or a cumulative points balance — rather than rewarding every individual transaction equally.
+Milestone rules are ideal when you want to reward customers for reaching a meaningful total - a spending milestone, a visit count, or a cumulative points balance - rather than rewarding every individual transaction equally.
 
 **Example:**
 
@@ -76,13 +76,13 @@ A recurring rule fires on a regular cadence, not just once. The rule resets at t
 
 **Example:**
 
-> *A subscription box brand sets a recurring rule: **earn 200 points every month you place at least one order**. Customers who order regularly automatically receive their 200-point bonus at the start of each new month. Missing a month resets the clock — the points are only awarded if the customer orders in that specific period.*
+> *A subscription box brand sets a recurring rule: **earn 200 points every month you place at least one order**. Customers who order regularly automatically receive their 200-point bonus at the start of each new month. Missing a month resets the clock - the points are only awarded if the customer orders in that specific period.*
 
 ---
 
 ## Points Conversion
 
-Points only feel valuable when customers understand what they're worth. The points conversion rate defines how many points equal one unit of currency, and you can set this at the tier level — meaning your most loyal customers can get a better redemption rate than others.
+Points only feel valuable when customers understand what they're worth. The points conversion rate defines how many points equal one unit of currency, and you can set this at the tier level - meaning your most loyal customers can get a better redemption rate than others.
 
 **How it works:**
 You set a conversion rate per tier, for example:
@@ -95,7 +95,7 @@ If you operate across multiple markets with different currencies, you can set se
 
 **Examples:**
 
-> *A loyalty programme sets a base conversion rate of **100 points = $1** for Bronze and Silver tier customers. Gold tier customers get a better rate of **80 points = $1** — meaning Gold members get more value from every point they earn. This is a meaningful tier benefit that goes beyond just a badge.*
+> *A loyalty programme sets a base conversion rate of **100 points = $1** for Bronze and Silver tier customers. Gold tier customers get a better rate of **80 points = $1** - meaning Gold members get more value from every point they earn. This is a meaningful tier benefit that goes beyond just a badge.*
 
 > *A brand operating in both the US and UK sets separate conversion rates: **100 points = $1** in the US and **100 points = £0.85** in the UK, reflecting the exchange rate and making the programme feel fair and locally relevant to each market.*
 
@@ -103,7 +103,7 @@ If you operate across multiple markets with different currencies, you can set se
 
 ## Redemption
 
-Redemption controls how and when customers can spend their points. You don't just set the rate — you also set limits to make sure redemptions are sustainable for your business and feel meaningful for your customers.
+Redemption controls how and when customers can spend their points. You don't just set the rate - you also set limits to make sure redemptions are sustainable for your business and feel meaningful for your customers.
 
 ---
 
@@ -117,7 +117,7 @@ The customer can redeem points worth up to a set percentage of their order total
 **Fixed coin amount**
 The customer can redeem up to a fixed number of points per transaction, regardless of order size.
 
-You can also set **minimum and maximum redemption limits** — making sure customers redeem at least a meaningful amount (so they don't burn one point at a time) and no more than a set ceiling.
+You can also set **minimum and maximum redemption limits** - making sure customers redeem at least a meaningful amount (so they don't burn one point at a time) and no more than a set ceiling.
 
 **Examples:**
 
@@ -134,9 +134,9 @@ You can also set **minimum and maximum redemption limits** — making sure custo
 You can restrict which products customers are allowed to redeem points against. Rather than allowing points to be burned on any item in your catalogue, you can specify exactly which products or categories are eligible.
 
 **Options:**
-- **All products** — points can be redeemed against any item
-- **Specific products or categories** — only selected items are eligible for redemption
-- **Partial redemption** — when enabled, customers can apply points to part of their order even if some items aren't eligible; when disabled, the entire order must qualify
+- **All products** - points can be redeemed against any item
+- **Specific products or categories** - only selected items are eligible for redemption
+- **Partial redemption** - when enabled, customers can apply points to part of their order even if some items aren't eligible; when disabled, the entire order must qualify
 
 **Example:**
 
@@ -148,7 +148,7 @@ You can restrict which products customers are allowed to redeem points against. 
 
 ## Loyalty Tiers
 
-Tiers give your most loyal customers a status that reflects how much they've engaged with your brand. Each tier comes with its own earn rate, conversion rate, redemption limits, and benefits — creating a real reason for customers to climb higher.
+Tiers give your most loyal customers a status that reflects how much they've engaged with your brand. Each tier comes with its own earn rate, conversion rate, redemption limits, and benefits - creating a real reason for customers to climb higher.
 
 ---
 
@@ -169,7 +169,7 @@ Tier placement is based on the customer's subscription status rather than earn a
 
 ### Tier Entry Thresholds
 
-Each tier has an entry threshold — the minimum value a customer must reach to qualify for that tier. You set this threshold per tier, and tiers are ranked by level from lowest to highest.
+Each tier has an entry threshold - the minimum value a customer must reach to qualify for that tier. You set this threshold per tier, and tiers are ranked by level from lowest to highest.
 
 **Example:**
 
@@ -187,10 +187,10 @@ You can also use lifetime order value or lifetime order count as the entry thres
 ### Tier-Specific Benefits
 
 Each tier can have its own:
-- **Points earn rate** — higher tiers can earn more points per transaction
-- **Points conversion rate** — higher tiers get better value when they redeem
-- **Redemption limit** — higher tiers can redeem more per transaction
-- **Points expiry** — higher tiers may have their points expire more slowly, or not at all
+- **Points earn rate** - higher tiers can earn more points per transaction
+- **Points conversion rate** - higher tiers get better value when they redeem
+- **Redemption limit** - higher tiers can redeem more per transaction
+- **Points expiry** - higher tiers may have their points expire more slowly, or not at all
 
 This means every step up the tier ladder feels materially better, not just cosmetically different.
 
@@ -204,25 +204,25 @@ A customer doesn't stay in their tier forever by default. You can configure how 
 Set a window (monthly, quarterly, or annually) after which the system checks whether the customer's recent activity still meets the tier threshold. If it doesn't, they are downgraded.
 
 **Downgrade configuration**
-You choose where a customer goes when they are downgraded — back to the base tier, to their previous tier, or to a specific tier you define.
+You choose where a customer goes when they are downgraded - back to the base tier, to their previous tier, or to a specific tier you define.
 
 **Example:**
 
 > *A loyalty programme evaluates Gold tier status annually. A customer who earned Gold in January is reassessed the following January. If they haven't maintained the required activity level over the past year, they drop to Silver. If they have, they remain in Gold for another year.*
 
-> *A café chain evaluates tiers monthly. Customers who don't meet the Silver threshold in any given month drop back to Bronze at the start of the following month. This creates urgency to stay active — and a strong reason to visit once more before the month ends.*
+> *A café chain evaluates tiers monthly. Customers who don't meet the Silver threshold in any given month drop back to Bronze at the start of the following month. This creates urgency to stay active - and a strong reason to visit once more before the month ends.*
 
 ---
 
 ## Points Expiry
 
-Points expiry keeps your programme fresh and creates urgency for customers to stay engaged. Without expiry, long-dormant customers accumulate large balances they may never use — expiry encourages active redemption.
+Points expiry keeps your programme fresh and creates urgency for customers to stay engaged. Without expiry, long-dormant customers accumulate large balances they may never use - expiry encourages active redemption.
 
 **How you configure it:**
-- **Timeframe** — choose whether points expire after a number of days, weeks, months, or years
-- **Duration** — set the specific number of periods (e.g., 12 months)
-- **Fixed date expiry** — optionally set a hard calendar date on which all points expire, useful for annual resets
-- **Per-tier expiry** — configure different expiry rules for each tier (Gold members' points might last 2 years; Bronze members' points expire after 6 months)
+- **Timeframe** - choose whether points expire after a number of days, weeks, months, or years
+- **Duration** - set the specific number of periods (e.g., 12 months)
+- **Fixed date expiry** - optionally set a hard calendar date on which all points expire, useful for annual resets
+- **Per-tier expiry** - configure different expiry rules for each tier (Gold members' points might last 2 years; Bronze members' points expire after 6 months)
 
 **Examples:**
 
@@ -230,11 +230,11 @@ Points expiry keeps your programme fresh and creates urgency for customers to st
 
 > *A seasonal retailer sets a hard expiry of December 31st each year, so all outstanding points reset at the start of every new year. This creates a natural urgency in Q4 as customers rush to spend their balance before it disappears.*
 
-> *A premium brand gives Gold tier members **36-month point validity** while Bronze members have only **6 months**. This makes tier membership tangibly valuable — not just a badge, but a real financial benefit that protects the balance customers have worked to build.*
+> *A premium brand gives Gold tier members **36-month point validity** while Bronze members have only **6 months**. This makes tier membership tangibly valuable - not just a badge, but a real financial benefit that protects the balance customers have worked to build.*
 
 ---
 
-## Putting It All Together — Real Scenarios
+## Putting It All Together - Real Scenarios
 
 ### A Points-Based Programme for a Café Chain
 
@@ -254,7 +254,7 @@ A café chain wants a simple, engaging loyalty programme that rewards frequent v
 
 **Points expiry:** 12 months from date of last activity
 
-**Result:** Customers earn points naturally with every purchase, have an incentive to visit on Fridays, and work toward a monthly spend milestone. As they move up tiers, their points are worth more at redemption — creating a clear, compelling reason to stay loyal.
+**Result:** Customers earn points naturally with every purchase, have an incentive to visit on Fridays, and work toward a monthly spend milestone. As they move up tiers, their points are worth more at redemption - creating a clear, compelling reason to stay loyal.
 
 ---
 
@@ -275,9 +275,9 @@ A fashion retailer wants tier status to reflect real customer spending, not just
 
 **Redemption:** Only applicable on full-price items; sale items excluded
 
-**Tier validity:** Annual re-evaluation — customers who don't meet their tier's lifetime threshold with new spending in the past year are downgraded one level
+**Tier validity:** Annual re-evaluation - customers who don't meet their tier's lifetime threshold with new spending in the past year are downgraded one level
 
-**Result:** Customers know exactly what level of spending unlocks each tier. The higher the tier, the better the conversion rate and the more they can redeem per order — making the Platinum tier genuinely aspirational and worth chasing.
+**Result:** Customers know exactly what level of spending unlocks each tier. The higher the tier, the better the conversion rate and the more they can redeem per order - making the Platinum tier genuinely aspirational and worth chasing.
 
 ---
 
@@ -296,4 +296,4 @@ A grocery delivery app uses subscription tiers to immediately differentiate the 
 
 **Redemption:** Applicable on all products; partial redemption allowed
 
-**Result:** Subscribing immediately unlocks better earn rates, a higher conversion at redemption, and points that last four times as long. The benefits are clear and compelling at the moment a customer decides whether to subscribe — and the loyalty programme becomes a key reason to stay subscribed.
+**Result:** Subscribing immediately unlocks better earn rates, a higher conversion at redemption, and points that last four times as long. The benefits are clear and compelling at the moment a customer decides whether to subscribe - and the loyalty programme becomes a key reason to stay subscribed.

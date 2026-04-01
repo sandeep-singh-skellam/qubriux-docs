@@ -5,7 +5,7 @@ title: Spin the Wheel Analytics
 
 # Spin the Wheel Analytics
 
-Spin the Wheel Analytics measures how your spin wheel games are performing — covering spin volume, prize distribution across wheel slices, time-based engagement trends, and transaction-level reporting.
+Spin the Wheel Analytics measures how your spin wheel games are performing - covering spin volume, prize distribution across wheel slices, time-based engagement trends, and transaction-level reporting.
 
 ## Wheel-Level Analytics
 
@@ -49,7 +49,7 @@ Download a full transaction-level report of all spins for a specific wheel withi
 
 1. Open the wheel's analytics view.
 2. Click **Download Report**.
-3. Select the format — **CSV** or **Excel**.
+3. Select the format - **CSV** or **Excel**.
 4. The report is packaged as a ZIP file and downloaded automatically.
 
 The report includes one row per spin transaction with details such as customer identifier, spin timestamp, slice landed on, and prize awarded. Use it for auditing, reconciliation, or deeper analysis outside of Qubriux.
