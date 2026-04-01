@@ -5,7 +5,7 @@ title: CRM
 
 # CRM
 
-The CRM module in Qubriux gives you a 360° view of every customer — their profile, purchase history, loyalty activity, survey responses, and behavioural trends. From the same interface you can manage customer data, handle support requests by adjusting loyalty balances, and explore analytics that help you understand who your best customers are and which ones you're at risk of losing.
+The CRM module in Qubriux gives you a 360° view of every customer — their profile, purchase history, loyalty activity, and survey responses. From the same interface you can manage customer data, search and filter your customer base, and handle support requests such as adjusting loyalty balances.
 
 ## Customer List
 
@@ -105,61 +105,3 @@ Leads are prospective customers who have expressed interest but have not yet mad
 
 Navigate to **CRM > Hot Leads** to see a ranked, paginated list of hot leads with the signals driving their score.
 
-## Customer Analytics
-
-The CRM includes a suite of built-in analytics charts to help you understand your customer base at a glance.
-
-### Sales Overview
-
-View revenue and transaction trends across your customer base, filtered by date range, store, and other dimensions. Compare current period performance against the previous period to identify growth or decline.
-
-### Loyalty Overview
-
-Track how your loyalty programme is performing:
-- Total loyalty customers vs. non-loyalty customers
-- Revenue contribution comparison — loyalty vs. non-loyalty
-- Loyalty customer growth trend over time
-
-### RFM Analysis
-
-RFM (Recency, Frequency, Monetary) analysis segments your customers into behavioural buckets based on:
-
-- **Recency** — how recently a customer made a purchase
-- **Frequency** — how often they buy
-- **Monetary** — how much they spend
-
-The RFM chart shows the distribution of your customers across these dimensions. Clicking into any RFM bucket opens the full list of customers in that group, so you can act on the insight directly — for example, exporting that group to a segment and targeting them with a campaign.
-
-### Customer Churn
-
-The churn chart shows how many customers have stopped purchasing within different inactivity windows. Drill into any churn bucket to see the specific customers at risk, making it easy to identify win-back opportunities.
-
-### Repeat Customer Trend
-
-Track the trend of repeat customers over time — customers who have purchased more than once. Drill into any data point to see the list of customers contributing to that period's repeat rate.
-
-### New Customer Trend
-
-Monitor new customer acquisition over time. Drill into any period to see the list of customers who first registered or made their first purchase during that window.
-
-### Top Products
-
-See which products are driving the most revenue or order volume across your customer base. Useful for understanding what to promote and what to stock.
-
-### Top Customers
-
-Identify your highest-value customers ranked by:
-- **Revenue** — total spend over a selected period
-- **Order count** — number of transactions over a selected period
-
-### Win-Back Rate
-
-The win-back rate shows the percentage of previously churned customers who have returned and made a purchase. This metric reflects how effective your re-engagement campaigns and journeys are at recovering lost customers.
-
-### Segment Analytics
-
-For any saved segment, you can view its analytics breakdown directly in the CRM — including customer count, revenue contribution, average order value, and trend over time.
-
-## Standard Segment Counts
-
-Qubriux maintains a set of standard system segments (e.g. New Customers, At Risk, Champions, Loyal Customers) based on RFM scoring. The CRM displays the current count and time series trend for each standard segment, giving you a quick overview of the health of your customer base without needing to create manual segments.
