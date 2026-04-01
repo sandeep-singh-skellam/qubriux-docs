@@ -1,0 +1,1 @@
+{"parameters":[{"name":"merchantId","in":"query","required":true,"description":"Qubriux internal merchant identifier","schema":{"type":"integer","format":"int64"},"example":12345}]}

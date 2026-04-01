@@ -24,7 +24,7 @@ Most endpoints additionally accept a **JWT Bearer Token** in the `Authorization`
 Authorization: Bearer <jwt_token>
 ```
 
-Obtain a token from [`POST /openapi/auth/getAccessToken`](#post-openapiauthaccesstoken). The JWT is validated against the merchant context derived from the `api_key` — if they do not match, the request is rejected with a `401`.
+Obtain a token from [`POST /openapi/auth/getAccessToken`](#post-openapiauthgetaccesstoken). The JWT is validated against the merchant context derived from the `api_key` — if they do not match, the request is rejected with a `401`.
 
 :::tip
 The JWT layer is optional for basic integrations but recommended for production. It provides an additional binding between the request and a specific merchant/customer context, preventing API key misuse.
@@ -32,7 +32,7 @@ The JWT layer is optional for basic integrations but recommended for production.
 
 ## Response Envelope
 
-All responses (except [`getLoyaltyTierDescription`](#post-openairewardgetloyaltytierdescription)) use a standard wrapper:
+All responses (except [`getLoyaltyTierDescription`](#post-openapirewardgetloyaltytierdescription)) use a standard wrapper:
 
 ```json
 {
@@ -430,7 +430,7 @@ Returns the complete set of active offers available to a customer alongside thei
 
 ## POST /openapi/reward/validateReward
 
-Evaluates reward eligibility for a customer's current order and returns the exact discount breakdown — both at order level and per item. This is a **read-only** call: it calculates what discount will apply but does not commit any redemption. Always call this before finalising payment to show the customer their pre-discount total. Follow up with [`rewardRedeemed`](#post-openairewardrewardredeemed) after the transaction completes to commit the deduction.
+Evaluates reward eligibility for a customer's current order and returns the exact discount breakdown — both at order level and per item. This is a **read-only** call: it calculates what discount will apply but does not commit any redemption. Always call this before finalising payment to show the customer their pre-discount total. Follow up with [`rewardRedeemed`](#post-openapirewardrewardredeemed) after the transaction completes to commit the deduction.
 
 ### Request Headers
 

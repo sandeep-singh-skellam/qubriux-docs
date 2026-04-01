@@ -36,6 +36,40 @@ const config: Config = {
     locales: ['en'],
   },
 
+  themes: ['docusaurus-theme-openapi-docs'],
+
+  plugins: [
+    // Polyfill Node.js 'path' for postman-code-generators (bundled by docusaurus-theme-openapi-docs)
+    () => ({
+      name: 'path-browserify-fallback',
+      configureWebpack() {
+        return {
+          resolve: {
+            fallback: {
+              path: require.resolve('path-browserify'),
+            },
+          },
+        };
+      },
+    }),
+    [
+      'docusaurus-plugin-openapi-docs',
+      {
+        id: 'openapi',
+        docsPluginId: 'classic',
+        config: {
+          loyalty: {
+            specPath: 'api/loyalty-api.yaml',
+            outputDir: 'docs/api-documentation/loyalty',
+            sidebarOptions: {
+              groupPathsBy: 'tag',
+            },
+          },
+        },
+      },
+    ],
+  ],
+
   presets: [
     [
       'classic',
@@ -46,6 +80,7 @@ const config: Config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          docItemComponent: '@theme/ApiItem',
         },
         blog: {
           showReadingTime: true,

@@ -1,0 +1,129 @@
+---
+id: qubriux-loyalty-open-api
+title: "Qubriux Loyalty Open API"
+description: "The Qubriux Loyalty Open API enables external POS systems, mobile applications, and"
+sidebar_label: Introduction
+sidebar_position: 0
+hide_title: true
+custom_edit_url: null
+---
+
+import ApiLogo from "@theme/ApiLogo";
+import Heading from "@theme/Heading";
+import SchemaTabs from "@theme/SchemaTabs";
+import TabItem from "@theme/TabItem";
+import Export from "@theme/ApiExplorer/Export";
+
+<span
+  className={"theme-doc-version-badge badge badge--secondary"}
+  children={"Version: 1.0.0"}
+>
+</span>
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Qubriux Loyalty Open API"}
+>
+</Heading>
+
+
+
+The Qubriux Loyalty Open API enables external POS systems, mobile applications, and
+third-party integrations to interact with the Qubriux loyalty platform. It covers the
+full customer loyalty lifecycle — from registration and offer retrieval through to reward
+validation and post-transaction redemption confirmation.
+
+## Authentication
+
+All endpoints require a **merchant-level API Key** passed as the `api_key` field in every
+request body. This key is issued by Qubriux during integration setup.
+
+Most endpoints also accept an optional **JWT Bearer Token** in the `Authorization` header.
+Obtain a token from `POST /openapi/auth/getAccessToken`. When provided, the JWT is validated
+against the merchant context derived from the API key — a mismatch results in a 401.
+
+```
+Authorization: Bearer <jwt_token>
+```
+
+## Response Envelope
+
+All responses (except `getLoyaltyTierDescription`) use a standard wrapper:
+
+```json
+{ "status": "success", "data": { ... } }
+```
+
+On error, `status` is `"failure"` and `data` contains the error message string.
+
+
+<div
+  style={{"marginBottom":"2rem"}}
+>
+  <Heading
+    id={"authentication"}
+    as={"h2"}
+    className={"openapi-tabs__heading"}
+    children={"Authentication"}
+  >
+  </Heading><SchemaTabs
+    className={"openapi-tabs__security-schemes"}
+  >
+    <TabItem
+      label={"HTTP: Bearer Auth"}
+      value={"bearerAuth"}
+    >
+      
+      
+      JWT access token obtained from POST /openapi/auth/getAccessToken.
+      Pass as: Authorization: Bearer &lt;token&gt;
+      
+      The token is validated against the merchant context derived from the request body's
+      api_key field. A mismatch between the token's merchant scope and the api_key results
+      in a 401 Unauthorized response.
+      
+      Note: The api_key field in every request body is the primary authentication credential
+      and is required on all endpoints. It is not a standard OpenAPI security scheme but is
+      documented as a required field within each endpoint's request body schema.
+      
+      
+      <div>
+        <table>
+          <tbody>
+            <tr>
+              <th>
+                Security Scheme Type:
+              </th><td>
+                http
+              </td>
+            </tr><tr>
+              <th>
+                HTTP Authorization Scheme:
+              </th><td>
+                bearer
+              </td>
+            </tr><tr>
+              <th>
+                Bearer format:
+              </th><td>
+                JWT
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </TabItem>
+  </SchemaTabs>
+</div><div
+  style={{"display":"flex","flexDirection":"column","marginBottom":"var(--ifm-paragraph-margin-bottom)"}}
+>
+  <h3
+    style={{"marginBottom":"0.25rem"}}
+  >
+    Contact
+  </h3><span>
+    Qubriux Support: [support@qubriux.com](mailto:support@qubriux.com)
+  </span>
+</div>
+      
