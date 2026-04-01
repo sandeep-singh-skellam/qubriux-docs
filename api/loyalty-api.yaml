@@ -1,0 +1,1597 @@
+openapi: 3.0.3
+info:
+  title: Qubriux Loyalty Open API
+  version: 1.0.0
+  description: |
+    The Qubriux Loyalty Open API enables external POS systems, mobile applications, and
+    third-party integrations to interact with the Qubriux loyalty platform. It covers the
+    full customer loyalty lifecycle — from registration and offer retrieval through to reward
+    validation and post-transaction redemption confirmation.
+
+    ## Authentication
+
+    All endpoints require a **merchant-level API Key** passed as the `api_key` field in every
+    request body. This key is issued by Qubriux during integration setup.
+
+    Most endpoints also accept an optional **JWT Bearer Token** in the `Authorization` header.
+    Obtain a token from `POST /openapi/auth/getAccessToken`. When provided, the JWT is validated
+    against the merchant context derived from the API key — a mismatch results in a 401.
+
+    ```
+    Authorization: Bearer <jwt_token>
+    ```
+
+    ## Response Envelope
+
+    All responses (except `getLoyaltyTierDescription`) use a standard wrapper:
+
+    ```json
+    { "status": "success", "data": { ... } }
+    ```
+
+    On error, `status` is `"failure"` and `data` contains the error message string.
+
+  contact:
+    name: Qubriux Support
+    email: support@qubriux.com
+
+servers:
+  - url: https://app.qubriux.com/ezloyal-web
+    description: Production
+
+tags:
+  - name: Authentication
+    description: Obtain JWT access tokens for API calls
+  - name: Customer
+    description: Register and update customer profiles
+  - name: Rewards
+    description: Retrieve offers, validate and apply rewards at the point of sale
+  - name: Loyalty
+    description: Query points transaction history and tier configuration
+  - name: Merchant
+    description: Retrieve merchant configuration
+
+paths:
+
+  /openapi/auth/getAccessToken:
+    post:
+      operationId: getAccessToken
+      summary: Issue a JWT access token
+      description: |
+        Exchanges merchant credentials (API key, client ID, and client secret) for a
+        short-lived JWT access token. The returned token scopes subsequent API calls to
+        a specific merchant and, optionally, a specific customer. Pass `customerId` when
+        you want the token to carry customer-level identity — this enables the platform
+        to validate that API calls correspond to the correct customer context. Tokens issued
+        for one merchant cannot be used with a different merchant's API key.
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAccessTokenRequest'
+            example:
+              api_key: "pk_live_abc123def456"
+              clientId: "client_7f8a9b2c"
+              clientSecret: "secret_x9y8z7w6"
+              customerId: "APP-CUST-001234"
+      responses:
+        '200':
+          description: Token issued successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        description: Token payload returned by the JWT provider. Structure varies — inspect the actual response during integration.
+                        additionalProperties: true
+              example:
+                status: "success"
+                data:
+                  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjaGFudElkIjoxMjM0NX0..."
+                  expiresIn: 3600
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /openapi/createCustomer:
+    post:
+      operationId: createCustomer
+      summary: Register a new customer
+      description: |
+        Registers a new customer into the Qubriux loyalty platform. On success, Qubriux
+        creates a customer record, optionally provisions a digital wallet, and returns
+        the internal customer ID along with a customer-scoped JWT. Call this endpoint the
+        first time a customer is encountered in your system — typically at sign-up or
+        first purchase. Supply the app-level customer ID in `customer_info.id` to link
+        the Qubriux record back to your database for future lookups.
+      tags:
+        - Customer
+      security:
+        - bearerAuth: []
+        - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCreateRequest'
+            example:
+              api_key: "pk_live_abc123def456"
+              customer_source: "mobile_app"
+              createdAt: "2024-04-01T10:30:00Z"
+              customer_info:
+                id: "APP-CUST-001234"
+                firstName: "Sarah"
+                lastName: "Khan"
+                mobile: "+971501234567"
+                email: "sarah.khan@example.com"
+                dob: "1990-06-15"
+                anniversary_date: "2018-03-20"
+                gender: "F"
+                country_code: "+971"
+                nationality: "AE"
+                customerTitle: "Ms"
+                isSMSMarketingConsentGiven: true
+                isEmailMarketingConsentGiven: true
+                isLoyaltyConsentGiven: true
+                isWalletRequired: false
+                isProfileComplete: true
+                address:
+                  line_1: "Villa 12, Al Barsha"
+                  line_2: "Street 4"
+                  city: "Dubai"
+                  state: "Dubai"
+                  country: "AE"
+      responses:
+        '200':
+          description: Customer registered successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/CustomerCreateResponse'
+              example:
+                status: "success"
+                data:
+                  customerId: "QBX-CUST-00456789"
+                  walletId: "WALLET-00123456"
+                  availableBalance: 0.00
+                  userJwtToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /openapi/updateCustomer:
+    post:
+      operationId: updateCustomer
+      summary: Update an existing customer's profile
+      description: |
+        Updates profile data for an existing Qubriux customer identified by mobile number,
+        email, or app-level customer ID. Use this endpoint to sync profile changes from your
+        system — name corrections, consent updates, or new contact details — into Qubriux.
+        The customer must already exist; this endpoint does not create new records. Supply
+        only the fields that have changed alongside at least one customer identifier. The
+        platform returns the updated customer summary including current wallet balance.
+      tags:
+        - Customer
+      security:
+        - bearerAuth: []
+        - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCreateRequest'
+            example:
+              api_key: "pk_live_abc123def456"
+              customer_info:
+                id: "APP-CUST-001234"
+                mobile: "+971501234567"
+                email: "sarah.k.updated@example.com"
+                isEmailMarketingConsentGiven: false
+      responses:
+        '200':
+          description: Customer updated successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/CustomerCreateResponse'
+              example:
+                status: "success"
+                data:
+                  customerId: "QBX-CUST-00456789"
+                  walletId: "WALLET-00123456"
+                  availableBalance: 142.50
+                  userJwtToken: null
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /openapi/reward/getCustomerOffers:
+    post:
+      operationId: getCustomerOffers
+      summary: Get available offers and loyalty status for a customer
+      description: |
+        Returns the complete set of active offers available to a customer alongside their
+        current loyalty balance, tier, tier progression data, and redemption limits. Call
+        this endpoint at the start of a transaction or when rendering a customer's wallet
+        screen — the response provides everything needed to display available discounts and
+        loyalty status in a single call. Optionally pass the current order context in the
+        `order` field to enable dynamic offer eligibility evaluation against the live basket.
+        Use `beansExpiryAfterDays` to surface expiring points and drive redemption urgency.
+      tags:
+        - Rewards
+      security:
+        - bearerAuth: []
+        - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetCustomerDataRequest'
+            example:
+              api_key: "pk_live_abc123def456"
+              customer_mobile: "+971501234567"
+              customer_email: "sarah.khan@example.com"
+              customerId: "APP-CUST-001234"
+              beansExpiryAfterDays: 30
+              order:
+                order_id: "ORD-20240401-0012"
+                gross_amount: 185.00
+                net_amount: 175.00
+                tax: 10.00
+                order_type: "dine_in"
+                items:
+                  - product_id: "PROD-001"
+                    product_name: "Flat White"
+                    quantity: 2
+                    category_id: "CAT-DRINKS"
+                    category_name: "Beverages"
+                    rate: 22.00
+                    subtotal: 44.00
+      responses:
+        '200':
+          description: Customer offers and loyalty data retrieved
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/GetCustomerOfferResponse'
+              example:
+                status: "success"
+                data:
+                  customer_mobile: "+971501234567"
+                  customer_email: "sarah.khan@example.com"
+                  customerId: "QBX-CUST-00456789"
+                  loyalty_points: 350.00
+                  loyalty_points_multiplier: 1.5
+                  loyalty_tier: 2
+                  loyalty_tier_name: "Gold"
+                  next_loyalty_tier: "Platinum"
+                  next_loyalty_tier_entry_points: 1000.00
+                  isHighestTier: false
+                  totalAmountToRedeem: 35.00
+                  max_loyalty_points: 500.00
+                  min_loyalty_points: 50.00
+                  max_percentage_bill_value: 20.00
+                  min_percentage_bill_value: 5.00
+                  loyalty_points_bracket: 10.00
+                  pointsToBeExpiredInXDays: 100.00
+                  offers:
+                    - offer_code: "SUMMER25"
+                      offer_name: "Summer Discount 25%"
+                      discount_type: "percentage_cashback"
+                      discount_value: 25.00
+                      discount_on: "total_bill"
+                      status: "active"
+                      expiryDate: "2024-08-31"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /openapi/reward/validateReward:
+    post:
+      operationId: validateReward
+      summary: Validate reward eligibility for a customer order
+      description: |
+        Evaluates whether a customer is eligible for reward redemption (loyalty points burn
+        or offer discount) against a specific order, and returns the exact discount breakdown.
+        Call this endpoint before finalising a transaction to compute the precise discount
+        amount and points to deduct. The response breaks down the discount at both the order
+        level and individual item level, enabling the POS to display a pre-discount summary.
+        This endpoint is read-only — it does not record any redemption. Always follow up with
+        `rewardRedeemed` after the transaction completes to commit the deduction.
+      tags:
+        - Rewards
+      security:
+        - bearerAuth: []
+        - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetCustomerDataRequest'
+            example:
+              api_key: "pk_live_abc123def456"
+              customer_mobile: "+971501234567"
+              customerId: "APP-CUST-001234"
+              order:
+                order_id: "ORD-20240401-0012"
+                gross_amount: 185.00
+                net_amount: 175.00
+                tax: 10.00
+                order_type: "dine_in"
+                loyaltyPoints: 100.00
+                items:
+                  - product_id: "PROD-001"
+                    product_name: "Flat White"
+                    quantity: 2
+                    rate: 22.00
+                    subtotal: 44.00
+      responses:
+        '200':
+          description: Reward validation result
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ValidateOfferResponse'
+              example:
+                status: "success"
+                data:
+                  customerMobile: "+971501234567"
+                  customerEmail: "sarah.khan@example.com"
+                  discountOnPoints: 10.00
+                  pointsToRedeem: 100.00
+                  totalDiscount: 25.00
+                  availableLoyaltyPoints: 350.00
+                  discountOn: "total_bill"
+                  discountDetails:
+                    - itemId: "PROD-001"
+                      itemName: "Flat White"
+                      discountCode: "SUMMER25"
+                      discountAmount: 11.00
+                      discountType: "percentage_cashback"
+                      rate: 22.00
+                      quantity: 2
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /openapi/reward/applyCoupon:
+    post:
+      operationId: applyCoupon
+      summary: Apply a specific coupon code to an order
+      description: |
+        Validates and applies a single coupon code entered by the customer, returning the
+        resulting discount breakdown. Unlike `validateReward` which evaluates all eligible
+        rewards automatically, this endpoint targets only the coupon code supplied in
+        `couponCode`. Use this for explicit coupon entry flows — for example, when a customer
+        types or scans a coupon code at the POS. Like `validateReward`, this endpoint is
+        non-committing — call `rewardRedeemed` after a successful payment to finalise.
+      tags:
+        - Rewards
+      security:
+        - bearerAuth: []
+        - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetCustomerDataRequest'
+            example:
+              api_key: "pk_live_abc123def456"
+              customer_mobile: "+971501234567"
+              customerId: "APP-CUST-001234"
+              couponCode: "WELCOME10"
+              order:
+                order_id: "ORD-20240401-0012"
+                gross_amount: 185.00
+                net_amount: 175.00
+                tax: 10.00
+                order_type: "dine_in"
+                items:
+                  - product_id: "PROD-001"
+                    product_name: "Flat White"
+                    quantity: 2
+                    rate: 22.00
+                    subtotal: 44.00
+      responses:
+        '200':
+          description: Coupon applied and discount computed
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ValidateOfferResponse'
+              example:
+                status: "success"
+                data:
+                  customerMobile: "+971501234567"
+                  totalDiscount: 18.50
+                  discountOn: "total_bill"
+                  pointsToRedeem: 0.00
+                  availableLoyaltyPoints: 350.00
+                  discountDetails:
+                    - discountCode: "WELCOME10"
+                      discountAmount: 18.50
+                      discountType: "fixed_cashback"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /openapi/reward/rewardRedeemed:
+    post:
+      operationId: rewardRedeemed
+      summary: Confirm a reward redemption after transaction completion
+      description: |
+        Records the final redemption of a reward after a transaction has been completed and
+        payment accepted. This is the mandatory confirmation step that commits loyalty point
+        deductions and offer redemptions to the customer's record in Qubriux. Always call this
+        endpoint after a successful payment — omitting it will leave the customer's points
+        balance unchanged even though a discount was applied. Pass the same order object used
+        in the preceding `validateReward` or `applyCoupon` call to ensure consistency. If
+        the transaction was cancelled or payment failed, do not call this endpoint.
+      tags:
+        - Rewards
+      security:
+        - bearerAuth: []
+        - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetCustomerDataRequest'
+            example:
+              api_key: "pk_live_abc123def456"
+              customer_mobile: "+971501234567"
+              customerId: "APP-CUST-001234"
+              order:
+                order_id: "ORD-20240401-0012"
+                gross_amount: 185.00
+                net_amount: 160.00
+                tax: 10.00
+                order_type: "dine_in"
+                loyaltyPoints: 100.00
+                items:
+                  - product_id: "PROD-001"
+                    product_name: "Flat White"
+                    quantity: 2
+                    rate: 22.00
+                    subtotal: 44.00
+                    discount:
+                      discountAmt: 11.00
+                      discountType: "percentage_cashback"
+      responses:
+        '200':
+          description: Redemption committed successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: string
+                        description: Confirmation message
+              example:
+                status: "success"
+                data: "Reward redeemed successfully"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /openapi/reward/getCustomerLoyaltyPointsTx:
+    post:
+      operationId: getCustomerLoyaltyPointsTx
+      summary: Retrieve a customer's loyalty points transaction history
+      description: |
+        Returns a paginated list of loyalty point transactions for a customer, covering both
+        earn and burn events. Use this to build a points history view in your app or customer
+        portal. Supports pagination (`recordsPerPage`, `pageNumber`), sort direction
+        (`sortingOrder`), and filtering by transaction type (`transactionType`). Set
+        `beansExpiryAfterDays` to surface only transactions where points are due to expire
+        within a given window — useful for driving proactive redemption nudges.
+      tags:
+        - Loyalty
+      security:
+        - bearerAuth: []
+        - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetCustomerDataRequest'
+            example:
+              api_key: "pk_live_abc123def456"
+              customer_mobile: "+971501234567"
+              customerId: "APP-CUST-001234"
+              recordsPerPage: 20
+              pageNumber: 1
+              sortingOrder: "DESC"
+              transactionType: "earn"
+              beansExpiryAfterDays: 90
+      responses:
+        '200':
+          description: Loyalty transaction history returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        description: Paginated loyalty transaction history. Schema varies by merchant configuration — inspect the actual response during integration.
+                        additionalProperties: true
+              example:
+                status: "success"
+                data:
+                  transactions:
+                    - transactionId: "TXN-20240401-001"
+                      type: "earn"
+                      points: 35.00
+                      orderId: "ORD-20240401-0012"
+                      date: "2024-04-01T10:35:00Z"
+                      description: "Points earned on purchase"
+                    - transactionId: "TXN-20240331-007"
+                      type: "burn"
+                      points: -100.00
+                      orderId: "ORD-20240331-0044"
+                      date: "2024-03-31T18:20:00Z"
+                      description: "Points redeemed"
+                  totalRecords: 47
+                  currentPage: 1
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /openapi/reward/getLoyaltyTierBenefits:
+    post:
+      operationId: getLoyaltyTierBenefits
+      summary: Retrieve loyalty tier benefit definitions
+      description: |
+        Returns the configured benefits for each loyalty tier in the merchant's programme.
+        Use this to display the perks a customer currently enjoys at their tier, and what
+        benefits await them upon upgrading — an effective driver of tier aspiration. The
+        response is a list of tier benefit objects, one per configured tier, reflecting the
+        merchant's live programme settings. This endpoint does not require a customer
+        identifier if you want the full programme-level tier list.
+      tags:
+        - Loyalty
+      security:
+        - bearerAuth: []
+        - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetCustomerDataRequest'
+            example:
+              api_key: "pk_live_abc123def456"
+              customerId: "APP-CUST-001234"
+      responses:
+        '200':
+          description: Tier benefits list returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        description: List of tier benefit objects. Schema varies by merchant programme configuration.
+                        items:
+                          type: object
+                          additionalProperties: true
+              example:
+                status: "success"
+                data:
+                  - tierName: "Silver"
+                    tierLevel: 1
+                    pointsMultiplier: 1.0
+                    benefits:
+                      - "Birthday bonus points"
+                      - "Early access to promotions"
+                  - tierName: "Gold"
+                    tierLevel: 2
+                    pointsMultiplier: 1.5
+                    benefits:
+                      - "1.5x points on all purchases"
+                      - "Free delivery on orders above AED 100"
+                  - tierName: "Platinum"
+                    tierLevel: 3
+                    pointsMultiplier: 2.0
+                    benefits:
+                      - "2x points on all purchases"
+                      - "Dedicated customer support line"
+                      - "Exclusive member events"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /openapi/reward/getLoyaltyTierDescription:
+    post:
+      operationId: getLoyaltyTierDescription
+      summary: Retrieve descriptive loyalty tier rules
+      description: |
+        Returns a human-readable description of the loyalty programme's earn structure and
+        tier rules, intended for display in customer-facing apps and portals. Unlike
+        `getLoyaltyTierBenefits` which returns structured data, this endpoint returns
+        descriptive content explaining how customers earn points and progress through tiers.
+        Use it to power an "About the Programme" or "How It Works" screen. Note that this
+        endpoint returns its response body directly — it does not use the standard
+        `{ status, data }` ApiResponse envelope.
+      tags:
+        - Loyalty
+      security:
+        - bearerAuth: []
+        - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetCustomerDataRequest'
+            example:
+              api_key: "pk_live_abc123def456"
+              customerId: "APP-CUST-001234"
+      responses:
+        '200':
+          description: |
+            Loyalty tier descriptions returned. This endpoint does NOT wrap the response
+            in the standard ApiResponse envelope — the body is returned directly.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Descriptive loyalty rules. Schema varies by merchant programme configuration.
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /openapi/getMerchantDetails:
+    post:
+      operationId: getMerchantDetails
+      summary: Retrieve merchant admin configuration
+      description: |
+        Returns the full admin configuration object for a given merchant, including
+        programme settings, feature flags, and operational parameters set through the
+        Qubriux dashboard. Typically used during integration setup to verify merchant
+        configuration or to retrieve settings that drive client-side behaviour — for
+        example, determining which loyalty features are active. Requires the merchant ID
+        as a query parameter in addition to the standard API key in the request body.
+      tags:
+        - Merchant
+      security:
+        - bearerAuth: []
+        - {}
+      parameters:
+        - name: merchantId
+          in: query
+          required: true
+          description: Qubriux internal merchant identifier
+          schema:
+            type: integer
+            format: int64
+          example: 12345
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetCustomerDataRequest'
+            example:
+              api_key: "pk_live_abc123def456"
+      responses:
+        '200':
+          description: Merchant configuration returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        description: Merchant admin configuration entity. Schema varies by merchant setup — inspect during integration.
+                        additionalProperties: true
+              example:
+                status: "success"
+                data:
+                  merchantId: 12345
+                  merchantName: "The Coffee House"
+                  loyaltyEnabled: true
+                  offersEnabled: true
+                  currency: "AED"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+
+  schemas:
+
+    ApiResponse:
+      type: object
+      description: Standard response envelope used by all endpoints except getLoyaltyTierDescription
+      properties:
+        status:
+          type: string
+          enum: [success, failure]
+          description: Outcome of the request
+          example: "success"
+        data:
+          description: Response payload on success; error message string on failure
+          oneOf:
+            - type: object
+            - type: array
+              items: {}
+            - type: string
+
+    ErrorResponse:
+      type: object
+      description: Standard error response
+      properties:
+        status:
+          type: string
+          example: "failure"
+        data:
+          type: string
+          description: Human-readable error message
+          example: "Invalid Api Key"
+
+    GetAccessTokenRequest:
+      type: object
+      required:
+        - api_key
+        - clientId
+        - clientSecret
+      properties:
+        api_key:
+          type: string
+          description: Merchant-level API key issued by Qubriux
+          example: "pk_live_abc123def456"
+        clientId:
+          type: string
+          description: OAuth client identifier provided during integration setup
+          example: "client_7f8a9b2c"
+        clientSecret:
+          type: string
+          description: OAuth client secret corresponding to the clientId
+          example: "secret_x9y8z7w6"
+        customerId:
+          type: string
+          description: Optional. Scopes the issued token to a specific customer, enabling customer-level JWT validation on subsequent requests.
+          example: "APP-CUST-001234"
+
+    CustomerCreateRequest:
+      type: object
+      required:
+        - api_key
+        - customer_info
+      properties:
+        api_key:
+          type: string
+          description: Merchant-level API key issued by Qubriux
+          example: "pk_live_abc123def456"
+        customer_info:
+          $ref: '#/components/schemas/CustomerInfo'
+        createdAt:
+          type: string
+          description: ISO 8601 timestamp of when the customer registered in your system. Server time is used if omitted.
+          example: "2024-04-01T10:30:00Z"
+        customer_source:
+          type: string
+          description: Channel or system where the customer registered. Used for segmentation and attribution reporting.
+          example: "mobile_app"
+
+    CustomerInfo:
+      type: object
+      description: Customer profile data. At least one identifier — mobile, email, or id — must be provided.
+      properties:
+        id:
+          type: string
+          description: Your system's unique customer identifier. Used to link the Qubriux record to your database.
+          example: "APP-CUST-001234"
+        name:
+          type: string
+          description: Customer's full name. Use this or firstName + lastName, not both.
+          example: "Sarah Khan"
+        firstName:
+          type: string
+          description: Customer's first name
+          example: "Sarah"
+        lastName:
+          type: string
+          description: Customer's last name
+          example: "Khan"
+        mobile:
+          type: string
+          description: Mobile number including country code. Used as a primary customer identifier.
+          example: "+971501234567"
+        email:
+          type: string
+          format: email
+          description: Email address. Used as a secondary identifier and for marketing communications.
+          example: "sarah.khan@example.com"
+        dob:
+          type: string
+          description: Date of birth in YYYY-MM-DD format. Used to trigger birthday rewards.
+          example: "1990-06-15"
+        anniversary_date:
+          type: string
+          description: Anniversary date in YYYY-MM-DD format. Used to trigger anniversary rewards.
+          example: "2018-03-20"
+        gender:
+          type: string
+          description: Customer gender
+          example: "F"
+        nationality:
+          type: string
+          description: Two-letter ISO 3166-1 alpha-2 country code for the customer's nationality
+          example: "AE"
+        country_code:
+          type: string
+          description: International dialling code for the customer's mobile number
+          example: "+971"
+        customerTitle:
+          type: string
+          description: Honorific title (e.g. Mr, Mrs, Dr, Ms)
+          example: "Ms"
+        referralCode:
+          type: string
+          description: Referral code assigned to this customer for sharing. Generated by Qubriux or your system.
+          example: "REF-SK-7789"
+        referredBy:
+          type: string
+          description: Referral code of the customer who referred this customer. Triggers referral rewards if configured.
+          example: "REF-AM-4412"
+        isSMSMarketingConsentGiven:
+          type: boolean
+          description: Customer has consented to receive SMS marketing messages
+          example: true
+        isEmailMarketingConsentGiven:
+          type: boolean
+          description: Customer has consented to receive email marketing messages
+          example: true
+        isLoyaltyConsentGiven:
+          type: boolean
+          description: Customer has consented to participate in the loyalty programme. Customers without consent may not earn or redeem points depending on merchant configuration.
+          example: true
+        isWalletRequired:
+          type: boolean
+          default: false
+          description: Whether a digital wallet should be provisioned on registration. Defaults to false.
+          example: false
+        isProfileComplete:
+          type: boolean
+          description: Whether the customer profile is considered complete. Used to drive profile completion prompts in the app.
+          example: true
+        createdAt:
+          type: string
+          description: Customer registration timestamp in your system (ISO 8601)
+          example: "2024-04-01T10:30:00Z"
+        address:
+          $ref: '#/components/schemas/Address'
+
+    Address:
+      type: object
+      description: Customer's physical address
+      properties:
+        line_1:
+          type: string
+          description: Primary address line (street number and name)
+          example: "Villa 12, Al Barsha"
+        line_2:
+          type: string
+          description: Secondary address line (apartment, building, floor)
+          example: "Street 4"
+        city:
+          type: string
+          description: City
+          example: "Dubai"
+        state:
+          type: string
+          description: State, province, or emirate
+          example: "Dubai"
+        country:
+          type: string
+          description: Two-letter ISO 3166-1 alpha-2 country code
+          example: "AE"
+
+    CustomerCreateResponse:
+      type: object
+      properties:
+        customerId:
+          type: string
+          description: Qubriux internal customer ID. Store this alongside your own ID for efficient future API calls.
+          example: "QBX-CUST-00456789"
+        walletId:
+          type: string
+          nullable: true
+          description: ID of the digital wallet provisioned for this customer. Present only if wallet provisioning was requested or is enabled for the merchant.
+          example: "WALLET-00123456"
+        availableBalance:
+          type: number
+          format: double
+          description: Current wallet balance. Zero for newly registered customers.
+          example: 0.00
+        userJwtToken:
+          type: string
+          nullable: true
+          description: Customer-scoped JWT token. Pass as Bearer token on subsequent calls for this customer to bind requests to their identity.
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+
+    GetCustomerDataRequest:
+      type: object
+      required:
+        - api_key
+      description: |
+        General-purpose request body used across reward and loyalty endpoints.
+        Supply at least one customer identifier: customer_mobile, customer_email, or customerId.
+        Not all fields are used by every endpoint — see each endpoint's description for which fields apply.
+      properties:
+        api_key:
+          type: string
+          description: Merchant-level API key issued by Qubriux
+          example: "pk_live_abc123def456"
+        customer_mobile:
+          type: string
+          description: Customer's mobile number including country code
+          example: "+971501234567"
+        customer_email:
+          type: string
+          format: email
+          description: Customer's email address
+          example: "sarah.khan@example.com"
+        customerId:
+          type: string
+          description: Your system's customer ID or Qubriux's internal customer ID
+          example: "APP-CUST-001234"
+        couponCode:
+          type: string
+          description: Coupon code to validate and apply. Required for the applyCoupon endpoint.
+          example: "WELCOME10"
+        recordsPerPage:
+          type: integer
+          description: Number of records per page. Used by getCustomerLoyaltyPointsTx.
+          example: 20
+        pageNumber:
+          type: integer
+          description: Page number (1-based). Used by getCustomerLoyaltyPointsTx.
+          example: 1
+        sortingOrder:
+          type: string
+          enum: [ASC, DESC]
+          description: Sort direction for paginated results
+          example: "DESC"
+        transactionType:
+          type: string
+          description: Filter loyalty transactions by type (e.g. earn, burn). Used by getCustomerLoyaltyPointsTx.
+          example: "earn"
+        beansExpiryAfterDays:
+          type: integer
+          description: Show only points expiring within this many days. Used by getCustomerOffers and getCustomerLoyaltyPointsTx.
+          example: 30
+        order:
+          $ref: '#/components/schemas/Order'
+
+    Order:
+      type: object
+      description: |
+        Order context for reward evaluation. Required on validateReward, applyCoupon, and rewardRedeemed.
+        Optional on getCustomerOffers — when provided, enables dynamic offer eligibility against the live basket.
+      properties:
+        order_id:
+          type: string
+          description: Your system's unique order identifier
+          example: "ORD-20240401-0012"
+        invoice_number:
+          type: string
+          description: Invoice or receipt number for this order
+          example: "INV-2024-0012"
+        order_type:
+          type: string
+          description: Type of order (e.g. dine_in, takeaway, delivery, online)
+          example: "dine_in"
+        gross_amount:
+          type: number
+          format: double
+          description: Total order value before discounts and tax
+          example: 185.00
+        net_amount:
+          type: number
+          format: double
+          description: Total order value after discounts, before tax
+          example: 175.00
+        tax:
+          type: number
+          format: double
+          description: Tax amount applied to the order
+          example: 10.00
+        loyaltyPoints:
+          type: number
+          format: double
+          description: Number of loyalty points the customer requests to redeem against this order
+          example: 100.00
+        source:
+          type: string
+          description: Channel or platform from which the order originated
+          example: "mobile_app"
+        platformName:
+          type: string
+          description: Name of the ordering platform (e.g. custom_app, kiosk, web)
+          example: "custom_app"
+        platformVersion:
+          type: string
+          description: Version string of the ordering platform
+          example: "3.2.1"
+        discount:
+          $ref: '#/components/schemas/Discount'
+        items:
+          type: array
+          description: Line items in the order
+          items:
+            $ref: '#/components/schemas/Product'
+        delivery_info:
+          $ref: '#/components/schemas/DeliveryInfo'
+
+    Product:
+      type: object
+      description: A single line item within an order
+      properties:
+        product_id:
+          type: string
+          description: Your system's product identifier
+          example: "PROD-001"
+        product_name:
+          type: string
+          description: Product display name
+          example: "Flat White"
+        quantity:
+          type: integer
+          description: Units ordered
+          example: 2
+        category_id:
+          type: string
+          description: Category identifier
+          example: "CAT-DRINKS"
+        category_name:
+          type: string
+          description: Category display name
+          example: "Beverages"
+        rate:
+          type: number
+          format: double
+          description: Unit price of the product
+          example: 22.00
+        subtotal:
+          type: number
+          format: double
+          description: Line subtotal (rate × quantity, before item-level discounts)
+          example: 44.00
+        discount:
+          $ref: '#/components/schemas/Discount'
+        modifiers:
+          type: array
+          description: Customisation modifiers applied to this product (add-ons, size changes, etc.)
+          items:
+            $ref: '#/components/schemas/ProductModifier'
+
+    ProductModifier:
+      type: object
+      description: A modifier or add-on applied to a product line item
+      properties:
+        modifier_id:
+          type: string
+          description: Modifier identifier
+          example: "MOD-OATMILK"
+        modifier_name:
+          type: string
+          description: Modifier display name
+          example: "Oat Milk"
+        quantity:
+          type: integer
+          description: Number of units of this modifier
+          example: 1
+        rate:
+          type: number
+          format: double
+          description: Unit price of the modifier
+          example: 5.00
+        subtotal:
+          type: number
+          format: double
+          description: Total cost of this modifier (rate × quantity)
+          example: 5.00
+
+    Discount:
+      type: object
+      description: Discount applied at the order or product level
+      properties:
+        discountAmt:
+          type: number
+          format: double
+          description: Monetary discount amount
+          example: 25.00
+        discountId:
+          type: string
+          description: Identifier of the discount rule or offer applied
+          example: "OFFER-SUMMER25"
+        discountType:
+          type: string
+          description: |
+            Type of discount. Known values: fixed_cashback, percentage_cashback,
+            give_away, hidden_item_offer, burn_loyalty_points
+          example: "percentage_cashback"
+
+    DeliveryInfo:
+      type: object
+      description: Delivery details for the order. Pass fields as available from your system.
+      additionalProperties: true
+
+    GetCustomerOfferResponse:
+      type: object
+      description: Customer's available offers, loyalty balance, tier status, and redemption limits
+      properties:
+        customer_mobile:
+          type: string
+          description: Customer's mobile number as stored in Qubriux
+          example: "+971501234567"
+        customer_email:
+          type: string
+          description: Customer's email address as stored in Qubriux
+          example: "sarah.khan@example.com"
+        customerId:
+          type: string
+          description: Qubriux internal customer ID
+          example: "QBX-CUST-00456789"
+        loyalty_points:
+          type: number
+          format: double
+          description: Current redeemable loyalty points balance
+          example: 350.00
+        loyalty_points_multiplier:
+          type: number
+          format: double
+          description: Current earn multiplier for the customer's tier. 1.5 = 1.5× points per qualifying purchase.
+          example: 1.5
+        loyalty_tier:
+          type: integer
+          description: Numeric tier level (1 = lowest configured tier)
+          example: 2
+        loyalty_tier_name:
+          type: string
+          description: Display name of the customer's current tier
+          example: "Gold"
+        next_loyalty_tier:
+          type: string
+          nullable: true
+          description: Display name of the next tier. Null if the customer is on the highest tier.
+          example: "Platinum"
+        next_loyalty_tier_entry_points:
+          type: number
+          format: double
+          nullable: true
+          description: Points balance required to qualify for the next tier
+          example: 1000.00
+        next_loyalty_tier_order_value:
+          type: number
+          format: double
+          nullable: true
+          description: Cumulative spend required for the next tier (spend-based programmes only)
+          example: 5000.00
+        isHighestTier:
+          type: boolean
+          description: True when the customer is already on the programme's highest tier
+          example: false
+        totalAmountToRedeem:
+          type: number
+          format: double
+          description: Maximum monetary value the customer can redeem from their current points balance
+          example: 35.00
+        totalAccumulatedOrderValue:
+          type: number
+          format: double
+          description: Customer's cumulative spend within the current tier evaluation window
+          example: 3200.00
+        max_loyalty_points:
+          type: number
+          format: double
+          description: Maximum points the customer may redeem in a single transaction
+          example: 500.00
+        min_loyalty_points:
+          type: number
+          format: double
+          description: Minimum points required to initiate a redemption
+          example: 50.00
+        max_percentage_bill_value:
+          type: number
+          format: double
+          description: Maximum percentage of the transaction bill that may be covered by points redemption
+          example: 20.00
+        min_percentage_bill_value:
+          type: number
+          format: double
+          description: Minimum bill percentage that must be covered when points redemption is used
+          example: 5.00
+        loyalty_points_bracket:
+          type: number
+          format: double
+          description: Conversion bracket — number of points equivalent to one unit of currency
+          example: 10.00
+        pointsToBeExpiredInXDays:
+          type: number
+          format: double
+          description: Points expiring within the window specified by beansExpiryAfterDays in the request
+          example: 100.00
+        firstOrderDate:
+          type: string
+          nullable: true
+          description: Date of the customer's first order (ISO 8601)
+          example: "2023-01-15T09:00:00Z"
+        tierChangeDate:
+          type: string
+          nullable: true
+          description: Date when the customer last changed tier (ISO 8601)
+          example: "2024-02-10T00:00:00Z"
+        tierMismatch:
+          type: boolean
+          description: True if the stored tier does not match current qualification data, indicating a pending recalculation
+          example: false
+        offers:
+          type: array
+          description: Active offers currently available to this customer
+          items:
+            $ref: '#/components/schemas/Coupon'
+
+    Coupon:
+      type: object
+      description: An offer or coupon available to the customer
+      properties:
+        offer_code:
+          type: string
+          description: Unique offer code. Pass this value in couponCode when calling applyCoupon.
+          example: "SUMMER25"
+        offer_name:
+          type: string
+          description: Internal offer name as configured in the Qubriux dashboard
+          example: "Summer Discount 25%"
+        offerNameAlias:
+          type: string
+          nullable: true
+          description: Customer-facing display name, if configured separately from the internal name
+          example: "Beat the Heat — 25% Off"
+        discount_type:
+          type: string
+          description: |
+            Discount mechanism. Known values:
+            fixed_cashback — fixed monetary amount off the bill;
+            percentage_cashback — percentage off the bill;
+            give_away — complimentary item granted;
+            hidden_item_offer — item-level offer not surfaced until applied;
+            burn_loyalty_points — loyalty points redemption
+          example: "percentage_cashback"
+        discount_value:
+          type: number
+          format: double
+          description: Discount magnitude (monetary amount or percentage depending on discount_type)
+          example: 25.00
+        discount_on:
+          type: string
+          description: Scope of the discount (e.g. total_bill, specific_item, category)
+          example: "total_bill"
+        expiryDate:
+          type: string
+          description: Offer expiry date in YYYY-MM-DD format
+          example: "2024-08-31"
+        status:
+          type: string
+          enum: [active, inactive, expired]
+          description: Current lifecycle status of the offer
+          example: "active"
+        comment:
+          type: string
+          nullable: true
+          description: Optional terms or notes attached to the offer
+          example: "Valid on dine-in orders only"
+        toApplyOnMultipleProduct:
+          type: boolean
+          description: When true, the discount applies across multiple qualifying products in a single order
+          example: false
+        products_info:
+          type: array
+          nullable: true
+          description: Products this offer applies to or is restricted to
+          items:
+            type: object
+            additionalProperties: true
+        offer_barrier:
+          type: array
+          nullable: true
+          description: Conditions that must be satisfied before the offer applies (e.g. minimum order value)
+          items:
+            type: object
+            additionalProperties: true
+
+    ValidateOfferResponse:
+      type: object
+      description: Result of a reward validation or coupon application
+      properties:
+        customerMobile:
+          type: string
+          description: Customer's mobile number
+          example: "+971501234567"
+        customerEmail:
+          type: string
+          description: Customer's email address
+          example: "sarah.khan@example.com"
+        discountOnPoints:
+          type: number
+          format: double
+          description: Monetary value of the discount attributable to loyalty points redemption
+          example: 10.00
+        pointsToRedeem:
+          type: number
+          format: double
+          description: Number of loyalty points that will be deducted when rewardRedeemed is called
+          example: 100.00
+        totalDiscount:
+          type: number
+          format: double
+          description: Combined total monetary discount from all sources (offers + points)
+          example: 25.00
+        availableLoyaltyPoints:
+          type: number
+          format: double
+          description: Customer's current points balance before any redemption is committed
+          example: 350.00
+        discountOn:
+          type: string
+          description: Scope of the discount (e.g. total_bill, specific_item)
+          example: "total_bill"
+        discountDetails:
+          type: array
+          description: Discount breakdown at order or item level
+          items:
+            $ref: '#/components/schemas/DiscountDetailsItem'
+        itemLevelRedemptionDetails:
+          type: array
+          nullable: true
+          description: Per-item redemption breakdown. Populated when the discount is distributed across individual line items.
+          items:
+            $ref: '#/components/schemas/DiscountDetailsItem'
+        giftCodeResponse:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/GiftCodeResponsePOS'
+
+    DiscountDetailsItem:
+      type: object
+      description: Discount breakdown for a single order line or item
+      properties:
+        itemId:
+          type: string
+          description: Product ID this discount entry applies to
+          example: "PROD-001"
+        itemName:
+          type: string
+          description: Product name
+          example: "Flat White"
+        discountCode:
+          type: string
+          description: Offer or coupon code that generated this discount line
+          example: "SUMMER25"
+        discountAmount:
+          type: number
+          format: double
+          description: Monetary discount amount for this line
+          example: 11.00
+        rate:
+          type: number
+          format: double
+          description: Unit price of the item before discount
+          example: 22.00
+        quantity:
+          type: integer
+          description: Number of units
+          example: 2
+        discountType:
+          type: string
+          description: Type of discount applied to this line (fixed_cashback, percentage_cashback, give_away, hidden_item_offer, burn_loyalty_points)
+          example: "percentage_cashback"
+        cashbackAmount:
+          type: string
+          nullable: true
+          description: Cashback amount as a string, intended for display formatting
+          example: "11.00"
+        pointsToRedeem:
+          type: number
+          format: double
+          nullable: true
+          description: Points redeemed against this specific line item
+          example: 0.00
+        free_product:
+          type: array
+          nullable: true
+          description: Complimentary products granted as part of a give-away offer on this line
+          items:
+            type: object
+            additionalProperties: true
+
+    GiftCodeResponsePOS:
+      type: object
+      description: Result of applying a gift code voucher, populated only when the customer redeems a gift code
+      properties:
+        giftCodeMessage:
+          type: string
+          description: Human-readable message describing the gift code outcome
+          example: "Gift code applied. AED 50 credited to your wallet."
+        giftCodeType:
+          type: string
+          description: Where the gift code value was credited (e.g. wallet, loyalty)
+          example: "wallet"
+        messageKey:
+          type: integer
+          description: Internal key for localisation of the gift code message
+          example: 201
+        walletInfo:
+          type: object
+          nullable: true
+          description: Wallet transaction details when the gift code credited to the customer's wallet
+          additionalProperties: true
+        loyaltyInfo:
+          type: object
+          nullable: true
+          description: Loyalty transaction details when the gift code credited loyalty points
+          additionalProperties: true
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT access token obtained from POST /openapi/auth/getAccessToken.
+        Pass as: Authorization: Bearer <token>
+
+        The token is validated against the merchant context derived from the request body's
+        api_key field. A mismatch between the token's merchant scope and the api_key results
+        in a 401 Unauthorized response.
+
+        Note: The api_key field in every request body is the primary authentication credential
+        and is required on all endpoints. It is not a standard OpenAPI security scheme but is
+        documented as a required field within each endpoint's request body schema.
+
+  responses:
+
+    Unauthorized:
+      description: Authentication failed. The api_key is invalid, or the JWT Bearer token is invalid or does not match the merchant context.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            invalidApiKey:
+              summary: Invalid or missing API key
+              value:
+                status: "failure"
+                data: "Invalid Api Key"
+            invalidJwt:
+              summary: JWT token does not match merchant context
+              value:
+                status: "failure"
+                data: "Invalid Jwt Token"
+
+    BadRequest:
+      description: The request contains invalid or missing data required for processing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status: "failure"
+            data: "Order details are required to process redemption"
+
+    UnprocessableEntity:
+      description: The request was well-formed but failed business rule validation (e.g. customer not found, insufficient points balance, duplicate customer).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status: "failure"
+            data: "Customer not found for the provided identifier"
+
+    NotFound:
+      description: The referenced resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status: "failure"
+            data: "Loyalty record not found for customer"
+
+    InternalServerError:
+      description: An unexpected server-side error occurred. Retry after a brief interval. Contact Qubriux support if the problem persists.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            status: "failure"
+            data: "An internal error occurred. Please try again later."
