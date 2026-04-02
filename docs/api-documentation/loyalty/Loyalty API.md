@@ -6,12 +6,12 @@ sidebar_label: Loyalty API
 
 ## Overview
 
-The Qubriux Loyalty Open API enables external POS systems, mobile applications, and third-party integrations to participate in the Qubriux loyalty lifecycle. It covers everything from customer registration and offer retrieval through to reward validation and post-transaction redemption confirmation. All endpoints are under the `/openapi` base path and authenticate via a merchant-level API key combined with an optional JWT Bearer token.
+The Qubriux Loyalty Open API enables external POS systems, mobile applications, and third-party integrations to participate in the Qubriux loyalty lifecycle. It covers everything from customer registration and offer retrieval through to reward validation and post-transaction redemption confirmation. All endpoints are under the `/ezloyal-web` base path and authenticate via a merchant-level API key combined with an optional JWT Bearer token.
 
 ## Base URL
 
 ```
-https://api.qubriux.com/openapi
+https://app.qubriux.com/ezloyal-web/
 ```
 
 ## Authentication
@@ -24,7 +24,7 @@ Most endpoints additionally accept a **JWT Bearer Token** in the `Authorization`
 Authorization: Bearer <jwt_token>
 ```
 
-Obtain a token from [`POST /openapi/auth/getAccessToken`](#post-openapiauthgetaccesstoken). The JWT is validated against the merchant context derived from the `api_key` - if they do not match, the request is rejected with a `401`.
+Obtain a token from [`POST /auth/getAccessToken`](#post-openapiauthgetaccesstoken). The JWT is validated against the merchant context derived from the `api_key` - if they do not match, the request is rejected with a `401`.
 
 :::tip
 The JWT layer is optional for basic integrations but recommended for production. It provides an additional binding between the request and a specific merchant/customer context, preventing API key misuse.
@@ -49,21 +49,21 @@ On error, `status` is `"failure"` and `data` contains a human-readable error mes
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `POST` | `/openapi/auth/getAccessToken` | Issue a JWT access token |
-| `POST` | `/openapi/createCustomer` | Register a new customer |
-| `POST` | `/openapi/updateCustomer` | Update an existing customer's profile |
-| `POST` | `/openapi/reward/getCustomerOffers` | Get available offers and loyalty status |
-| `POST` | `/openapi/reward/validateReward` | Validate reward eligibility before checkout |
-| `POST` | `/openapi/reward/applyCoupon` | Apply a specific coupon code to an order |
-| `POST` | `/openapi/reward/rewardRedeemed` | Confirm redemption after transaction completion |
-| `POST` | `/openapi/reward/getCustomerLoyaltyPointsTx` | Retrieve loyalty points transaction history |
-| `POST` | `/openapi/reward/getLoyaltyTierBenefits` | Retrieve tier benefit definitions |
-| `POST` | `/openapi/reward/getLoyaltyTierDescription` | Retrieve descriptive tier rules |
-| `POST` | `/openapi/getMerchantDetails` | Retrieve merchant admin configuration |
+| `POST` | `/auth/getAccessToken` | Issue a JWT access token |
+| `POST` | `/createCustomer` | Register a new customer |
+| `POST` | `/updateCustomer` | Update an existing customer's profile |
+| `POST` | `/reward/getCustomerOffers` | Get available offers and loyalty status |
+| `POST` | `/reward/validateReward` | Validate reward eligibility before checkout |
+| `POST` | `/reward/applyCoupon` | Apply a specific coupon code to an order |
+| `POST` | `/reward/rewardRedeemed` | Confirm redemption after transaction completion |
+| `POST` | `/reward/getCustomerLoyaltyPointsTx` | Retrieve loyalty points transaction history |
+| `POST` | `/reward/getLoyaltyTierBenefits` | Retrieve tier benefit definitions |
+| `POST` | `/reward/getLoyaltyTierDescription` | Retrieve descriptive tier rules |
+| `POST` | `/getMerchantDetails` | Retrieve merchant admin configuration |
 
 ---
 
-## POST /openapi/auth/getAccessToken
+## POST /auth/getAccessToken
 
 Exchanges merchant credentials for a short-lived JWT access token. The token is scoped to the merchant derived from the API key and, optionally, to a specific customer when `customerId` is supplied. Use this token as the Bearer token on all subsequent calls requiring customer-level JWT validation. A token issued for one merchant cannot be used with a different merchant's API key.
 
@@ -125,7 +125,7 @@ Store the issued token securely. Do not expose it client-side in environments wh
 
 ---
 
-## POST /openapi/createCustomer
+## POST /createCustomer
 
 Registers a new customer in the Qubriux loyalty platform. On success, Qubriux creates a customer record, optionally provisions a digital wallet, and returns the internal customer ID along with a customer-scoped JWT. Call this endpoint the first time you encounter a customer - typically at sign-up or first purchase. Supply your system's customer ID in `customer_info.id` to link the Qubriux record back to your own database for all future lookups.
 
@@ -243,7 +243,7 @@ Persist `customerId` from the response in your database. Supplying it on future 
 
 ---
 
-## POST /openapi/updateCustomer
+## POST /updateCustomer
 
 Updates profile data for an existing Qubriux customer. Use this to sync changes from your system - name corrections, consent withdrawals, or new contact details - into Qubriux. The customer must already exist. Supply at least one identifier (`id`, `mobile`, or `email`) alongside the fields to update. The endpoint returns the same shape as `createCustomer` with the customer's current balance and a refreshed JWT.
 
@@ -304,7 +304,7 @@ Qubriux enforces uniqueness on mobile and email. If the updated value already be
 
 ---
 
-## POST /openapi/reward/getCustomerOffers
+## POST /reward/getCustomerOffers
 
 Returns the complete set of active offers available to a customer alongside their current loyalty balance, tier status, tier progression data, and redemption limits - all in a single call. Call this at the start of a transaction or when rendering a customer's wallet screen. Optionally include the live basket in the `order` field to enable dynamic offer eligibility evaluation against the current items. Use `beansExpiryAfterDays` to surface expiring points and motivate redemption.
 
@@ -428,7 +428,7 @@ Returns the complete set of active offers available to a customer alongside thei
 
 ---
 
-## POST /openapi/reward/validateReward
+## POST /reward/validateReward
 
 Evaluates reward eligibility for a customer's current order and returns the exact discount breakdown - both at order level and per item. This is a **read-only** call: it calculates what discount will apply but does not commit any redemption. Always call this before finalising payment to show the customer their pre-discount total. Follow up with [`rewardRedeemed`](#post-openapirewardrewardredeemed) after the transaction completes to commit the deduction.
 
@@ -529,7 +529,7 @@ This endpoint does not record a redemption. If you display the discounted total 
 
 ---
 
-## POST /openapi/reward/applyCoupon
+## POST /reward/applyCoupon
 
 Validates and applies a single coupon code explicitly entered by a customer, returning the discount breakdown. Unlike `validateReward` which evaluates all eligible rewards automatically, this endpoint targets only the coupon code in `couponCode`. Use this for coupon entry flows where the customer types or scans a code. Like `validateReward`, this call is non-committing - call `rewardRedeemed` after payment to finalise.
 
@@ -611,7 +611,7 @@ Same response shape as `validateReward`.
 
 ---
 
-## POST /openapi/reward/rewardRedeemed
+## POST /reward/rewardRedeemed
 
 Commits a reward redemption after a transaction has been completed and payment accepted. This is the **mandatory confirmation step** that deducts loyalty points and records offer redemptions on the customer's record. Pass the same `order` object used in the preceding `validateReward` or `applyCoupon` call for consistency. Do not call this endpoint if the transaction was cancelled or payment failed.
 
@@ -691,7 +691,7 @@ This is the only endpoint that returns `404` - it indicates the customer does no
 
 ---
 
-## POST /openapi/reward/getCustomerLoyaltyPointsTx
+## POST /reward/getCustomerLoyaltyPointsTx
 
 Returns a paginated list of loyalty point transactions for a customer, covering both earn and burn events. Use this to build a points history view in your app or customer portal. The response schema for the `data` object varies by merchant configuration - inspect the actual response during your integration.
 
@@ -774,7 +774,7 @@ Returns a paginated list of loyalty point transactions for a customer, covering 
 
 ---
 
-## POST /openapi/reward/getLoyaltyTierBenefits
+## POST /reward/getLoyaltyTierBenefits
 
 Returns the configured benefits for each loyalty tier in the merchant's programme as a list of tier objects. Use this to display what perks a customer currently enjoys and what awaits them upon upgrading - an effective driver of tier aspiration. The schema of each tier object varies by merchant programme configuration; inspect the actual response during integration.
 
@@ -846,7 +846,7 @@ Returns the configured benefits for each loyalty tier in the merchant's programm
 
 ---
 
-## POST /openapi/reward/getLoyaltyTierDescription
+## POST /reward/getLoyaltyTierDescription
 
 Returns a human-readable description of the loyalty programme's earn structure and tier rules. Use this to power an "About the Programme" or "How It Works" screen in your app. This endpoint returns its response **directly** - it does not wrap the body in the standard `{ status, data }` envelope. The schema varies by merchant configuration.
 
@@ -882,7 +882,7 @@ This is the only endpoint in this API that does not use the standard `{ "status"
 
 ---
 
-## POST /openapi/getMerchantDetails
+## POST /getMerchantDetails
 
 Returns the full admin configuration object for a given merchant. Typically used during integration setup to verify programme settings or retrieve flags that drive client-side behaviour - for example, determining which loyalty features are active for a merchant. Requires the merchant ID as a query parameter in addition to the API key in the request body.
 
@@ -908,7 +908,7 @@ Returns the full admin configuration object for a given merchant. Typically used
 ### Request Example
 
 ```
-POST /openapi/getMerchantDetails?merchantId=12345
+POST /getMerchantDetails?merchantId=12345
 ```
 
 ```json
