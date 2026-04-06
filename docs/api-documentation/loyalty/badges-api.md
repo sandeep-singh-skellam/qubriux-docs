@@ -7,7 +7,7 @@ sidebar_position: 3
 
 ## Overview
 
-The Qubriux Badges API allows external apps and POS systems to retrieve badge catalogues, inspect a customer's earned and in-progress badges, and fetch detailed badge configurations. Badges are achievement-style rewards that customers unlock by meeting specific behavioural criteria — visit frequency, spend thresholds, challenge completions, and more. All endpoints sit under the `/shawarmer` path.
+The Qubriux Badges API allows external apps and POS systems to retrieve badge catalogues, inspect a customer's earned and in-progress badges, and fetch detailed badge configurations. Badges are achievement-style rewards that customers unlock by meeting specific behavioural criteria — visit frequency, spend thresholds, challenge completions, and more. All endpoints sit under the `/ezloyal-web` path.
 
 ## Base URL
 

@@ -7,7 +7,7 @@ sidebar_position: 1
 
 ## Overview
 
-The Qubriux Loyalty & Rewards API is the primary integration surface for POS systems, mobile apps, and third-party ordering platforms. It covers the core customer loyalty lifecycle: registration, offer retrieval, cart validation, reward redemption, order closure, and coupon management. All endpoints share a single base path under `/shawarmer` and authenticate via a merchant-level API key combined with an optional JWT Bearer token.
+The Qubriux Loyalty & Rewards API is the primary integration surface for POS systems, mobile apps, and third-party ordering platforms. It covers the core customer loyalty lifecycle: registration, offer retrieval, cart validation, reward redemption, order closure, and coupon management. All endpoints share a single base path under `/ezloyal-web` and authenticate via a merchant-level API key combined with an optional JWT Bearer token.
 
 :::note
 Badges, gamification challenges, and wallet operations are documented in their own dedicated references:

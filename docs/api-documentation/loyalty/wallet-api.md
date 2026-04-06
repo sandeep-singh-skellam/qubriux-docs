@@ -7,7 +7,7 @@ sidebar_position: 4
 
 ## Overview
 
-The Qubriux Wallet API enables external systems to manage customers' digital wallet balances — crediting funds, debiting purchases, retrieving current balances, and browsing transaction history. All endpoints sit under the `/mobile-wallet/v2` path and follow the same authentication model as the rest of the Loyalty & Rewards API.
+The Qubriux Wallet API enables external systems to manage customers' digital wallet balances — crediting funds, debiting purchases, retrieving current balances, and browsing transaction history. All endpoints sit under the `ezloyal-web/mobile-wallet/v2` path and follow the same authentication model as the rest of the Loyalty & Rewards API.
 
 ## Base URL
 

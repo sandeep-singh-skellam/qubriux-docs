@@ -7,7 +7,7 @@ sidebar_position: 2
 
 ## Overview
 
-The Qubriux Gamification API exposes challenge-based engagement features to external apps and POS systems. Challenges are time-bound goals — visit streaks, spend milestones, category-specific purchases — that customers opt into and track progress against. Completing a challenge rewards the customer with points, offers, or badges. All endpoints sit under the `/games/app` path.
+The Qubriux Gamification API exposes challenge-based engagement features to external apps and POS systems. Challenges are time-bound goals — visit streaks, spend milestones, category-specific purchases — that customers opt into and track progress against. Completing a challenge rewards the customer with points, offers, or badges. All endpoints sit under the `/ezloyal-web` path.
 
 ## Base URL
 
