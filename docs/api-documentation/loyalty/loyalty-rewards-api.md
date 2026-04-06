@@ -977,9 +977,9 @@ Returns a `ShawarmerGetCustomerOfferResponse` with the offer's metadata, includi
 
 ## Related APIs
 
-- [Badges API](./Badges%20API.md) — badge catalogues, customer badge status, and badge details
-- [Gamification API](./Gamification%20API.md) — challenges, activation, and per-step progress tracking
-- [Wallet API](./Wallet%20API.md) — digital wallet balance, credits, debits, and transaction history
+- [Badges API](./badges-api.md) — badge catalogues, customer badge status, and badge details
+- [Gamification API](./gamification-api.md) — challenges, activation, and per-step progress tracking
+- [Wallet API](./wallet-api.md) — digital wallet balance, credits, debits, and transaction history
 
 ---
 
