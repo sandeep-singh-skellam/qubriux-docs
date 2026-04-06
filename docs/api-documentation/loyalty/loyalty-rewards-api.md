@@ -11,9 +11,9 @@ The Qubriux Loyalty & Rewards API is the primary integration surface for POS sys
 
 :::note
 Badges, gamification challenges, and wallet operations are documented in their own dedicated references:
-- [Badges API](./Badges%20API) — badge catalogues and customer badge progress
-- [Gamification API](./Gamification%20API) — challenges, activation, and progress tracking
-- [Wallet API](./Wallet%20API) — digital wallet balance, credits, debits, and history
+- [Badges API](./badges-api.md) — badge catalogues and customer badge progress
+- [Gamification API](./gamification-api.md) — challenges, activation, and progress tracking
+- [Wallet API](./wallet-api.md) — digital wallet balance, credits, debits, and history
 :::
 
 ## Base URL
