@@ -5,7 +5,8 @@
       "Bash(git commit:*)",
       "Bash(npm install:*)",
       "Bash(npm list:*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(cp /tmp/loyalty_new.md \"/Users/sandeepsingh/Documents/qubriux-docs/docs/api-documentation/loyalty/Loyalty & Rewards API.md\")"
     ]
   }
 }
