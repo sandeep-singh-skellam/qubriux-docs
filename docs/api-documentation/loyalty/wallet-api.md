@@ -11,9 +11,16 @@ The Qubriux Wallet API enables external systems to manage customers' digital wal
 
 ## Base URL
 
-```
-https://app.qubriux.com/ezloyal-web
-```
+Start your integration against the **staging** environment and switch to **production** once tested.
+
+| Environment | Base URL |
+|-------------|----------|
+| **Staging** | `https://qa.qubriux.com/ezloyal-web` |
+| **Production** | `https://app.qubriux.com/ezloyal-web` |
+
+:::tip
+Use the staging environment during development — it is isolated from live merchant data and safe for test transactions.
+:::
 
 ## Authentication
 

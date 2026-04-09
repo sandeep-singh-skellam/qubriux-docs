@@ -17,7 +17,7 @@ The lifecycle of a gift code is straightforward:
 
 1. **A gift code is issued** - a sender's details, receiver's mobile number, amount, and optional personal message are recorded. The system generates a unique code and sets an expiry date.
 2. **The receiver receives the code** - typically via the customer-facing app or a notification.
-3. **The receiver redeems the code** - the monetary value is instantly credited to their wallet balance.
+3. **The receiver redeems the code** - the monetary value is instantly credited to their [wallet](../Wallets/1-overview.md) balance.
 4. **The code is marked as redeemed** - it can never be used again.
 
 If the receiver never redeems it, the code eventually expires. A merchant can also cancel a code manually before redemption.

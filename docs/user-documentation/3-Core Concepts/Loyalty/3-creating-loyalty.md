@@ -114,7 +114,7 @@ A conditional rule that only fires when the customer meets specific criteria. La
 
 **Configure:**
 - **Points awarded** - the points or multiplier applied when the rule fires
-- **Targeting** - who the rule applies to (segments, tiers, customer lists, countries, specific products or categories)
+- **Targeting** - who the rule applies to ([segments](../Segments/Segments.md), tiers, customer lists, countries, specific products or categories)
 - **Exclusions** - any targeting criteria that should be excluded from the rule
 - **Rule validity and frequency** - same as basic rules
 

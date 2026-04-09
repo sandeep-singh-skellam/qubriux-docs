@@ -158,7 +158,7 @@ When turned on, each customer can only use this reward once, even if they receiv
 Any products or categories that the reward does not apply to. This is useful when you want to run a sitewide offer but protect your already-discounted items or high-margin products from being discounted further.
 
 **Communication channel**
-How the offer reaches your customers - Email, SMS, WhatsApp, or push notification. You can select multiple channels so customers receive it through more than one.
+How the offer reaches your customers - [Email](../Channels/Email.md), [SMS](../Channels/SMS.md), [WhatsApp](../Channels/Whatsapp.md), or [push notification](../Channels/PushNotification.md). You can select multiple channels so customers receive it through more than one.
 
 ---
 
@@ -169,8 +169,8 @@ You decide exactly who receives each offer. You can be broad or very precise.
 **Include customers by:**
 - **All customers** - your full registered customer base
 - **All leads** - contacts who haven't made a purchase yet
-- **Segments** - groups of customers who share a behaviour or attribute
-- **Tiers** - customers in a specific loyalty tier, such as Gold, Silver, or Bronze
+- **[Segments](../Segments/Segments.md)** - groups of customers who share a behaviour or attribute
+- **Tiers** - customers in a specific [loyalty](../Loyalty/2-loyalty.md) tier, such as Gold, Silver, or Bronze
 - **Customer lists** - a manually selected group of specific customers
 - **Employee lists** - internal staff groups
 

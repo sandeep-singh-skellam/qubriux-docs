@@ -86,7 +86,7 @@ Define who receives this offer. You can include and exclude customers at the sam
 **Include by:**
 - All customers
 - All leads (contacts who have not yet made a purchase)
-- Segments (groups based on behaviour or attributes)
+- [Segments](../Segments/Segments.md) (groups based on behaviour or attributes)
 - Tiers (customers in a specific loyalty tier)
 - Customer lists (a manually selected group)
 - Employee lists
@@ -100,10 +100,10 @@ Any of the above can also be used as exclusions. For example, include all custom
 
 Choose how the offer reaches your customers. You can select multiple channels so customers receive it across more than one touchpoint:
 
-- **Email** - best for rich content and offers that require more context
-- **SMS** - best for short, urgent promotions with high open rates
-- **WhatsApp** - best for markets where WhatsApp is the primary messaging channel
-- **Push notification** - best for app users and time-sensitive alerts
+- **[Email](../Channels/Email.md)** - best for rich content and offers that require more context
+- **[SMS](../Channels/SMS.md)** - best for short, urgent promotions with high open rates
+- **[WhatsApp](../Channels/Whatsapp.md)** - best for markets where WhatsApp is the primary messaging channel
+- **[Push notification](../Channels/PushNotification.md)** - best for app users and time-sensitive alerts
 
 ---
 

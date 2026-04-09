@@ -5,7 +5,7 @@ title: Challenge Analytics
 
 # Challenge Analytics
 
-Challenge Analytics gives you visibility into how your gamification challenges are performing - how many customers are participating, how they are progressing through challenge milestones, and which KPIs are being met.
+Challenge Analytics gives you visibility into how your gamification [challenges](../3-Core%20Concepts/Challenges/1-challenges.md) are performing - how many customers are participating, how they are progressing through challenge milestones, and which KPIs are being met.
 
 ## Overall Challenge Performance
 

@@ -17,7 +17,7 @@ The Sales Overview shows revenue and transaction trends across your customer bas
 
 ## Loyalty Analytics
 
-Loyalty analytics help you understand how your programme is performing and whether it is driving incremental revenue.
+Loyalty analytics help you understand how your [loyalty](../3-Core%20Concepts/Loyalty/2-loyalty.md) programme is performing and whether it is driving incremental revenue.
 
 - **Loyalty vs. Non-Loyalty Revenue** - compare the revenue contribution of loyalty customers against non-loyalty customers.
 - **Loyalty Customer List** - browse the customers enrolled in your loyalty programme with their tier and activity details.
@@ -82,7 +82,7 @@ Qubriux maintains a set of system-defined RFM segments - such as Champions, Loya
 
 ### Custom Segment Analytics
 
-For any saved segment, you can view a dedicated analytics breakdown including customer count, and trend data over a selected period.
+For any saved [segment](../3-Core%20Concepts/Segments/Segments.md), you can view a dedicated analytics breakdown including customer count, and trend data over a selected period.
 
 ### Segment Time Series
 
@@ -100,7 +100,7 @@ View the number of rewards redeemed by customers over time. This helps you measu
 
 ### Top Strategies
 
-See which Journey strategies are generating the most engagement and revenue, helping you identify what to replicate and scale.
+See which [Journey](../3-Core%20Concepts/Journeys/1-Journeys.md) strategies are generating the most engagement and revenue, helping you identify what to replicate and scale.
 
 ### Win-Back Rate
 

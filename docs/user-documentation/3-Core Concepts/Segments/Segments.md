@@ -93,9 +93,9 @@ When building campaigns that target both segments and loyalty tiers, Qubriux let
 
 Once a segment is created, it can be used in:
 
-- **Journeys** - as the target audience for a journey strategy
-- **Offers** - to restrict offer eligibility to specific customer groups
-- **Challenges** - to target challenge participation
+- **[Journeys](../Journeys/1-Journeys.md)** - as the target audience for a journey strategy
+- **[Offers](../Offers/1-offers.md)** - to restrict offer eligibility to specific customer groups
+- **[Challenges](../Challenges/1-challenges.md)** - to target challenge participation
 - **Social Media Exports** - to create Custom Audiences on Meta, Snapchat, or TikTok (see [Meta](../Social%20Media/Meta.md), [Snapchat](../Social%20Media/Snapchat.md), [TikTok](../Social%20Media/tiktok.md))
 - **Campaign Audience Split** - to route different customer groups down separate journey paths
 

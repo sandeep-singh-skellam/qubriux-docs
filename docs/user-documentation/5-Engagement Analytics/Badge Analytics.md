@@ -5,7 +5,7 @@ title: Badge Analytics
 
 # Badge Analytics
 
-Badge Analytics shows you how customers are earning and accumulating badges across your gamification programme - both at the overall portfolio level and for each individual badge.
+Badge Analytics shows you how customers are earning and accumulating [badges](../3-Core%20Concepts/Badges/1-badges.md) across your gamification programme - both at the overall portfolio level and for each individual badge.
 
 ## Overall Badge Performance
 

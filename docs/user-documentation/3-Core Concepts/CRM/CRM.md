@@ -25,7 +25,7 @@ The customer list is your starting point for browsing and managing all customers
 
 You can narrow the customer list to a specific audience:
 
-- **Filter by Segment** - select one or more segments to display only customers who belong to those groups.
+- **Filter by Segment** - select one or more [segments](../Segments/Segments.md) to display only customers who belong to those groups.
 - **Filter by Store** - for multi-location brands, filter the list to customers associated with a specific store.
 
 Both filters can be combined with the time window controls for precise targeting.
@@ -49,7 +49,7 @@ Clicking on any customer in the list opens their full profile. The profile shows
 | Section | What It Shows |
 |---------|--------------|
 | **Profile Details** | Name, email, phone, registration date, store association, customer tags |
-| **Loyalty Summary** | Current tier, points balance, points earned and redeemed lifetime |
+| **[Loyalty](../Loyalty/2-loyalty.md) Summary** | Current tier, points balance, points earned and redeemed lifetime |
 | **Recent Orders** | Last purchases - items, value, date, store |
 | **Recent Activity** | Timeline of loyalty events, offer redemptions, campaign interactions |
 | **Survey Responses** | Feedback submitted by the customer, NPS scores, review content |

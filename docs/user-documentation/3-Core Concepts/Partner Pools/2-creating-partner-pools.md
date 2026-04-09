@@ -64,12 +64,12 @@ How many unique codes to generate for this pool. The system validates that your 
 Choose what customers receive when they redeem a code from this pool. This is the pool-level default - every code delivers this reward unless you override it later for individual codes.
 
 **Option A: Offer**
-Select or configure an offer from your Offers library. When a customer redeems a code, the offer is applied to their purchase - a discount, points, cashback, or any other offer type.
+Select or configure an [offer](../Offers/1-offers.md) from your Offers library. When a customer redeems a code, the offer is applied to their purchase - a discount, points, cashback, or any other offer type.
 
 Configure the offer reward exactly as you would when creating a standard offer: reward type, value, validity, usage limits, and excluded products.
 
 **Option B: Gift Code**
-Configure a monetary gift code. When a customer redeems a pool code, a gift code of the configured amount is issued to them and credited to their wallet.
+Configure a monetary [gift code](../Gift%20Codes/1-gift-codes.md). When a customer redeems a pool code, a gift code of the configured amount is issued to them and credited to their wallet.
 
 Set the gift code amount and any relevant settings.
 

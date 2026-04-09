@@ -9,7 +9,7 @@ Badges are digital awards you give to customers for doing something meaningful w
 
 Beyond recognition, badges can carry real value. When a badge is awarded, it can automatically deliver loyalty points, an offer, or cashback directly to the customer - making the moment of earning a badge feel both meaningful and rewarding.
 
-Badges also work as building blocks. You can use badge-earning as a trigger inside challenges, so earning one badge unlocks the next step in a progression. This lets you build sophisticated engagement programmes where customers move through a journey, earning recognition and rewards at each stage.
+Badges also work as building blocks. You can use badge-earning as a trigger inside [challenges](../Challenges/1-challenges.md), so earning one badge unlocks the next step in a progression. This lets you build sophisticated engagement programmes where customers move through a journey, earning recognition and rewards at each stage.
 
 ---
 
@@ -137,7 +137,7 @@ Global limits work well for exclusive or rare badges where scarcity is part of t
 
 ### Segment Targeting
 
-You can restrict which customers are eligible to receive a badge by attaching a segment to it. Only customers who fall within that segment can be awarded the badge - even if the badge is referenced in a journey or challenge that reaches a broader audience.
+You can restrict which customers are eligible to receive a badge by attaching a [segment](../Segments/Segments.md) to it. Only customers who fall within that segment can be awarded the badge - even if the badge is referenced in a journey or challenge that reaches a broader audience.
 
 **Example:**
 
@@ -153,13 +153,13 @@ Badges are awarded through the other modules in Qubriux. You create a badge once
 A badge can be a reward at any milestone in a challenge, or when a customer completes a streak. Customers see the badge as an incentive before they start, and receive it the moment they pass the milestone.
 
 **Through Journeys**
-A badge can be delivered as an action in any journey. When a customer reaches the step that awards the badge, it is added to their profile automatically.
+A badge can be delivered as an action in any [journey](../Journeys/1-Journeys.md). When a customer reaches the step that awards the badge, it is added to their profile automatically.
 
 **Through Loyalty Rules**
-A badge can be part of a loyalty earn rule - awarded when a customer reaches a milestone spend, a points threshold, or as a tier benefit.
+A badge can be part of a [loyalty](../Loyalty/2-loyalty.md) earn rule - awarded when a customer reaches a milestone spend, a points threshold, or as a tier benefit.
 
 **Through Offers**
-A badge can be delivered as part of an offer, allowing you to award recognition alongside a promotional reward.
+A badge can be delivered as part of an [offer](../Offers/1-offers.md), allowing you to award recognition alongside a promotional reward.
 
 **Earning a badge as a milestone condition**
 A badge earned in one challenge can trigger a milestone in another. This lets you build badge chains - where completing a beginner challenge awards a badge that then unlocks the next challenge, creating a natural progression through your programme.

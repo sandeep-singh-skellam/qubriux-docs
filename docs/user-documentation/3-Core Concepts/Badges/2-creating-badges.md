@@ -7,7 +7,7 @@ title: Creating a Badge
 
 This guide walks you through setting up a badge in Qubriux - from uploading visuals to configuring rewards and assignment limits.
 
-Badges are created once and then used across your challenges, journeys, and loyalty rules. A well-configured badge in your library can be added to as many programmes as you like without needing to be recreated.
+Badges are created once and then used across your [challenges](../Challenges/1-challenges.md), [journeys](../Journeys/1-Journeys.md), and loyalty rules. A well-configured badge in your library can be added to as many programmes as you like without needing to be recreated.
 
 ---
 
@@ -61,7 +61,7 @@ Configure what the customer automatically receives the moment this badge is awar
 Enter the number of points to credit to the customer's wallet when the badge is awarded. Points are delivered instantly.
 
 **Offer**
-Select an offer from your Offers library. The offer is sent to the customer automatically at the moment the badge is awarded.
+Select an [offer](../Offers/1-offers.md) from your Offers library. The offer is sent to the customer automatically at the moment the badge is awarded.
 
 **Cashback**
 Enter the cashback amount to credit to the customer's wallet when the badge is awarded.
@@ -96,7 +96,7 @@ Enter the total number of badges that can be issued in the **Budget** section.
 
 ## Step 8 - Set a Segment (Optional)
 
-Restrict which customers are eligible to receive this badge by selecting a segment. Even if the badge is referenced inside a challenge or journey that reaches a broader audience, only customers who fall within the segment can be awarded it.
+Restrict which customers are eligible to receive this badge by selecting a [segment](../Segments/Segments.md). Even if the badge is referenced inside a challenge or journey that reaches a broader audience, only customers who fall within the segment can be awarded it.
 
 Leave this blank to make the badge available to all customers.
 

@@ -28,7 +28,7 @@ Every code in a pool carries a reward. You choose one of two types when you set 
 
 ### Offer
 
-The code delivers an offer from your Offers library - a discount, free product, points, cashback, or any other offer type. When a customer presents the code at checkout, the offer is applied automatically.
+The code delivers an [offer](../Offers/1-offers.md) from your Offers library - a discount, free product, points, cashback, or any other offer type. When a customer presents the code at checkout, the offer is applied automatically.
 
 **When to use it:**
 Use an offer reward when you want to give partners a discount or promotional incentive to distribute to their audience. The code acts as the delivery mechanism for the offer.
@@ -41,7 +41,7 @@ Use an offer reward when you want to give partners a discount or promotional inc
 
 ### Gift Code
 
-The code delivers a monetary gift code - a specific cash value credited directly to the customer's wallet when the code is redeemed.
+The code delivers a monetary [gift code](../Gift%20Codes/1-gift-codes.md) - a specific cash value credited directly to the customer's wallet when the code is redeemed.
 
 **When to use it:**
 Use a gift code reward when you want to give partners a monetary incentive to distribute. Each code is worth a fixed amount, making it feel like a voucher or prepaid gift.

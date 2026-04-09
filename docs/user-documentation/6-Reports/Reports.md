@@ -13,9 +13,9 @@ Reports are organised by module. Navigate to **Reports** and select the module y
 
 | Module | What It Covers |
 |--------|---------------|
-| **Offer** | Offer issuance, redemption, and performance data |
-| **Loyalty** | Points earned, redeemed, tier movements, and loyalty activity |
-| **Segmentation** | Customer counts and composition per segment |
+| **[Offer](../3-Core%20Concepts/Offers/1-offers.md)** | Offer issuance, redemption, and performance data |
+| **[Loyalty](../3-Core%20Concepts/Loyalty/2-loyalty.md)** | Points earned, redeemed, tier movements, and loyalty activity |
+| **[Segmentation](../3-Core%20Concepts/Segments/Segments.md)** | Customer counts and composition per segment |
 | **A/B Testing** | Results and performance comparison across A/B test variants |
 | **Membership** | Membership enrolments, status, and activity |
 | **Membership Check-In** | Customer check-in history against membership records |

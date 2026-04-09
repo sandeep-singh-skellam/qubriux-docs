@@ -5,7 +5,7 @@ title: Partner Pool Analytics
 
 # Partner Pool Analytics
 
-Partner Pool Analytics tracks the performance of your coupon pools - showing how many coupons have been issued, redeemed, and how quickly customers are redeeming them after receipt.
+Partner Pool Analytics tracks the performance of your [coupon pools](../3-Core%20Concepts/Partner%20Pools/1-partner-pools.md) - showing how many coupons have been issued, redeemed, and how quickly customers are redeeming them after receipt.
 
 ## Overall Pool Performance
 

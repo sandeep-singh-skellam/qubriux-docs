@@ -70,7 +70,7 @@ The customer receives a fixed number of loyalty points, credited directly to the
 
 ### Badge
 
-The customer receives a digital badge that is displayed on their profile or in your app. Badges are recognition rewards - they signal status and achievement, which is particularly powerful for customers who are competitive or community-driven. Badges also serve as a visible reminder of what a customer has accomplished.
+The customer receives a digital [badge](../Badges/1-badges.md) that is displayed on their profile or in your app. Badges are recognition rewards - they signal status and achievement, which is particularly powerful for customers who are competitive or community-driven. Badges also serve as a visible reminder of what a customer has accomplished.
 
 **Example:**
 > *A brand creates a "Summer Sprint" challenge. Every customer who completes it earns an exclusive "Summer Champion" badge on their profile. The badge is only available for the duration of the summer campaign, making it feel rare and worth pursuing. Customers who earn it are proud to show it off, and those who haven't feel motivated to earn theirs before the challenge ends.*
@@ -79,7 +79,7 @@ The customer receives a digital badge that is displayed on their profile or in y
 
 ### Offer
 
-The customer receives an offer from your Offers library - a discount, free product, or any other reward you have created. Using an offer as a challenge reward gives you full flexibility: you can reward customers with a personalised discount code, free shipping, or even a Buy X Get Y deal the moment they complete the challenge.
+The customer receives an [offer](../Offers/1-offers.md) from your Offers library - a discount, free product, or any other reward you have created. Using an offer as a challenge reward gives you full flexibility: you can reward customers with a personalised discount code, free shipping, or even a Buy X Get Y deal the moment they complete the challenge.
 
 **Example:**
 > *A skincare brand runs a "Skin Routine Builder" milestone challenge. Customers who complete all three milestones unlock a **30% off their next purchase** offer, delivered automatically to their email the moment the final milestone is passed. The discount is the exclusive prize for finishing, giving customers a strong financial reason to see the challenge through.*
@@ -138,8 +138,8 @@ Just like offers, challenges can be targeted to a specific group of customers or
 **Include customers by:**
 - **All customers** - your entire registered customer base
 - **All leads** - contacts who haven't made a purchase yet
-- **Segments** - groups of customers who share a behaviour or attribute
-- **Tiers** - customers in a specific loyalty tier, such as Gold, Silver, or Bronze
+- **[Segments](../Segments/Segments.md)** - groups of customers who share a behaviour or attribute
+- **Tiers** - customers in a specific [loyalty](../Loyalty/2-loyalty.md) tier, such as Gold, Silver, or Bronze
 - **Customer lists** - a manually selected group of specific customers
 
 **Example:**

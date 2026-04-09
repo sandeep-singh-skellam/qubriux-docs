@@ -39,7 +39,7 @@ Basic rules are the foundation of your points programme. They define a straightf
 Advanced rules let you layer conditions on top of a basic earn rate. Instead of awarding points on every qualifying event, an advanced rule only fires when the customer meets a specific set of criteria - such as being in a particular segment, reaching a certain spend threshold, or purchasing a specific product.
 
 **What you can target:**
-- Specific customer segments
+- Specific customer [segments](../Segments/Segments.md)
 - Specific loyalty tiers
 - A curated customer list
 - Specific products or product categories

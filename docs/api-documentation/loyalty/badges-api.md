@@ -7,13 +7,20 @@ sidebar_position: 3
 
 ## Overview
 
-The Qubriux Badges API allows external apps and POS systems to retrieve badge catalogues, inspect a customer's earned and in-progress badges, and fetch detailed badge configurations. Badges are achievement-style rewards that customers unlock by meeting specific behavioural criteria — visit frequency, spend thresholds, challenge completions, and more. All endpoints sit under the `/ezloyal-web` path.
+The Qubriux Badges API allows external apps and POS systems to retrieve badge catalogues, inspect a customer's earned and in-progress badges, and fetch detailed badge configurations. Badges are achievement-style rewards that customers unlock by meeting specific behavioural criteria — visit frequency, spend thresholds, [challenge](./gamification-api.md) completions, and more. All endpoints sit under the `/ezloyal-web` path.
 
 ## Base URL
 
-```
-https://app.qubriux.com/ezloyal-web
-```
+Start your integration against the **staging** environment and switch to **production** once tested.
+
+| Environment | Base URL |
+|-------------|----------|
+| **Staging** | `https://qa.qubriux.com/ezloyal-web` |
+| **Production** | `https://app.qubriux.com/ezloyal-web` |
+
+:::tip
+Use the staging environment during development — it is isolated from live merchant data and safe for test transactions.
+:::
 
 ## Authentication
 

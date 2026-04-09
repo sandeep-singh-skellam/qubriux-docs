@@ -5,7 +5,7 @@ title: Offer Analytics
 
 # Offer Analytics
 
-Offer Analytics lets you measure the performance of your offers - both at the portfolio level across all your active offers and at the individual offer level for a granular breakdown.
+Offer Analytics lets you measure the performance of your [offers](../3-Core%20Concepts/Offers/1-offers.md) - both at the portfolio level across all your active offers and at the individual offer level for a granular breakdown.
 
 ## Overall Offer Performance
 

@@ -58,8 +58,8 @@ You can add as many milestones as you need, in sequence. Customers cannot skip m
 **Milestone rewards**
 Each milestone can carry one or more rewards:
 - **Loyalty points** - a fixed number of points credited immediately
-- **Badge** - a badge from your badge library awarded at this milestone
-- **Offer** - an offer from your offers library delivered at this milestone
+- **Badge** - a [badge](../Badges/1-badges.md) from your badge library awarded at this milestone
+- **Offer** - an [offer](../Offers/1-offers.md) from your offers library delivered at this milestone
 
 ---
 
@@ -113,7 +113,7 @@ Target the challenge to the right group of customers:
 **Include by:**
 - All customers
 - All leads
-- Segments (groups based on behaviour or attributes)
+- [Segments](../Segments/Segments.md) (groups based on behaviour or attributes)
 - Tiers (customers in a specific loyalty tier)
 - Customer lists (a manually selected group)
 - Employee lists
