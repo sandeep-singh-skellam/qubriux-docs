@@ -79,20 +79,28 @@ h3 { font-size: 1.4rem; }
 
 /* --- Sidebar Caret (Arrow) Fix --- */
 
-/* 1. Shrink the arrow size */
-.menu__caret:before {
-  background-size: 0.8rem !important; /* Makes the actual arrow smaller */
-  height: 0.8rem !important;
-  width: 0.8rem !important;
+/* Target both arrow types: standalone caret button and inline sublist caret */
+.menu__caret::before,
+.menu__link--sublist-caret::after {
+  background: var(--ifm-menu-link-sublist-icon) 50% / 1.0rem 1.0rem no-repeat !important;
+  filter: var(--ifm-menu-link-sublist-icon-filter);
+  height: 1.0rem !important;
+  width: 1.0rem !important;
+  min-width: 1.0rem !important;
 }
 
-/* 2. Add space between arrow and the border */
-.menu__list-item--collapsed .menu__link--sublist:after,
+/* Preserve collapsed rotation */
+.menu__list-item--collapsed .menu__caret::before,
+.menu__list-item--collapsed .menu__link--sublist-caret::after {
+  transform: rotateZ(90deg);
+}
+
+/* Add space between arrow and the border */
 .menu__caret {
-  margin-right: 8px !important; /* Pushes the arrow away from the edge */
+  margin-right: 8px !important;
 }
 
-/* 3. Ensure the text doesn't hit the arrow */
+/* Ensure the text doesn't hit the arrow */
 .menu__link--sublist {
-  padding-right: 2.5rem !important; 
+  padding-right: 2.5rem !important;
 }
