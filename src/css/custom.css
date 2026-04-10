@@ -33,6 +33,12 @@
   --ifm-navbar-background-color: #0b0f1a;
 }
 
+/* --- Navbar Logo --- */
+
+.navbar__logo img {
+  height: 22px;
+}
+
 /* --- Balanced Sidebar Adjustments --- */
 
 .theme-doc-sidebar-container {
