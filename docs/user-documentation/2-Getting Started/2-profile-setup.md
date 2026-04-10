@@ -85,10 +85,3 @@ Add your channel how you want to communicate with your customer and turn on the 
 ![image info](/img/profile/profile-image-12.png)
 
 
----
-
-### What's Next?
-
-Profile is setup, let's setup loyalty program.
-
-- **Next Article:** [Journeys](../3-Core Concepts/Journeys/1-Journeys.md)
