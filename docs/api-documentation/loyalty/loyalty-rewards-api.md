@@ -7,7 +7,7 @@ sidebar_position: 1
 
 ## Overview
 
-The Qubriux Loyalty & Rewards API is the primary integration surface for POS systems, mobile apps, and third-party ordering platforms. It covers the core customer loyalty lifecycle: registration, offer retrieval, cart validation, reward redemption, order closure, and coupon management. All endpoints share a single base path under `/ezloyal-web` and authenticate via a merchant-level API key combined with an optional JWT Bearer token.
+The Qubriux Loyalty & Rewards API is the primary integration surface for POS systems, mobile apps, and third-party ordering platforms. It covers the core customer loyalty lifecycle: registration, offer retrieval, cart validation, reward redemption, order closure, and coupon management. All endpoints share a single base path under `/ezloy` and authenticate via a merchant-level API key combined with an optional JWT Bearer token.
 
 :::note
 Badges, gamification challenges, and wallet operations are documented in their own dedicated references:
@@ -68,7 +68,6 @@ On error, `status` is `"failure"` and `data` contains a human-readable error mes
 | `POST` | `/createCustomer` | Register a new customer |
 | `POST` | `/updateCustomer` | Update an existing customer profile |
 | `POST` | `/deleteCustomer` | Delete a customer record |
-| `POST` | `/migrateCustomerData` | Migrate a customer from a legacy system |
 | `POST` | `/getCustomerOffers` | Get available offers, loyalty balance, and tier status |
 | `POST` | `/getCustomerLoyaltyPointsTx` | Retrieve loyalty points transaction history |
 | `POST` | `/loyaltyTierInfo` | Get tier information for a customer |
@@ -102,7 +101,7 @@ Exchanges merchant credentials for a short-lived JWT. The token is scoped to the
 | `apiKey` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
 | `clientId` | string | Yes | OAuth client identifier from integration setup | `"client_7f8a9b2c"` |
 | `clientSecret` | string | Yes | OAuth client secret | `"secret_x9y8z7w6"` |
-| `customerId` | string | No | When provided, scopes the token to this customer | `"APP-CUST-001234"` |
+
 
 ### Request Example
 
@@ -110,8 +109,7 @@ Exchanges merchant credentials for a short-lived JWT. The token is scoped to the
 {
   "apiKey": "pk_live_abc123def456",
   "clientId": "client_7f8a9b2c",
-  "clientSecret": "secret_x9y8z7w6",
-  "customerId": "APP-CUST-001234"
+  "clientSecret": "secret_x9y8z7w6"
 }
 ```
 
@@ -173,7 +171,7 @@ Registers a new customer in the Qubriux loyalty platform. On success, Qubriux cr
 | `dob` | string | No | Date of birth (YYYY-MM-DD). Triggers birthday rewards. | `"1990-06-15"` |
 | `gender` | string | No | Gender identifier | `"F"` |
 | `nationality` | string | No | ISO 3166-1 alpha-2 country code | `"AE"` |
-| `country_code` | string | No | International dialling prefix | `"+971"` |
+| `country_code` | string | No | ISO 3166-1 alpha-2 country code | `"US, AE, SA"` |
 | `referralCode` | string | No | Referral code assigned to this customer for sharing | `"REF-SK-7789"` |
 | `referredBy` | string | No | Referral code of the customer who referred this one | `"REF-AM-4412"` |
 | `isSMSMarketingConsentGiven` | boolean | No | SMS marketing consent | `true` |
@@ -335,47 +333,10 @@ Removes a customer record from the Qubriux platform. This action is irreversible
 
 ---
 
-## POST /migrateCustomerData
-
-Migrates a customer record from a legacy loyalty system into Qubriux, preserving their historical points balance and profile. Use this during platform onboarding to port existing members without requiring them to re-register. If the customer already exists in Qubriux, their profile is updated with the migrated data.
-
-### Request Headers
-
-| Header | Required | Value |
-|--------|----------|-------|
-| `Authorization` | No | `Bearer <jwt_token>` |
-| `Content-Type` | Yes | `application/json` |
-
-### Request Body
-
-| Field | Type | Required | Description | Example |
-|-------|------|----------|-------------|---------|
-| `apiKey` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
-| `customer_info` | object | Yes | Customer profile (same schema as `createCustomer`) | — |
-| `loyaltyPoints` | number | No | Legacy points balance to carry over | `1250` |
-| `legacyId` | string | No | Customer ID in the source system | `"LEGACY-4892"` |
-
-### Response - 200 OK
-
-Same structure as `createCustomer`, including the assigned `customerId` and current balance after migration.
-
-### Error Responses
-
-| Status | When It Happens |
-|--------|-----------------|
-| `401` | Invalid API key or JWT mismatch |
-| `422` | Validation failure on customer data |
-| `500` | Unexpected server error |
-
----
-
 ## POST /getCustomerOffers
 
 Returns the complete set of active offers available to a customer alongside their current loyalty balance, tier status, tier progression data, and redemption limits — all in a single call. Call this at the start of a transaction or when rendering a customer's wallet screen. Optionally include the live basket in the `order` field to enable dynamic offer eligibility evaluation against current items.
 
-:::note
-This endpoint is also available as `POST /getCustomerOffersV2` — both call the same underlying service and return identical responses.
-:::
 
 ### Request Headers
 
@@ -670,9 +631,6 @@ Returns a success confirmation string in `data`.
 
 Validates a live cart against the customer's available rewards and returns the projected discount breakdown before the customer commits to redemption. Call this each time the cart changes to keep the discount preview up to date. This endpoint does not finalise anything — it is read-only from a loyalty perspective.
 
-:::note
-Also available as `POST /cartUpdateV2` — both endpoints call the same underlying service and return identical responses.
-:::
 
 ### Request Headers
 
@@ -690,7 +648,7 @@ Also available as `POST /cartUpdateV2` — both endpoints call the same underlyi
 | `customer_mobile` | string | One of three | Mobile with country code | `"+971501234567"` |
 | `customer_email` | string | One of three | Email address | `"sarah.khan@example.com"` |
 | `order` | object | Yes | Current basket contents (see [Order Fields](#order-fields)) | — |
-| `rewardType` | string | No | Reward category to evaluate (e.g. `"POINTS"`, `"WALLET"`, `"OFFER"`) | `"POINTS"` |
+
 
 ### Response - 200 OK
 
@@ -720,9 +678,6 @@ Finalises reward redemption at point of sale. Call this after the customer has c
 This endpoint makes irreversible changes to the customer's loyalty balance. Always call `/cartUpdate` first to preview the impact, then call this endpoint only when the customer explicitly confirms and the POS is ready to settle.
 :::
 
-:::note
-Also available as `POST /redeemRewardV2` — both call the same underlying service.
-:::
 
 ### Request Headers
 
@@ -826,25 +781,69 @@ Loyalty point accrual is deferred until `cartClosure` is called. Do not skip thi
 
 ```json
 {
-  "apiKey": "pk_live_abc123def456",
-  "userId": "APP-CUST-001234",
-  "order": {
-    "order_id": "ORD-20240401-0012",
-    "gross_amount": 185.00,
-    "net_amount": 150.00,
-    "tax": 10.00,
-    "order_type": "dine_in",
-    "items": [
-      {
-        "product_id": "PROD-001",
-        "product_name": "Flat White",
-        "quantity": 2,
-        "rate": 22.00,
-        "subtotal": 44.00
-      }
-    ]
-  }
+    "userId": null,// unique customer id
+    "mobile" : "11124650",
+    "email" : null,
+    "apiKey": "39fb4bd2-cd35-480f-a9ac-4459669cf882",
+    "order": {
+        "cartId": "20088",
+        "orderId": "20088",
+        "invoiceNumber": null,
+        "orderType": "DELIVERY",
+        "screen": "CART",
+        "grossAmount": 55, //subtotal + delivery
+        "netAmount": 55, //subtotal + delivery - (offer/loyalty disocunt + ewallet)
+        "subTotal": 45, //includes tax
+        "tax": 1,
+        "source": "APP",
+        "platformName": "ANDROID",
+        "platformVersion": "13",
+        "isLoyaltyToggleOn": false, // whether qubriux loyalty points was used
+        "loyaltyPoints":0, //loyalty points applied on the order
+        "isWalletToggleOn": false, //whether qubriux wallet was used
+        "walletAmount": 0, // wallet amount used on the order
+        "discount": {
+            "discountId": null,
+            "discountAmt": null
+        },
+         "items": [
+            {
+                "sequenceId": 1,
+                "productName": "7 up Medium",
+                "productId": "18042",
+                "rate": 45.0,
+                "quantity": 1,
+                "level": 0, // 0/1/2 0-Reg, 1- Med ,2 -High
+                "type": "item", // item/combo
+                "subtotal": 45.0, //product amount
+                "categoryName": "Drink", //
+                "categoryId": "888000",
+                "discount": { 
+                    "discountId": null,
+                    "discountAmt": null
+                },
+                "modifiers": [
+                    {
+                        "modifierName": "Regular",
+                        "quantity": 1,
+                        "rate": 0.0,
+                        "subtotal": 0.0,
+                        "modifierId": "64d8bc8cccc1395649653f2c"
+                    }
+                ]
+            }
+        ],
+        "deliveryInfo": {
+            "deliveryCharge": 10,
+            "discount": {
+                "discountId": null,
+                "discountAmt": null
+            }
+        }
+    }
 }
+
+
 ```
 
 ### Response - 200 OK
@@ -865,9 +864,6 @@ Returns a success confirmation string in `data`.
 
 Validates a customer-submitted coupon code against the current cart and, if eligible, applies the discount. Returns the updated cart with the discount breakdown. This endpoint is for interactive coupon entry at checkout — the customer provides a code and the POS applies it.
 
-:::note
-Also available as `POST /apply-couponV2` — both call the same underlying service.
-:::
 
 ### Request Headers
 
@@ -970,7 +966,7 @@ Returns the full details of an offer associated with a given coupon code — nam
 
 ### Response - 200 OK
 
-Returns a `ShawarmerGetCustomerOfferResponse` with the offer's metadata, including `offerName`, `offerType`, `discountValue`, `startDate`, `endDate`, and eligibility conditions.
+Returns with the offer's metadata, including `offerName`, `offerType`, `discountValue`, `startDate`, `endDate`, and eligibility conditions.
 
 ### Error Responses
 
