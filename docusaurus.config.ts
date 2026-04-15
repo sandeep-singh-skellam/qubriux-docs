@@ -85,33 +85,50 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'User Documentation',
           items: [
             {
-              label: 'Tutorial',
+              label: 'Introduction',
               to: '/docs/intro',
+            },
+            {
+              label: 'Core Concepts',
+              to: '/docs/category/core-concepts',
             },
           ],
         },
         {
-          title: 'Community',
+          title: 'API Documentation',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'Loyalty & Rewards API',
+              to: '/docs/api-documentation/loyalty/loyalty-rewards-api',
             },
             {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
+              label: 'Wallet API',
+              to: '/docs/api-documentation/loyalty/wallet-api',
             },
             {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
+              label: 'Badges API',
+              to: '/docs/api-documentation/loyalty/badges-api',
+            },
+            {
+              label: 'Gamification API',
+              to: '/docs/api-documentation/loyalty/gamification-api',
+            },
+          ],
+        },
+        {
+          title: 'Company',
+          items: [
+            {
+              label: 'Qubriux',
+              href: 'https://qubriux.com',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Qubriux.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Qubriux. All rights reserved.`,
     },
     prism: {
       theme: prismThemes.github,
