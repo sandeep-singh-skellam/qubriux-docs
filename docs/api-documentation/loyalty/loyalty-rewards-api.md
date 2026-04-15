@@ -7,7 +7,7 @@ sidebar_position: 1
 
 ## Overview
 
-The Qubriux Loyalty & Rewards API is the primary integration surface for POS systems, mobile apps, and third-party ordering platforms. It covers the core customer loyalty lifecycle: registration, offer retrieval, cart validation, reward redemption, order closure, and coupon management. All endpoints share a single base path under `/ezloy` and authenticate via a merchant-level API key combined with an optional JWT Bearer token.
+The Qubriux Loyalty & Rewards API is the primary integration surface for POS systems, mobile apps, and third-party ordering platforms. It covers the core customer loyalty lifecycle: registration, offer retrieval, cart validation, reward redemption, order closure, and coupon management. All endpoints share a single base path under `/ezloyal-web` and authenticate via a merchant-level API key combined with an optional JWT Bearer token.
 
 :::note
 Badges, gamification challenges, and wallet operations are documented in their own dedicated references:
@@ -154,52 +154,76 @@ Registers a new customer in the Qubriux loyalty platform. On success, Qubriux cr
 
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
-| `apiKey` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
-| `customer_info` | object | Yes | Customer profile (see below) | — |
-| `createdAt` | string | No | ISO 8601 registration timestamp in your system | `"2024-04-01T10:30:00Z"` |
-| `customer_source` | string | No | Channel where the customer registered | `"mobile_app"` |
+| `apiKey` | string | Yes | Merchant-level API key | `"28fb4bd2-cd35-480f-a9ac-4459669cf782"` |
+| `customerInfo` | object | Yes | Customer profile (see below) | — |
 
-#### customer_info Fields
+#### customerInfo Fields
 
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
-| `id` | string | Recommended | Your system's customer ID — links the Qubriux record back to your DB | `"APP-CUST-001234"` |
-| `mobile` | string | Recommended | Mobile number with country code. Primary identifier. | `"+971501234567"` |
-| `email` | string | Recommended | Email address. Secondary identifier. | `"sarah.khan@example.com"` |
-| `firstName` | string | No | First name | `"Sarah"` |
-| `lastName` | string | No | Last name | `"Khan"` |
-| `dob` | string | No | Date of birth (YYYY-MM-DD). Triggers birthday rewards. | `"1990-06-15"` |
-| `gender` | string | No | Gender identifier | `"F"` |
-| `nationality` | string | No | ISO 3166-1 alpha-2 country code | `"AE"` |
-| `country_code` | string | No | ISO 3166-1 alpha-2 country code | `"US, AE, SA"` |
-| `referralCode` | string | No | Referral code assigned to this customer for sharing | `"REF-SK-7789"` |
-| `referredBy` | string | No | Referral code of the customer who referred this one | `"REF-AM-4412"` |
+| `userId` | string | Recommended | Your system's unique customer identifier — links the Qubriux record back to your DB | `"APP-CUST-001234"` |
+| `firstName` | string | No | First name | `"Henry"` |
+| `lastName` | string | No | Last name | `"John"` |
+| `mobile` | string | Recommended | Mobile number. Primary identifier. | `"758665533"` |
+| `dob` | string | No | Date of birth (YYYY-MM-DD). Triggers birthday rewards. | `"2025-11-11"` |
+| `anniversaryDate` | string | No | Anniversary date (YYYY-MM-DD) | `"2026-02-16"` |
+| `email` | string | Recommended | Email address. Secondary identifier. | `"user@example.com"` |
 | `isSMSMarketingConsentGiven` | boolean | No | SMS marketing consent | `true` |
 | `isEmailMarketingConsentGiven` | boolean | No | Email marketing consent | `true` |
+| `isProfileComplete` | boolean | No | Marks the profile as complete; triggers customer onboarding | `true` |
 | `isLoyaltyConsentGiven` | boolean | No | Loyalty programme participation consent | `true` |
-| `isWalletRequired` | boolean | No | Provision a digital wallet on registration. Default: `false`. | `false` |
+| `gender` | string | No | Customer gender (`male` / `female`) | `"male"` |
+| `countryCode` | string | No | ISO 3166-1 alpha-2 country code | `"SA"` |
+| `nationality` | string | No | Customer nationality | `"Saudi Arabia"` |
+| `hobbies` | array | No | List of hobbies | `["Cycling", "Swimming"]` |
+| `occupation` | string | No | Customer occupation | `"Software Engineer"` |
+| `instagramId` | string | No | Customer's Instagram handle | `"randomid"` |
+| `tikTokId` | string | No | Customer's TikTok handle | `"randomtiktoid"` |
+| `address` | object | No | Customer address (see below) | — |
+| `createdAt` | string | No | Customer creation timestamp in your system (YYYY-MM-DD HH:MM:SS) | `"2026-02-12 07:55:10"` |
+
+#### address Fields
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `line1` | string | Address line 1 | `"House no 5"` |
+| `line2` | string | Address line 2 | `"Phase 1"` |
+| `city` | string | City | `"New York"` |
+| `state` | string | State or province | `"New York"` |
+| `country` | string | Country | `"USA"` |
 
 ### Request Example
 
 ```json
 {
-  "apiKey": "pk_live_abc123def456",
-  "customer_source": "mobile_app",
-  "createdAt": "2024-04-01T10:30:00Z",
-  "customer_info": {
-    "id": "APP-CUST-001234",
-    "firstName": "Sarah",
-    "lastName": "Khan",
-    "mobile": "+971501234567",
-    "email": "sarah.khan@example.com",
-    "dob": "1990-06-15",
-    "gender": "F",
-    "country_code": "+971",
-    "nationality": "AE",
+  "apiKey": "28fb4bd2-cd35-480f-a9ac-4459669cf782",
+  "customerInfo": {
+    "userId": "APP-CUST-001234",
+    "firstName": "Henry",
+    "lastName": "John",
+    "mobile": "758665533",
+    "dob": "2025-11-11",
+    "anniversaryDate": "2026-02-16",
+    "email": "user@example.com",
     "isSMSMarketingConsentGiven": true,
     "isEmailMarketingConsentGiven": true,
+    "isProfileComplete": true,
     "isLoyaltyConsentGiven": true,
-    "isWalletRequired": false
+    "gender": "male",
+    "countryCode": "SA",
+    "nationality": "Saudi Arabia",
+    "hobbies": ["Cycling", "Swimming"],
+    "occupation": "Software Engineer",
+    "instagramId": "randomid",
+    "tikTokId": "randomtiktoid",
+    "address": {
+      "line1": "House no 5",
+      "line2": "Phase 1",
+      "city": "New York",
+      "state": "New York",
+      "country": "USA"
+    },
+    "createdAt": "2026-02-12 07:55:10"
   }
 }
 ```
@@ -254,16 +278,16 @@ Updates profile data for an existing Qubriux customer. Use this to sync changes 
 
 ### Request Body
 
-Same schema as `createCustomer`. Include only the fields to update alongside one customer identifier.
+Same schema as `createCustomer`. Include only the fields to update alongside at least one customer identifier (`userId`, `mobile`, or `email`).
 
 ### Request Example
 
 ```json
 {
-  "apiKey": "pk_live_abc123def456",
-  "customer_info": {
-    "id": "APP-CUST-001234",
-    "mobile": "+971501234567",
+  "apiKey": "28fb4bd2-cd35-480f-a9ac-4459669cf782",
+  "customerInfo": {
+    "userId": "APP-CUST-001234",
+    "mobile": "758665533",
     "email": "sarah.updated@example.com",
     "isEmailMarketingConsentGiven": false
   }
@@ -349,59 +373,19 @@ Returns the complete set of active offers available to a customer alongside thei
 
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
-| `apiKey` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
+| `apiKey` | string | Yes | Merchant-level API key | `"39fb4bd2-cd35-480f-a9ac-4459669cf882"` |
 | `userId` | string | One of three | Your system's customer ID | `"APP-CUST-001234"` |
-| `customer_mobile` | string | One of three | Customer's mobile with country code | `"+971501234567"` |
-| `customer_email` | string | One of three | Customer's email address | `"sarah.khan@example.com"` |
-| `beansExpiryAfterDays` | integer | No | Show points expiring within N days | `30` |
-| `order` | object | No | Live basket for dynamic eligibility evaluation (see [Order Fields](#order-fields)) | — |
-
-### Order Fields
-
-| Field | Type | Description | Example |
-|-------|------|-------------|---------|
-| `order_id` | string | Your POS order identifier | `"ORD-20240401-0012"` |
-| `gross_amount` | number | Total before discounts | `185.00` |
-| `net_amount` | number | Total after existing discounts | `175.00` |
-| `tax` | number | Tax amount | `10.00` |
-| `order_type` | string | Order channel (e.g. `dine_in`, `takeaway`, `delivery`) | `"dine_in"` |
-| `items` | array | Line items (see below) | — |
-
-#### items Fields
-
-| Field | Type | Description | Example |
-|-------|------|-------------|---------|
-| `product_id` | string | SKU or product identifier | `"PROD-001"` |
-| `product_name` | string | Display name | `"Flat White"` |
-| `quantity` | integer | Units ordered | `2` |
-| `category_id` | string | Category identifier | `"CAT-DRINKS"` |
-| `rate` | number | Unit price | `22.00` |
-| `subtotal` | number | `rate × quantity` | `44.00` |
+| `mobile` | string | One of three | Customer's mobile number | `"11124650"` |
+| `email` | string | One of three | Customer's email address | `"user@example.com"` |
 
 ### Request Example
 
 ```json
 {
-  "apiKey": "pk_live_abc123def456",
-  "userId": "APP-CUST-001234",
-  "beansExpiryAfterDays": 30,
-  "order": {
-    "order_id": "ORD-20240401-0012",
-    "gross_amount": 185.00,
-    "net_amount": 175.00,
-    "tax": 10.00,
-    "order_type": "dine_in",
-    "items": [
-      {
-        "product_id": "PROD-001",
-        "product_name": "Flat White",
-        "quantity": 2,
-        "category_id": "CAT-DRINKS",
-        "rate": 22.00,
-        "subtotal": 44.00
-      }
-    ]
-  }
+  "apiKey": "39fb4bd2-cd35-480f-a9ac-4459669cf882",
+  "userId": null,
+  "mobile": "11124650",
+  "email": null
 }
 ```
 
@@ -444,8 +428,8 @@ Returns the paginated loyalty points transaction history for a customer — cred
 |-------|------|----------|-------------|---------|
 | `apiKey` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
 | `userId` | string | One of three | Customer ID | `"APP-CUST-001234"` |
-| `customer_mobile` | string | One of three | Mobile with country code | `"+971501234567"` |
-| `customer_email` | string | One of three | Email address | `"sarah.khan@example.com"` |
+| `mobile` | string | One of three | Customer's mobile number | `"+971501234567"` |
+| `email` | string | One of three | Customer's email address | `"sarah.khan@example.com"` |
 
 ### Request Example
 
@@ -493,8 +477,8 @@ Returns the current tier, tier progress, and tier benefits for a specific custom
 |-------|------|----------|-------------|---------|
 | `apiKey` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
 | `userId` | string | One of three | Customer ID | `"APP-CUST-001234"` |
-| `customer_mobile` | string | One of three | Mobile with country code | `"+971501234567"` |
-| `customer_email` | string | One of three | Email address | `"sarah.khan@example.com"` |
+| `mobile` | string | One of three | Customer's mobile number | `"+971501234567"` |
+| `email` | string | One of three | Customer's email address | `"sarah.khan@example.com"` |
 
 ### Response - 200 OK
 
@@ -529,7 +513,21 @@ Returns comprehensive loyalty programme details for a customer, including full t
 
 ### Request Body
 
-Same as `/loyaltyTierInfo`.
+| Field | Type | Required | Description | Example |
+|-------|------|----------|-------------|---------|
+| `apiKey` | string | Yes | Merchant-level API key | `"28fb4bd2-cd35-480f-a9ac-4459669cf782"` |
+| `userId` | string | One of two | Your system's customer ID | `"APP-CUST-001234"` |
+| `mobile` | string | One of two | Customer's mobile number | `"11124650"` |
+
+### Request Example
+
+```json
+{
+  "apiKey": "28fb4bd2-cd35-480f-a9ac-4459669cf782",
+  "userId": null,
+  "mobile": "11124650"
+}
+```
 
 ### Response - 200 OK
 
@@ -643,12 +641,138 @@ Validates a live cart against the customer's available rewards and returns the p
 
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
-| `apiKey` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
-| `userId` | string | One of three | Customer identifier | `"APP-CUST-001234"` |
-| `customer_mobile` | string | One of three | Mobile with country code | `"+971501234567"` |
-| `customer_email` | string | One of three | Email address | `"sarah.khan@example.com"` |
-| `order` | object | Yes | Current basket contents (see [Order Fields](#order-fields)) | — |
+| `apiKey` | string | Yes | Merchant-level API key | `"39fb4bd2-cd35-480f-a9ac-4459669cf882"` |
+| `userId` | string | One of three | Your system's customer ID | `"APP-CUST-001234"` |
+| `mobile` | string | One of three | Customer's mobile number | `"11124650"` |
+| `email` | string | One of three | Customer's email address | `"user@example.com"` |
+| `order` | object | Yes | Current basket (see [Order Fields](#order-fields)) | — |
 
+### Order Fields
+
+| Field | Type | Required | Description | Example |
+|-------|------|----------|-------------|---------|
+| `cartId` | string | Yes | Unique cart identifier | `"20088"` |
+| `orderId` | string | Yes | Unique order identifier | `"20088"` |
+| `invoiceNumber` | string/number | No | Invoice reference, if any | `904` |
+| `orderType` | string | Yes | Order channel: `DELIVERY`, `TAKEAWAY`, `DINEIN`, `DRIVETHRU` | `"DELIVERY"` |
+| `screen` | string | Yes | Screen context where the call originates | `"CART"` |
+| `grossAmount` | number | Yes | Subtotal + delivery (before loyalty/wallet discounts) | `55` |
+| `netAmount` | number | Yes | Subtotal + delivery minus all applied discounts | `55` |
+| `subTotal` | number | Yes | Item total including tax, excluding delivery | `45` |
+| `tax` | number | Yes | Tax amount | `1` |
+| `source` | string | Yes | Integration source: `APP`, `POS`, `WEB` | `"POS"` |
+| `platformName` | string | No | Platform: `ANDROID`, `IOS` | `"IOS"` |
+| `platformVersion` | string | No | Platform version string | `"1.2.3.2"` |
+| `isLoyaltyToggleOn` | boolean | Yes | Whether the customer chose to use loyalty points | `false` |
+| `loyaltyPoints` | number | Conditional | Points to apply — required when `isLoyaltyToggleOn` is `true` | `5` |
+| `isWalletToggleOn` | boolean | Yes | Whether the customer chose to use their wallet balance | `false` |
+| `walletAmount` | number | Conditional | Wallet amount to apply — required when `isWalletToggleOn` is `true` | `10` |
+| `discount` | object | Yes | Coupon/offer applied to the order (see below) | — |
+| `items` | array | Yes | Line items (see below) | — |
+| `deliveryInfo` | object | No | Delivery charge details (see below) | — |
+
+#### discount Fields
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `discountId` | string \| null | Offer/coupon code, if any | `"GIFT50"` |
+| `discountAmt` | number \| null | Discount amount — populated in `redeemReward` only | `null` |
+
+#### items Fields
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `sequenceId` | integer | Line item sequence number | `1` |
+| `productId` | string | SKU or product identifier | `"18042"` |
+| `productName` | string | Display name | `"7 up Medium"` |
+| `rate` | number | Unit price | `45.00` |
+| `quantity` | integer | Units ordered | `1` |
+| `level` | integer | Size level: `0` = Regular, `1` = Medium, `2` = High | `0` |
+| `type` | string | Line type: `item` or `combo` | `"item"` |
+| `subtotal` | number | Product amount (`rate × quantity`) | `45.00` |
+| `categoryName` | string | Category display name | `"Drink"` |
+| `categoryId` | string | Category identifier | `"888000"` |
+| `modifiers` | array | Selected modifiers (see below) | — |
+
+#### modifiers Fields
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `modifierId` | string | Modifier identifier | `"64d8bc8cccc1395649653f2c"` |
+| `modifierName` | string | Modifier display name | `"Regular"` |
+| `quantity` | integer | Modifier quantity | `1` |
+| `rate` | number | Modifier unit price | `0.00` |
+| `subtotal` | number | Modifier total | `0.00` |
+
+#### deliveryInfo Fields
+
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `deliveryCharge` | number | Delivery fee | `10` |
+| `discount` | object | Discount applied to delivery — same shape as order-level `discount` | — |
+
+### Request Example
+
+```json
+{
+  "userId": null,
+  "mobile": "11124650",
+  "email": null,
+  "apiKey": "39fb4bd2-cd35-480f-a9ac-4459669cf882",
+  "order": {
+    "cartId": "20088",
+    "orderId": "20088",
+    "invoiceNumber": 904,
+    "orderType": "DELIVERY",
+    "screen": "CART",
+    "grossAmount": 55,
+    "netAmount": 55,
+    "subTotal": 45,
+    "tax": 1,
+    "source": "POS",
+    "platformName": "IOS",
+    "platformVersion": "1.2.3.2",
+    "isLoyaltyToggleOn": false,
+    "loyaltyPoints": 0,
+    "isWalletToggleOn": false,
+    "walletAmount": 0,
+    "discount": {
+      "discountId": "GIFT50",
+      "discountAmt": null
+    },
+    "items": [
+      {
+        "sequenceId": 1,
+        "productName": "7 up Medium",
+        "productId": "18042",
+        "rate": 45.0,
+        "quantity": 1,
+        "level": 0,
+        "type": "item",
+        "subtotal": 45.0,
+        "categoryName": "Drink",
+        "categoryId": "888000",
+        "modifiers": [
+          {
+            "modifierName": "Regular",
+            "quantity": 1,
+            "rate": 0.0,
+            "subtotal": 0.0,
+            "modifierId": "64d8bc8cccc1395649653f2c"
+          }
+        ]
+      }
+    ],
+    "deliveryInfo": {
+      "deliveryCharge": 10,
+      "discount": {
+        "discountId": null,
+        "discountAmt": null
+      }
+    }
+  }
+}
+```
 
 ### Response - 200 OK
 
@@ -688,7 +812,7 @@ This endpoint makes irreversible changes to the customer's loyalty balance. Alwa
 
 ### Request Body
 
-Same schema as `/cartUpdate`. Include the final confirmed basket in `order` and the `rewardType` the customer confirmed.
+Same schema as `/cartUpdate`. Include the final confirmed basket in `order`. Set `discount.discountAmt` to the actual computed discount amount when a coupon is being applied.
 
 ### Response - 200 OK
 
@@ -724,19 +848,64 @@ Cancels a previously completed redemption and returns the consumed points or wal
 
 ### Request Body
 
+Same schema as `/cartUpdate` — pass the full order object for the transaction being voided. Supply the same `cartId`, `orderId`, and amounts as the original redemption call.
+
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
-| `apiKey` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
-| `userId` | string | Yes | Customer identifier | `"APP-CUST-001234"` |
-| `orderId` | string | Yes | The order ID associated with the redemption to void | `"ORD-20240401-0012"` |
+| `apiKey` | string | Yes | Merchant-level API key | `"39fb4bd2-cd35-480f-a9ac-4459669cf882"` |
+| `userId` | string | One of three | Your system's customer ID | `"APP-CUST-001234"` |
+| `mobile` | string | One of three | Customer's mobile number | `"11124650"` |
+| `email` | string | One of three | Customer's email address | `"user@example.com"` |
+| `order` | object | Yes | The original order to void (see [Order Fields](#order-fields)) | — |
 
 ### Request Example
 
 ```json
 {
-  "apiKey": "pk_live_abc123def456",
-  "userId": "APP-CUST-001234",
-  "orderId": "ORD-20240401-0012"
+  "userId": null,
+  "mobile": "11124650",
+  "email": null,
+  "apiKey": "39fb4bd2-cd35-480f-a9ac-4459669cf882",
+  "order": {
+    "cartId": "20088",
+    "orderId": "20088",
+    "invoiceNumber": null,
+    "orderType": "DELIVERY",
+    "screen": "CART",
+    "grossAmount": 61,
+    "netAmount": 90,
+    "subTotal": 90,
+    "tax": 1.0,
+    "source": "APP",
+    "platformName": null,
+    "isLoyaltyToggleOn": false,
+    "loyaltyPoints": 0.0,
+    "isWalletToggleOn": false,
+    "walletAmount": 90.0,
+    "discount": {
+      "discountId": "GIFT50",
+      "discountAmt": 40
+    },
+    "items": [
+      {
+        "productName": "productC",
+        "productId": "14",
+        "rate": 20.0,
+        "quantity": 1,
+        "subtotal": 20.0,
+        "categoryName": "categoryc",
+        "categoryId": "26",
+        "modifiers": []
+      }
+    ],
+    "deliveryInfo": {
+      "deliveryCharge": 150,
+      "discount": {
+        "discountId": null,
+        "discountAmt": null
+      }
+    }
+  }
 }
 ```
 
@@ -773,9 +942,11 @@ Loyalty point accrual is deferred until `cartClosure` is called. Do not skip thi
 
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
-| `apiKey` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
-| `userId` | string | Yes | Customer identifier | `"APP-CUST-001234"` |
-| `order` | object | Yes | Completed order (same schema as Order Fields) | — |
+| `apiKey` | string | Yes | Merchant-level API key | `"39fb4bd2-cd35-480f-a9ac-4459669cf882"` |
+| `userId` | string | One of three | Your system's customer ID | `"APP-CUST-001234"` |
+| `mobile` | string | One of three | Customer's mobile number | `"11124650"` |
+| `email` | string | One of three | Customer's email address | `"user@example.com"` |
+| `order` | object | Yes | Completed order — same schema as [Order Fields](#order-fields) | — |
 
 ### Request Example
 
