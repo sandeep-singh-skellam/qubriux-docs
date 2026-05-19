@@ -377,6 +377,8 @@ Returns the complete set of active offers available to a customer alongside thei
 | `userId` | string | One of three | Your system's customer ID | `"APP-CUST-001234"` |
 | `mobile` | string | One of three | Customer's mobile number | `"11124650"` |
 | `email` | string | One of three | Customer's email address | `"user@example.com"` |
+| `source` | string | One of three | Show offers per channel | `"APP, POS, WEB` |
+| `platform` | string | One of three | For APP Source | `"IOS, ANDROID"` |
 
 ### Request Example
 
@@ -385,7 +387,9 @@ Returns the complete set of active offers available to a customer alongside thei
   "apiKey": "39fb4bd2-cd35-480f-a9ac-4459669cf882",
   "userId": null,
   "mobile": "11124650",
-  "email": null
+  "email": null,
+  "source": "APP",
+  "platform" : "IOS"
 }
 ```
 
