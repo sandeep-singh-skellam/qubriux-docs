@@ -93,7 +93,7 @@ const config: Config = {
             },
             {
               label: 'Core Concepts',
-              to: '/docs/user-documentation/category/core-concepts',
+              to: '/docs/category/core-concepts',
             },
           ],
         },
