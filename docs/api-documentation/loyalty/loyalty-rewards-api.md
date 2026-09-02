@@ -22,11 +22,15 @@ Start your integration against the **staging** environment and switch to **produ
 
 | Environment | Base URL |
 |-------------|----------|
-| **Staging** | `https://qa.qubriux.com/ezloyal-web` |
-| **Production** | `https://app.qubriux.com/ezloyal-web` |
+| **Staging** | `https://qa.qubriux.com/ezloyal-web/qubriux/loyalty` |
+| **Production** | `https://app.qubriux.com/ezloyal-web/qubriux/loyalty` |
 
 :::tip
 Use the staging environment during development — it is isolated from live merchant data and safe for test transactions.
+:::
+
+:::note
+The base URL shown above may change if a partner or merchant integration requires a custom request/response contract (e.g., a bespoke endpoint path, a white-labeled domain, or a non-standard payload shape). In such cases, Qubriux will provide the specific base URL and any deviations from this reference as part of that integration's onboarding documentation. Unless explicitly told otherwise, assume the staging and production URLs above apply.
 :::
 
 ## Authentication
@@ -67,20 +71,14 @@ On error, `status` is `"failure"` and `data` contains a human-readable error mes
 | `POST` | `/auth/getAccessToken` | Issue a JWT access token |
 | `POST` | `/createCustomer` | Register a new customer |
 | `POST` | `/updateCustomer` | Update an existing customer profile |
-| `POST` | `/deleteCustomer` | Delete a customer record |
 | `POST` | `/getCustomerOffers` | Get available offers, loyalty balance, and tier status |
 | `POST` | `/getCustomerLoyaltyPointsTx` | Retrieve loyalty points transaction history |
-| `POST` | `/loyaltyTierInfo` | Get tier information for a customer |
 | `POST` | `/getLoyaltyDetails` | Get full loyalty programme details for a customer |
-| `POST` | `/getTierDescription` | Get textual tier rule descriptions |
-| `POST` | `/allocateLoyaltyPointsToCustomer` | Manually allocate loyalty points to a customer |
 | `POST` | `/cartUpdate` | Validate and preview reward deductions on a live cart |
-| `POST` | `/redeemReward` | Execute reward redemption at point of sale |
+| `POST` | `/redeemReward` | Execute reward redemption at POS/KIOSK/WEB/APP |
 | `POST` | `/voidRedemption` | Void/cancel a previously applied redemption |
 | `POST` | `/cartClosure` | Register order completion and trigger loyalty accrual |
-| `POST` | `/apply-coupon` | Apply a coupon code to a cart and compute discounts |
-| `POST` | `/add-coupon` | Assign a coupon directly to a customer |
-| `POST` | `/getCouponDetails` | Look up offer details by coupon code |
+
 
 ---
 
@@ -117,11 +115,12 @@ Exchanges merchant credentials for a short-lived JWT. The token is scoped to the
 
 ```json
 {
-  "status": "success",
-  "data": {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "expiresIn": 3600
-  }
+"message": "SUCCESS",
+"body": {
+"accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJjbGllbnRJZCI6ImNlZmJkMmVjLqUa0Wk0zZ4arJqNC4VRf9ntc1-oqT457p33OptUg",
+"expires_in": 3600
+},
+"messageKey": null
 }
 ```
 
@@ -141,7 +140,7 @@ Tokens expire. Handle `401` responses from downstream endpoints by re-fetching a
 
 ## POST /createCustomer
 
-Registers a new customer in the Qubriux loyalty platform. On success, Qubriux creates a customer record, optionally provisions a digital wallet, and returns the internal customer ID alongside a customer-scoped JWT. Call this endpoint the first time you encounter a customer — typically at sign-up or first purchase.
+Registers a new customer in the Qubriux loyalty platform. On success, Qubriux creates a customer record and returns the internal customer ID alongside a customer-scoped key. Call this endpoint the first time you encounter a customer — typically at sign-up or first purchase.
 
 ### Request Headers
 
@@ -154,33 +153,36 @@ Registers a new customer in the Qubriux loyalty platform. On success, Qubriux cr
 
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
-| `apiKey` | string | Yes | Merchant-level API key | `"28fb4bd2-cd35-480f-a9ac-4459669cf782"` |
+| `apiKey` | string | Yes | Merchant-level API key. Store this. | `"9e2d7c1a-5b8f-43e0-a2d6-4c9b1f8e7a25"` |
+| `preferredStoreApiKey` | string | No | API key of the customer's preferred store, if applicable | `"sdfdsfdsfds5b8f-43e0-fbgngntgdfg7a25"` |
 | `customerInfo` | object | Yes | Customer profile (see below) | — |
 
 #### customerInfo Fields
 
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
-| `userId` | string | Recommended | Your system's unique customer identifier — links the Qubriux record back to your DB | `"APP-CUST-001234"` |
-| `firstName` | string | No | First name | `"Henry"` |
-| `lastName` | string | No | Last name | `"John"` |
-| `mobile` | string | Recommended | Mobile number. Primary identifier. | `"758665533"` |
-| `dob` | string | No | Date of birth (YYYY-MM-DD). Triggers birthday rewards. | `"2025-11-11"` |
-| `anniversaryDate` | string | No | Anniversary date (YYYY-MM-DD) | `"2026-02-16"` |
-| `email` | string | Recommended | Email address. Secondary identifier. | `"user@example.com"` |
+| `userId` | string \| null | Recommended | Your system's unique customer identifier — links the Qubriux record back to your DB | `null` |
+| `firstName` | string | No | First name | `"Abhishek1"` |
+| `lastName` | string | No | Last name | `"Kumar1"` |
+| `mobile` | string | Recommended | Mobile number. Primary identifier. | `"457790530"` |
+| `dob` | string | No | Date of birth (YYYY-MM-DD). Triggers birthday rewards. | `"1993-11-11"` |
+| `anniversaryDate` | string | No | Anniversary date (YYYY-MM-DD) | `"2024-02-16"` |
+| `email` | string | Recommended | Email address. Secondary identifier. | `"abhishekk530@skellam.ai"` |
+| `source` | string | No | Origin channel of the customer record (e.g., `"POS"`) | `"POS"` |
 | `isSMSMarketingConsentGiven` | boolean | No | SMS marketing consent | `true` |
 | `isEmailMarketingConsentGiven` | boolean | No | Email marketing consent | `true` |
 | `isProfileComplete` | boolean | No | Marks the profile as complete; triggers customer onboarding | `true` |
 | `isLoyaltyConsentGiven` | boolean | No | Loyalty programme participation consent | `true` |
 | `gender` | string | No | Customer gender (`male` / `female`) | `"male"` |
-| `countryCode` | string | No | ISO 3166-1 alpha-2 country code | `"SA"` |
-| `nationality` | string | No | Customer nationality | `"Saudi Arabia"` |
+| `countryCode` | string | No | Country code of the customer | `"US"` |
+| `countryDialCode` | string | No | Country code of the customer in dial in code| `"+1"` |
+| `nationality` | string | No | Customer nationality | `"US"` |
 | `hobbies` | array | No | List of hobbies | `["Cycling", "Swimming"]` |
 | `occupation` | string | No | Customer occupation | `"Software Engineer"` |
 | `instagramId` | string | No | Customer's Instagram handle | `"randomid"` |
 | `tikTokId` | string | No | Customer's TikTok handle | `"randomtiktoid"` |
 | `address` | object | No | Customer address (see below) | — |
-| `createdAt` | string | No | Customer creation timestamp in your system (YYYY-MM-DD HH:MM:SS) | `"2026-02-12 07:55:10"` |
+| `createdAt` | string | No | Customer creation timestamp in your system (YYYY-MM-DD HH:MM:SS) | `"2026-04-17 07:55:10"` |
 
 #### address Fields
 
@@ -196,22 +198,25 @@ Registers a new customer in the Qubriux loyalty platform. On success, Qubriux cr
 
 ```json
 {
-  "apiKey": "28fb4bd2-cd35-480f-a9ac-4459669cf782",
+  "apiKey": "9e2d7c1a-5b8f-43e0-a2d6-4c9b1f8e7a25",
+  "preferredStoreApiKey": "sdfdsfdsfds5b8f-43e0-fbgngntgdfg7a25",
   "customerInfo": {
-    "userId": "APP-CUST-001234",
-    "firstName": "Henry",
-    "lastName": "John",
-    "mobile": "758665533",
-    "dob": "2025-11-11",
-    "anniversaryDate": "2026-02-16",
-    "email": "user@example.com",
+    "userId": null,
+    "firstName": "Abhishek1",
+    "lastName": "Kumar1",
+    "mobile": "457790530",
+    "dob": "1993-11-11",
+    "anniversaryDate": "2024-02-16",
+    "email": "abhishekk530@skellam.ai",
+    "source": "POS",
     "isSMSMarketingConsentGiven": true,
     "isEmailMarketingConsentGiven": true,
     "isProfileComplete": true,
     "isLoyaltyConsentGiven": true,
     "gender": "male",
-    "countryCode": "SA",
-    "nationality": "Saudi Arabia",
+    "countryCode": "US",
+    "countryDialCode": "+966",
+    "nationality": "US",
     "hobbies": ["Cycling", "Swimming"],
     "occupation": "Software Engineer",
     "instagramId": "randomid",
@@ -223,7 +228,7 @@ Registers a new customer in the Qubriux loyalty platform. On success, Qubriux cr
       "state": "New York",
       "country": "USA"
     },
-    "createdAt": "2026-02-12 07:55:10"
+    "createdAt": "2026-04-17 07:55:10"
   }
 }
 ```
@@ -232,37 +237,25 @@ Registers a new customer in the Qubriux loyalty platform. On success, Qubriux cr
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.customerId` | string | Qubriux internal customer ID. **Store this.** |
-| `data.walletId` | string \| null | Digital wallet ID, if wallet was provisioned |
-| `data.availableBalance` | number | Wallet balance (zero for new customers) |
-| `data.userJwtToken` | string \| null | Customer-scoped JWT for subsequent calls |
+| `message` | string | Response status indicator (e.g., `"SUCCESS"`) |
+| `body.customerId` | string | Qubriux internal customer ID. **Store this.** |
+| `body.urlOfCustomerQR` | string | URL of the customer's loyalty QR code image |
+| `body.customerKey` | string | Customer-scoped signed key for subsequent calls |
+| `messageKey` | string \| null | Localization key for the message, if applicable |
 
 ### Response Example
 
 ```json
 {
-  "status": "success",
-  "data": {
-    "customerId": "QBX-CUST-00456789",
-    "walletId": "WALLET-00123456",
-    "availableBalance": 0.00,
-    "userJwtToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-  }
+  "message": "SUCCESS",
+  "body": {
+    "customerId": "01m1gvdgq0cp2bnx8zp1pys66k",
+    "urlOfCustomerQR": "https://qubriux-public-assets-qa.s3.amazonaws.com/qr/1282/customer/01m1gvdgq0cp2bnx8zp1pys66k.png",
+    "customerKey": "eyJhbGciOiJIUzUxMiJ9.eyJjdXN0b21lcklkIjoiMDFtMWd2ZGdxMGNwMmJueDh6cDFweXM2NmsiLCJjbGllbnRJZCI6ImNlZmJkMmVjLTJlNjEtNGMzZS05YTBkLTA1MTc4MWU0MjY2MSIsImNsaWVudFNlY3JldCI6ImE2ZDhjZjdmLWE5MzUtNGRhNS1iYTQ3LTRiZDI0MmEyMDJmNyIsIm1lcmNoYW50SWQiOjEyODIsInBsYXRmb3JtIjoiYWxvaGEiLCJpYXQiOjE3ODgzNDU3NjR9.IYGuSd-OxZcIhZ2naqBxzdtNrcFSpGcc7ero60KtAIPCdFn015LGGbAA6hu9yMuBVea4b9tHo4BLDZ6qc9KMFQ"
+  },
+  "messageKey": null
 }
 ```
-
-### Error Responses
-
-| Status | When It Happens |
-|--------|-----------------|
-| `401` | Invalid API key or JWT mismatch |
-| `422` | Customer already exists, or required fields failed validation |
-| `500` | Unexpected server error |
-
-:::tip
-Persist `customerId` from the response in your database. Supplying it on future requests is the most reliable lookup since contact details can change.
-:::
-
 ---
 
 ## POST /updateCustomer
@@ -312,55 +305,9 @@ Qubriux enforces uniqueness on mobile and email. Updating to a value that alread
 
 ---
 
-## POST /deleteCustomer
-
-Removes a customer record from the Qubriux platform. This action is irreversible — use it only for GDPR deletion requests or explicit customer removal workflows, not routine operations.
-
-### Request Headers
-
-| Header | Required | Value |
-|--------|----------|-------|
-| `Authorization` | No | `Bearer <jwt_token>` |
-| `Content-Type` | Yes | `application/json` |
-
-### Request Body
-
-| Field | Type | Required | Description | Example |
-|-------|------|----------|-------------|---------|
-| `apiKey` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
-| `userId` | string | Yes | Your system's customer ID or the Qubriux `customerId` | `"APP-CUST-001234"` |
-
-### Request Example
-
-```json
-{
-  "apiKey": "pk_live_abc123def456",
-  "userId": "APP-CUST-001234"
-}
-```
-
-### Response - 200 OK
-
-```json
-{
-  "status": "success",
-  "data": "Deleted"
-}
-```
-
-### Error Responses
-
-| Status | When It Happens |
-|--------|-----------------|
-| `401` | Invalid API key or JWT mismatch |
-| `500` | Customer not found or deletion failed |
-
----
-
 ## POST /getCustomerOffers
 
 Returns the complete set of active offers available to a customer alongside their current loyalty balance, tier status, tier progression data, and redemption limits — all in a single call. Call this at the start of a transaction or when rendering a customer's wallet screen. Optionally include the live basket in the `order` field to enable dynamic offer eligibility evaluation against current items.
-
 
 ### Request Headers
 
@@ -377,7 +324,7 @@ Returns the complete set of active offers available to a customer alongside thei
 | `userId` | string | One of three | Your system's customer ID | `"APP-CUST-001234"` |
 | `mobile` | string | One of three | Customer's mobile number | `"11124650"` |
 | `email` | string | One of three | Customer's email address | `"user@example.com"` |
-| `source` | string | One of three | Show offers per channel | `"APP, POS, WEB` |
+| `source` | string | One of three | Show offers per channel | `"APP, POS, WEB"` |
 | `platform` | string | One of three | For APP Source | `"IOS, ANDROID"` |
 
 ### Request Example
@@ -389,7 +336,7 @@ Returns the complete set of active offers available to a customer alongside thei
   "mobile": "11124650",
   "email": null,
   "source": "APP",
-  "platform" : "IOS"
+  "platform": "IOS"
 }
 ```
 
@@ -397,13 +344,215 @@ Returns the complete set of active offers available to a customer alongside thei
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.loyaltyPoints` | number | Current points balance |
-| `data.walletBalance` | number | Current wallet cash balance |
-| `data.currentTier` | string | Active loyalty tier name |
-| `data.nextTier` | string \| null | Next tier to unlock, or null if at top tier |
-| `data.pointsToNextTier` | number | Points required to reach the next tier |
-| `data.offers` | array | Available offers — each contains `offerId`, `offerName`, `offerType`, `discountValue`, and eligibility flags |
-| `data.expiringPoints` | number \| null | Points expiring within `beansExpiryAfterDays`, if requested |
+| `message` | string | Response status indicator (e.g., `"SUCCESS"`) |
+| `body.customerId` | string | Qubriux internal customer ID |
+| `body.couponDetails` | array | Available offers/coupons for the customer — see fields below |
+| `messageKey` | string \| null | Localization key for the message, if applicable |
+
+#### couponDetails Object Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `orderType` | array\<string\> | Order channels the offer applies to (e.g., `DINEIN`, `TAKEAWAY`, `DELIVERY`, `DRIVETHRU`, `CARHOP`) |
+| `discountScope` | string | Scope the discount applies at — `CART` or `ITEM` |
+| `giftCodeType` | string \| null | Type of gift code, if this is a gift-code offer |
+| `giftCodeValue` | number | Value associated with the gift code |
+| `termsAndCondition` | array | Terms and conditions text blocks |
+| `description` | array | Offer description text blocks |
+| `termsAndConditionAlias` | array | Localized/alias terms and conditions |
+| `descriptionAlias` | array | Localized/alias description |
+| `redemptionCount` | number | Number of times this offer has been redeemed by the customer |
+| `usageLimit` | number \| null | Max redemptions allowed, or null if unlimited |
+| `platform` | array\<object\> | Platforms the offer is valid on — each has `platformName` and `platformInfo` |
+| `maxDiscount` | number \| null | Maximum discount cap, if any |
+| `offerTags` | array | Tags associated with the offer |
+| `offerType` | string | Type of offer (e.g., `COUPON`) |
+| `pointsToRedeem` | number \| null | Loyalty points required to redeem, if points-based |
+| `requireAllItems` | boolean | Whether all prerequisite items must be present in cart |
+| `discountCodeVariants` | array | Variant codes for this discount, if applicable |
+| `collections` | null | Product collections tied to the offer |
+| `preRequisiteProduct` | null | Product(s) required in cart to trigger the offer |
+| `entitledProduct` | null | Product(s) the discount applies to |
+| `prerequisiteExcludedProducts` | array\<object\> | Products excluded from prerequisite matching — each has `productId`, `productName`, `productCategoryId`, `productCategory`, `level`, `type` |
+| `prerequisiteExcludedCategories` | array | Categories excluded from prerequisite matching |
+| `entitledExcludedProducts` | null | Products excluded from the entitled/discounted set |
+| `qrCodeImageLink` | string | URL of the offer's QR code image |
+| `offerImageLink` | string \| null | URL of the offer's display image |
+| `offerAliasImageLink` | string \| null | URL of the offer's localized/alias display image |
+| `startTime` | string \| null | Offer start time, if time-restricted |
+| `endTime` | string \| null | Offer end time, if time-restricted |
+| `limitedTimeOfferInfo` | array | Limited-time-offer scheduling details |
+| `giftCode` | string \| null | Gift code value, if applicable |
+| `limitedTime` | boolean | Whether this is a limited-time offer |
+| `giveAway` | boolean | Whether this is a giveaway offer |
+| `hiddenItemOffer` | boolean | Whether this offer hides its entitled item |
+| `continuous` | boolean | Whether the offer runs continuously (no fixed window) |
+| `freeItem` | boolean | Whether this offer grants a free item |
+| `isGiftCode` | boolean \| null | Whether this offer is redeemed via gift code |
+| `productsInfo` | array | Additional product metadata tied to the offer |
+| `discountValue` | number | Discount value (percentage or amount, per `discountType`) |
+| `offerBarrier` | array | Minimum spend/qualification barriers for the offer |
+| `offerCode` | string | Unique offer/coupon code |
+| `discountOn` | string | What the discount applies to — `ORDER` or `ITEM` |
+| `discountType` | string | `PERCENTAGE` or a fixed-amount type |
+| `offerName` | string | Offer display name |
+| `offerNameAlias` | string | Localized/alias offer name |
+| `expiryDate` | string | Offer expiry timestamp |
+| `lastModifiedDate` | string | Last modified timestamp |
+| `posCouponIdentifier` | string \| null | Identifier used to match this coupon in the POS system |
+| `comment` | string \| null | Internal comment on the offer |
+| `status` | string | Offer status (e.g., `ACTIVE`) |
+| `toApplyOnMultipleProduct` | boolean | Whether the discount can apply across multiple products |
+| `isBestOffer` | boolean | Whether this is flagged as the customer's best available offer |
+| `discountAmount` | number | Fixed discount amount, if `discountType` is amount-based |
+| `isUnlimitedUsage` | boolean | Whether the offer has no usage cap |
+| `priorityRank` | number \| null | Priority rank used when multiple offers are stackable/competing |
+
+### Response Example
+
+```json
+{
+  "message": "SUCCESS",
+  "body": {
+    "customerId": "abhi",
+    "couponDetails": [
+      {
+        "orderType": ["DINEIN", "TAKEAWAY", "DELIVERY", "DRIVETHRU", "CARHOP"],
+        "discountScope": "CART",
+        "giftCodeType": null,
+        "giftCodeValue": 0,
+        "termsAndCondition": [],
+        "description": [],
+        "termsAndConditionAlias": [],
+        "descriptionAlias": [],
+        "redemptionCount": 1,
+        "usageLimit": null,
+        "platform": [
+          { "platformName": "POS", "platformInfo": null },
+          { "platformName": "KIOSK", "platformInfo": null }
+        ],
+        "maxDiscount": null,
+        "offerTags": [],
+        "offerType": "COUPON",
+        "pointsToRedeem": null,
+        "requireAllItems": false,
+        "discountCodeVariants": [],
+        "collections": null,
+        "preRequisiteProduct": null,
+        "entitledProduct": null,
+        "prerequisiteExcludedProducts": [
+          {
+            "productId": "887000",
+            "productName": "**POWR**",
+            "productCategoryId": null,
+            "productCategory": null,
+            "level": null,
+            "type": "item"
+          },
+          {
+            "productId": "888000",
+            "productName": "**GoldenBrown**",
+            "productCategoryId": null,
+            "productCategory": null,
+            "level": null,
+            "type": "item"
+          }
+        ],
+        "prerequisiteExcludedCategories": [],
+        "entitledExcludedProducts": null,
+        "qrCodeImageLink": "https://qubriux-public-assets-qa.s3.amazonaws.com/qr/1282/offers/DSADASDW_qr.png",
+        "offerImageLink": null,
+        "offerAliasImageLink": null,
+        "startTime": null,
+        "endTime": null,
+        "limitedTimeOfferInfo": [],
+        "giftCode": null,
+        "limitedTime": false,
+        "giveAway": false,
+        "hiddenItemOffer": false,
+        "continuous": true,
+        "freeItem": false,
+        "isGiftCode": null,
+        "productsInfo": [],
+        "discountValue": 22,
+        "offerBarrier": [],
+        "offerCode": "DSADASDW",
+        "discountOn": "ORDER",
+        "discountType": "PERCENTAGE",
+        "offerName": "dsadadwd",
+        "offerNameAlias": "",
+        "expiryDate": "2026-09-03 23:59:59",
+        "lastModifiedDate": "2026-08-13 13:21:03",
+        "posCouponIdentifier": null,
+        "comment": null,
+        "status": "ACTIVE",
+        "toApplyOnMultipleProduct": false,
+        "isBestOffer": false,
+        "discountAmount": 0,
+        "isUnlimitedUsage": true,
+        "priorityRank": null
+      },
+      {
+        "orderType": ["TAKEAWAY"],
+        "discountScope": "ITEM",
+        "giftCodeType": null,
+        "giftCodeValue": 0,
+        "termsAndCondition": [],
+        "description": [],
+        "termsAndConditionAlias": [],
+        "descriptionAlias": [],
+        "redemptionCount": null,
+        "usageLimit": null,
+        "platform": [],
+        "maxDiscount": null,
+        "offerTags": [],
+        "offerType": "COUPON",
+        "pointsToRedeem": null,
+        "requireAllItems": false,
+        "discountCodeVariants": [],
+        "collections": null,
+        "preRequisiteProduct": null,
+        "entitledProduct": null,
+        "prerequisiteExcludedProducts": [],
+        "prerequisiteExcludedCategories": [],
+        "entitledExcludedProducts": null,
+        "qrCodeImageLink": null,
+        "offerImageLink": null,
+        "offerAliasImageLink": null,
+        "startTime": null,
+        "endTime": null,
+        "limitedTimeOfferInfo": [],
+        "giftCode": null,
+        "limitedTime": false,
+        "giveAway": false,
+        "hiddenItemOffer": false,
+        "continuous": true,
+        "freeItem": false,
+        "isGiftCode": null,
+        "productsInfo": [],
+        "discountValue": 100,
+        "offerBarrier": [],
+        "offerCode": "TEST TT AZHAR",
+        "discountOn": "ITEM",
+        "discountType": "PERCENTAGE",
+        "offerName": "10 Discount on Pick Up Orders",
+        "offerNameAlias": "10 Discount on Pick Up Orders",
+        "expiryDate": "2026-09-18 23:59:59",
+        "lastModifiedDate": "2026-08-27 18:17:35",
+        "posCouponIdentifier": "Test TT Azhar_clone_clone_clone",
+        "comment": null,
+        "status": "ACTIVE",
+        "toApplyOnMultipleProduct": false,
+        "isBestOffer": false,
+        "discountAmount": 0,
+        "isUnlimitedUsage": true,
+        "priorityRank": null
+      }
+    ]
+  },
+  "messageKey": null
+}
+```
 
 ### Error Responses
 
@@ -412,9 +561,7 @@ Returns the complete set of active offers available to a customer alongside thei
 | `401` | Invalid API key or JWT mismatch |
 | `422` | Customer not found, or no identifier supplied |
 | `500` | Unexpected server error |
-
 ---
-
 ## POST /getCustomerLoyaltyPointsTx
 
 Returns the paginated loyalty points transaction history for a customer — credits, debits, expirations, and redemptions. Use this to power a customer-facing points history screen.
@@ -430,17 +577,27 @@ Returns the paginated loyalty points transaction history for a customer — cred
 
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
-| `apiKey` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
-| `userId` | string | One of three | Customer ID | `"APP-CUST-001234"` |
+| `apiKey` | string | Yes | Merchant-level API key | `"28fb4bd2-cd35-480f-a9ac-4459669cf782"` |
+| `userId` | string | One of three | Customer ID | `"Ravina26"` |
 | `mobile` | string | One of three | Customer's mobile number | `"+971501234567"` |
 | `email` | string | One of three | Customer's email address | `"sarah.khan@example.com"` |
+| `recordsPerPage` | number | No | Number of transactions to return per page. Defaults if omitted. | `10` |
+| `pageNumber` | number | No | Page number to retrieve (1-indexed) | `1` |
+| `sortingOrder` | string | No | Sort direction by transaction date — `asc` or `desc` | `"desc"` |
+| `transactionType` | string | No | Filter by transaction type — `All`, `Credited`, `Debited`, or `Expired` | `"All"` |
 
 ### Request Example
 
 ```json
 {
-  "apiKey": "pk_live_abc123def456",
-  "userId": "APP-CUST-001234"
+  "apiKey": "28fb4bd2-cd35-480f-a9ac-4459669cf782",
+  "userId": "Ravina26",
+  "mobile": "",
+  "email": "",
+  "recordsPerPage": 10,
+  "pageNumber": 1,
+  "sortingOrder": "desc",
+  "transactionType": "All"
 }
 ```
 
@@ -448,51 +605,107 @@ Returns the paginated loyalty points transaction history for a customer — cred
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.transactions` | array | List of transaction records |
-| `data.transactions[].transactionDate` | string | ISO 8601 timestamp |
-| `data.transactions[].points` | number | Points credited (positive) or debited (negative) |
-| `data.transactions[].description` | string | Human-readable reason (e.g. `"Purchase earned"`, `"Redeemed"`) |
-| `data.transactions[].orderId` | string \| null | Associated order ID if applicable |
+| `message` | string | Response status indicator (e.g., `"SUCCESS"`) |
+| `body.customerId` | string | Qubriux internal customer ID |
+| `body.totalTransaction` | number | Total number of transactions across all pages |
+| `body.recordsPerPage` | number | Number of records returned per page |
+| `body.totalPage` | number | Total number of pages available |
+| `body.transactions` | array | List of transaction records — see fields below |
+| `body.secondaryLoyaltyTransactions` | array | Transactions under a secondary loyalty currency/program, if configured |
+| `messageKey` | string \| null | Localization key for the message, if applicable |
 
-### Error Responses
-
-| Status | When It Happens |
-|--------|-----------------|
-| `401` | Invalid API key or JWT mismatch |
-| `422` | Customer not found |
-| `500` | Unexpected server error |
-
----
-
-## POST /loyaltyTierInfo
-
-Returns the current tier, tier progress, and tier benefits for a specific customer. Use this to render a customer's tier status card or membership dashboard.
-
-### Request Headers
-
-| Header | Required | Value |
-|--------|----------|-------|
-| `Authorization` | No | `Bearer <jwt_token>` |
-| `Content-Type` | Yes | `application/json` |
-
-### Request Body
-
-| Field | Type | Required | Description | Example |
-|-------|------|----------|-------------|---------|
-| `apiKey` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
-| `userId` | string | One of three | Customer ID | `"APP-CUST-001234"` |
-| `mobile` | string | One of three | Customer's mobile number | `"+971501234567"` |
-| `email` | string | One of three | Customer's email address | `"sarah.khan@example.com"` |
-
-### Response - 200 OK
+#### transactions Object Fields
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.currentTier` | string | Current tier name (e.g. `"Gold"`) |
-| `data.currentPoints` | number | Points balance contributing to tier status |
-| `data.nextTier` | string \| null | Next tier name, or null if at top |
-| `data.pointsToNextTier` | number | Points required to reach the next tier |
-| `data.tierBenefits` | array | List of benefit descriptions for the current tier |
+| `transactionId` | string \| null | Unique transaction identifier. Null for system-generated events like expirations. |
+| `points` | number | Points involved in the transaction |
+| `transactionType` | string | `Credited`, `Debited`, or `Expired` |
+| `applicableDateTime` | string | Timestamp the transaction applies to (YYYY-MM-DD HH:MM:SS) |
+| `expiryDate` | string \| null | Expiry date for the points credited in this transaction, if applicable |
+| `rule` | string \| null | Description of the rule that triggered this transaction |
+| `events` | string \| null | Associated event data, if any |
+| `balance` | number | Points balance after this transaction |
+| `offerCount` | number \| null | Number of offers tied to this transaction, if applicable |
+| `userName` | string \| null | Name of the user/agent associated with the transaction, if applicable |
+| `userEmail` | string \| null | Email of the user/agent associated with the transaction, if applicable |
+| `storeName` | string \| null | Store where the transaction occurred, if applicable |
+| `orderId` | string \| null | Associated order ID, if applicable |
+| `earningSource` | string | Source category of the transaction (e.g., `Redeemed`, `Offer`, `Expired`) |
+| `earningSourceDesc` | string | Description of the earning source |
+| `earningSourceAliasDesc` | string \| null | Localized/alias description of the earning source |
+
+### Response Example
+
+```json
+{
+  "message": "SUCCESS",
+  "body": {
+    "customerId": "4cac42348c2849fbbfa8ac0fa99c12cd",
+    "totalTransaction": 19,
+    "recordsPerPage": 10,
+    "totalPage": 2,
+    "transactions": [
+      {
+        "transactionId": null,
+        "points": 60.0,
+        "transactionType": "Expired",
+        "applicableDateTime": "2025-09-27 03:00:00",
+        "expiryDate": null,
+        "rule": null,
+        "events": null,
+        "balance": 0.0,
+        "offerCount": null,
+        "userName": null,
+        "userEmail": null,
+        "storeName": null,
+        "orderId": null,
+        "earningSource": "Expired",
+        "earningSourceDesc": "",
+        "earningSourceAliasDesc": null
+      },
+      {
+        "transactionId": "053dd7a9-5d03-4a6b-b141-6ec5a8d7fcaf",
+        "points": 20.0,
+        "transactionType": "Debited",
+        "applicableDateTime": "2025-04-02 11:41:44",
+        "expiryDate": null,
+        "rule": "Thomcoins redeemed for an order",
+        "events": null,
+        "balance": 0.0,
+        "offerCount": null,
+        "userName": null,
+        "userEmail": null,
+        "storeName": "lab-new menu",
+        "orderId": "34444",
+        "earningSource": "Redeemed",
+        "earningSourceDesc": "34444",
+        "earningSourceAliasDesc": "34444"
+      },
+      {
+        "transactionId": "0583380a-31fa-4095-8f0b-ba2cb8b64f57",
+        "points": 20.0,
+        "transactionType": "Credited",
+        "applicableDateTime": "2025-03-27 15:39:49",
+        "expiryDate": "2025-09-27 15:39:49",
+        "rule": "Thomcoins earned via FIXED LOYALTY POINTS GAIN_8",
+        "events": null,
+        "balance": 0.0,
+        "offerCount": null,
+        "userName": null,
+        "userEmail": null,
+        "storeName": null,
+        "orderId": null,
+        "earningSource": "Offer",
+        "earningSourceDesc": "FIXED LOYALTY POINTS GAIN_8",
+        "earningSourceAliasDesc": "FIXED LOYALTY POINTS GAIN_8"
+      }
+    ],
+    "secondaryLoyaltyTransactions": []
+  },
+  "messageKey": null
+}
+```
 
 ### Error Responses
 
@@ -503,10 +716,9 @@ Returns the current tier, tier progress, and tier benefits for a specific custom
 | `500` | Unexpected server error |
 
 ---
-
 ## POST /getLoyaltyDetails
 
-Returns comprehensive loyalty programme details for a customer, including full tier hierarchy, accrual rules, and redemption thresholds. Use this for a deep programme details screen or onboarding explainer.
+Returns comprehensive loyalty programme details for a customer, including points summary, tier data, and conversion rates. Use this for a deep programme details screen or onboarding explainer.
 
 ### Request Headers
 
@@ -520,8 +732,9 @@ Returns comprehensive loyalty programme details for a customer, including full t
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
 | `apiKey` | string | Yes | Merchant-level API key | `"28fb4bd2-cd35-480f-a9ac-4459669cf782"` |
-| `userId` | string | One of two | Your system's customer ID | `"APP-CUST-001234"` |
-| `mobile` | string | One of two | Customer's mobile number | `"11124650"` |
+| `userId` | string | One of three | Your system's customer ID | `"APP-CUST-001234"` |
+| `mobile` | string | One of three | Customer's mobile number | `"11124650"` |
+| `email` | string | One of three | Customer's email address | `"user@example.com"` |
 
 ### Request Example
 
@@ -529,7 +742,8 @@ Returns comprehensive loyalty programme details for a customer, including full t
 {
   "apiKey": "28fb4bd2-cd35-480f-a9ac-4459669cf782",
   "userId": null,
-  "mobile": "11124650"
+  "mobile": "11124650",
+  "email": null
 }
 ```
 
@@ -537,12 +751,117 @@ Returns comprehensive loyalty programme details for a customer, including full t
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.programName` | string | Loyalty programme name |
-| `data.tiers` | array | All configured tiers, each containing `tierName`, `minPoints`, `benefits` |
-| `data.accrualRate` | number | Points earned per unit spend |
-| `data.redemptionRate` | number | Points required per currency unit of discount |
-| `data.customerTier` | string | Customer's current tier |
-| `data.customerPoints` | number | Customer's current balance |
+| `message` | string | Response status indicator (e.g., `"SUCCESS"`) |
+| `body.availablePoints` | number | Customer's current redeemable points balance |
+| `body.totalPointsEarned` | number | Lifetime points earned |
+| `body.totalPointsBurned` | number | Lifetime points burned (redeemed + expired, combined) |
+| `body.totalPointsRedeemed` | number | Lifetime points redeemed against orders/rewards |
+| `body.totalPointsExpired` | number | Lifetime points that expired unused |
+| `body.accumulatedPoints` | number | Points accumulated toward tier progression |
+| `body.pointsAccumulatedAfterTierChange` | number | Points accumulated since the customer's last tier change |
+| `body.pointsConversionRate` | object | Points-to-currency conversion rate — see fields below |
+| `body.pointsToBeExpired` | number | Points due to expire soon |
+| `body.savingsFromPoints` | number | Total monetary savings the customer has realized from redeeming points |
+| `body.savingsFromOffers` | number | Total monetary savings the customer has realized from offers |
+| `body.totalWalletBalance` | number | Customer's current wallet cash balance |
+| `body.currentTierData` | object | Customer's current tier details — see fields below |
+| `body.customerDetails` | object \| null | Additional customer profile data, if returned |
+| `body.loyaltySignUpDate` | string | Timestamp the customer joined the loyalty programme (YYYY-MM-DD HH:MM:SS) |
+| `body.secondaryAvailablePoints` | number | Available points under a secondary loyalty currency/programme, if configured |
+| `body.secondaryTotalPointsEarned` | number | Lifetime points earned under the secondary loyalty programme |
+| `body.secondaryTotalPointsRedeemed` | number | Lifetime points redeemed under the secondary loyalty programme |
+| `body.secondaryTotalPointsExpired` | number | Lifetime points expired under the secondary loyalty programme |
+| `messageKey` | string \| null | Localization key for the message, if applicable |
+
+#### pointsConversionRate Object Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `points` | number | Number of points this rate applies to |
+| `amount` | number | Currency amount equivalent to `points` |
+| `currency` | string | Currency code (e.g., `"SAR"`) |
+| `country` | string | Country code the rate applies to (e.g., `"SA"`) |
+| `brandId` | string \| null | Brand-specific override, if applicable |
+
+#### currentTierData Object Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `tierId` | number | Internal tier ID |
+| `tierName` | string | Tier display name |
+| `tierEntryPoints` | number | Points threshold required to enter this tier |
+| `description` | string | Tier description |
+| `level` | number | Numeric tier level/rank |
+| `conversion` | object \| null | Tier-specific conversion override, if any |
+| `colorCode` | string | Hex color code associated with the tier |
+| `tierNameAlias` | string | Localized/alias tier name |
+| `descriptionAlias` | string | Localized/alias tier description |
+| `isHighestTier` | boolean | Whether this is the top tier in the programme |
+| `pointsRequiredToReachThisTier` | number | Points needed to reach this tier from the previous one |
+| `milestoneInCurrentTier` | string \| null | Milestone marker within the current tier, if any |
+| `totalPointsEarned` | number \| null | Points earned while in this tier (null when reported only at the top level) |
+| `totalPointsRedeemed` | number \| null | Points redeemed while in this tier |
+| `totalPointsExpired` | number \| null | Points expired while in this tier |
+| `totalPointsBurned` | number \| null | Points burned while in this tier |
+| `accumulatedPoints` | number \| null | Points accumulated while in this tier |
+| `pointsAccumulatedAfterTierChange` | number \| null | Points accumulated since entering this tier |
+| `availablePoints` | number \| null | Available points scoped to this tier |
+
+### Response Example
+
+```json
+{
+  "message": "SUCCESS",
+  "body": {
+    "availablePoints": 300.0,
+    "totalPointsEarned": 7960.0,
+    "totalPointsBurned": 5317.0,
+    "totalPointsRedeemed": 70.0,
+    "totalPointsExpired": 2273.0,
+    "accumulatedPoints": 2643.0,
+    "pointsAccumulatedAfterTierChange": 490.0,
+    "pointsConversionRate": {
+      "points": 10.0,
+      "amount": 0.7,
+      "currency": "SAR",
+      "country": "SA",
+      "brandId": null
+    },
+    "pointsToBeExpired": 0.0,
+    "savingsFromPoints": 6.25,
+    "savingsFromOffers": 355.0,
+    "totalWalletBalance": 866.00,
+    "currentTierData": {
+      "tierId": 60,
+      "tierName": "Pro",
+      "tierEntryPoints": 1500.0,
+      "description": "Gold Description",
+      "level": 2,
+      "conversion": null,
+      "colorCode": "#aa142c",
+      "tierNameAlias": "ذهب",
+      "descriptionAlias": "ذهب",
+      "isHighestTier": false,
+      "pointsRequiredToReachThisTier": 0.0,
+      "milestoneInCurrentTier": null,
+      "totalPointsEarned": null,
+      "totalPointsRedeemed": null,
+      "totalPointsExpired": null,
+      "totalPointsBurned": null,
+      "accumulatedPoints": null,
+      "pointsAccumulatedAfterTierChange": null,
+      "availablePoints": null
+    },
+    "customerDetails": null,
+    "loyaltySignUpDate": "2026-01-02 07:23:17",
+    "secondaryAvailablePoints": 0.0,
+    "secondaryTotalPointsEarned": 0.0,
+    "secondaryTotalPointsRedeemed": 0.0,
+    "secondaryTotalPointsExpired": 0.0
+  },
+  "messageKey": null
+}
+```
 
 ### Error Responses
 
@@ -554,86 +873,10 @@ Returns comprehensive loyalty programme details for a customer, including full t
 
 ---
 
-## POST /getTierDescription
-
-Returns the textual description and qualifying rules for each tier in the merchant's loyalty programme. Use this to populate an informational tier breakdown in the app without requiring a specific customer context.
-
-### Request Headers
-
-| Header | Required | Value |
-|--------|----------|-------|
-| `Authorization` | No | `Bearer <jwt_token>` |
-| `Content-Type` | Yes | `application/json` |
-
-### Request Body
-
-| Field | Type | Required | Description | Example |
-|-------|------|----------|-------------|---------|
-| `apiKey` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
-
-### Response - 200 OK
-
-Returns a string containing the tier description content, wrapped in the standard envelope.
-
-### Error Responses
-
-| Status | When It Happens |
-|--------|-----------------|
-| `401` | Invalid API key or JWT mismatch |
-| `500` | Tier description not configured or server error |
-
----
-
-## POST /allocateLoyaltyPointsToCustomer
-
-Manually credits loyalty points to a customer's balance outside the normal earn-on-purchase flow. Intended for promotional campaigns, welcome bonuses, compensation credits, or admin corrections.
-
-### Request Headers
-
-| Header | Required | Value |
-|--------|----------|-------|
-| `Authorization` | No | `Bearer <jwt_token>` |
-| `Content-Type` | Yes | `application/json` |
-
-### Request Body
-
-| Field | Type | Required | Description | Example |
-|-------|------|----------|-------------|---------|
-| `apiKey` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
-| `userId` | string | Yes | Customer ID in your system or Qubriux `customerId` | `"APP-CUST-001234"` |
-| `points` | number | Yes | Number of points to allocate | `500` |
-| `reason` | string | No | Description of why points were allocated | `"Welcome bonus"` |
-
-### Request Example
-
-```json
-{
-  "apiKey": "pk_live_abc123def456",
-  "userId": "APP-CUST-001234",
-  "points": 500,
-  "reason": "Welcome bonus"
-}
-```
-
-### Response - 200 OK
-
-Returns a success confirmation string in `data`.
-
-### Error Responses
-
-| Status | When It Happens |
-|--------|-----------------|
-| `401` | Invalid API key or JWT mismatch |
-| `422` | Customer not found, or invalid points value |
-| `500` | Unexpected server error |
-
----
-
 ## POST /cartUpdate
 
 Validates a live cart against the customer's available rewards and returns the projected discount breakdown before the customer commits to redemption. Call this each time the cart changes to keep the discount preview up to date. This endpoint does not finalise anything — it is read-only from a loyalty perspective.
 
-
 ### Request Headers
 
 | Header | Required | Value |
@@ -645,32 +888,32 @@ Validates a live cart against the customer's available rewards and returns the p
 
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
-| `apiKey` | string | Yes | Merchant-level API key | `"39fb4bd2-cd35-480f-a9ac-4459669cf882"` |
-| `userId` | string | One of three | Your system's customer ID | `"APP-CUST-001234"` |
-| `mobile` | string | One of three | Customer's mobile number | `"11124650"` |
-| `email` | string | One of three | Customer's email address | `"user@example.com"` |
+| `apiKey` | string | Yes | Merchant-level API key | `"9e2d7c1a-5b8f-43e0-a2d6-4c9b1f8e7a25"` |
+| `userId` | string | One of three | Your system's unique customer ID | `null` |
+| `mobile` | string | One of three | Customer's mobile number | `"457790235"` |
+| `email` | string | One of three | Customer's email address | `null` |
 | `order` | object | Yes | Current basket (see [Order Fields](#order-fields)) | — |
 
 ### Order Fields
 
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
-| `cartId` | string | Yes | Unique cart identifier | `"20088"` |
+| `cartId` | string | Yes | Unique cart identifier, used to identify the cart's product info | `"20088"` |
 | `orderId` | string | Yes | Unique order identifier | `"20088"` |
 | `invoiceNumber` | string/number | No | Invoice reference, if any | `904` |
 | `orderType` | string | Yes | Order channel: `DELIVERY`, `TAKEAWAY`, `DINEIN`, `DRIVETHRU` | `"DELIVERY"` |
 | `screen` | string | Yes | Screen context where the call originates | `"CART"` |
-| `grossAmount` | number | Yes | Subtotal + delivery (before loyalty/wallet discounts) | `55` |
-| `netAmount` | number | Yes | Subtotal + delivery minus all applied discounts | `55` |
-| `subTotal` | number | Yes | Item total including tax, excluding delivery | `45` |
+| `grossAmount` | number | Yes | Subtotal + delivery (before loyalty/wallet discounts) | `67` |
+| `netAmount` | number | Yes | Subtotal + delivery minus offer/loyalty discount and wallet amount applied | `67` |
+| `subTotal` | number | Yes | Item total, includes tax | `70` |
 | `tax` | number | Yes | Tax amount | `1` |
-| `source` | string | Yes | Integration source: `APP`, `POS`, `WEB` | `"POS"` |
+| `source` | string | Yes | Integration source: `APP`, `POS`, `WEB`, `KIOSK` | `"POS"` |
 | `platformName` | string | No | Platform: `ANDROID`, `IOS` | `"IOS"` |
 | `platformVersion` | string | No | Platform version string | `"1.2.3.2"` |
 | `isLoyaltyToggleOn` | boolean | Yes | Whether the customer chose to use loyalty points | `false` |
-| `loyaltyPoints` | number | Conditional | Points to apply — required when `isLoyaltyToggleOn` is `true` | `5` |
+| `loyaltyPoints` | number | Conditional | Points to apply — only send when `isLoyaltyToggleOn` is `true` | `5` |
 | `isWalletToggleOn` | boolean | Yes | Whether the customer chose to use their wallet balance | `false` |
-| `walletAmount` | number | Conditional | Wallet amount to apply — required when `isWalletToggleOn` is `true` | `10` |
+| `walletAmount` | number | Conditional | Wallet amount to apply — only send when `isWalletToggleOn` is `true` | `10` |
 | `discount` | object | Yes | Coupon/offer applied to the order (see below) | — |
 | `items` | array | Yes | Line items (see below) | — |
 | `deliveryInfo` | object | No | Delivery charge details (see below) | — |
@@ -679,7 +922,7 @@ Validates a live cart against the customer's available rewards and returns the p
 
 | Field | Type | Description | Example |
 |-------|------|-------------|---------|
-| `discountId` | string \| null | Offer/coupon code, if any | `"GIFT50"` |
+| `discountId` | string \| null | Offer/coupon code, if the customer has one applied | `"DESSERT"` |
 | `discountAmt` | number \| null | Discount amount — populated in `redeemReward` only | `null` |
 
 #### items Fields
@@ -687,13 +930,13 @@ Validates a live cart against the customer's available rewards and returns the p
 | Field | Type | Description | Example |
 |-------|------|-------------|---------|
 | `sequenceId` | integer | Line item sequence number | `1` |
-| `productId` | string | SKU or product identifier | `"18042"` |
-| `productName` | string | Display name | `"7 up Medium"` |
-| `rate` | number | Unit price | `45.00` |
-| `quantity` | integer | Units ordered | `1` |
+| `productId` | string | SKU or product identifier | `"50002"` |
+| `productName` | string | Display name | `"Brownie"` |
+| `rate` | number | Unit price | `1.0` |
+| `quantity` | integer | Units ordered | `2` |
 | `level` | integer | Size level: `0` = Regular, `1` = Medium, `2` = High | `0` |
 | `type` | string | Line type: `item` or `combo` | `"item"` |
-| `subtotal` | number | Product amount (`rate × quantity`) | `45.00` |
+| `subtotal` | number | Product amount | `20.0` |
 | `categoryName` | string | Category display name | `"Drink"` |
 | `categoryId` | string | Category identifier | `"888000"` |
 | `modifiers` | array | Selected modifiers (see below) | — |
@@ -720,35 +963,56 @@ Validates a live cart against the customer's available rewards and returns the p
 ```json
 {
   "userId": null,
-  "mobile": "11124650",
+  "mobile": "457790235",
   "email": null,
-  "apiKey": "39fb4bd2-cd35-480f-a9ac-4459669cf882",
+  "apiKey": "9e2d7c1a-5b8f-43e0-a2d6-4c9b1f8e7a25",
   "order": {
     "cartId": "20088",
     "orderId": "20088",
     "invoiceNumber": 904,
     "orderType": "DELIVERY",
     "screen": "CART",
-    "grossAmount": 55,
-    "netAmount": 55,
-    "subTotal": 45,
+    "grossAmount": 67,
+    "netAmount": 67,
+    "subTotal": 70,
     "tax": 1,
     "source": "POS",
     "platformName": "IOS",
+    "loyaltyPoints": 5,
+    "walletAmount": 10,
     "platformVersion": "1.2.3.2",
     "isLoyaltyToggleOn": false,
-    "loyaltyPoints": 0,
     "isWalletToggleOn": false,
-    "walletAmount": 0,
     "discount": {
-      "discountId": "GIFT50",
+      "discountId": "DESSERT",
       "discountAmt": null
     },
     "items": [
       {
         "sequenceId": 1,
+        "productName": "Brownie",
+        "productId": "50002",
+        "rate": 1.0,
+        "quantity": 2,
+        "level": 0,
+        "type": "item",
+        "subtotal": 20.0,
+        "categoryName": "Drink",
+        "categoryId": "888000",
+        "modifiers": [
+          {
+            "modifierName": "Regular",
+            "quantity": 1,
+            "rate": 0.0,
+            "subtotal": 0.0,
+            "modifierId": "64d8bc8cccc1395649653f2c"
+          }
+        ]
+      },
+      {
+        "sequenceId": 1,
         "productName": "7 up Medium",
-        "productId": "18042",
+        "productId": "50001",
         "rate": 45.0,
         "quantity": 1,
         "level": 0,
@@ -782,11 +1046,77 @@ Validates a live cart against the customer's available rewards and returns the p
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.discountAmount` | number | Projected discount that would be applied |
-| `data.pointsToRedeem` | number | Points that would be consumed |
-| `data.walletAmountToRedeem` | number | Wallet cash that would be consumed |
-| `data.netAmount` | number | Cart total after the projected discount |
-| `data.offerApplied` | object \| null | Offer details if an offer would be applied |
+| `message` | string | Response status indicator (e.g., `"SUCCESS"`) |
+| `body.userId` | string | Customer identifier |
+| `body.discountDetails` | array | Offers/coupons evaluated against the cart — see fields below |
+| `body.customRedemptionTransactionDetails` | object \| null | Details of a custom redemption transaction, if applicable |
+| `body.discountOnPoints` | number | Discount amount attributable to points redemption |
+| `body.pointsToRedeem` | number | Points that would be consumed |
+| `body.totalDiscount` | number | Total projected discount across offers, points, and wallet. Pass this value into `discount.discountAmt` on the `redeemReward` call and use it to update the order's net amount. |
+| `body.walletInfo` | object \| null | Wallet redemption details, if wallet was applied |
+| `body.giftCodeResponse` | object \| null | Gift code redemption details, if a gift code was applied |
+| `body.pointsCustomerCanEarn` | number | Points the customer would earn if this order is completed as-is |
+| `messageKey` | string \| null | Localization key for the message, if applicable |
+
+#### discountDetails Object Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `itemId` | string \| null | Item the discount applies to, if item-scoped |
+| `itemName` | string \| null | Name of the item the discount applies to, if item-scoped |
+| `discountCode` | string | Offer/coupon code |
+| `discountAmount` | number | Projected discount amount for this offer |
+| `discountType` | string | `PERCENTAGE` or a fixed-amount type |
+| `orderType` | array\<string\> | Order channels this offer applies to |
+| `discountScope` | string | Scope the discount applies at — `CART` or `ITEM` |
+| `cashbackAmount` | number \| null | Cashback amount, if this offer grants cashback |
+| `pointsToRedeem` | number \| null | Points required for this specific offer, if points-based |
+| `lineItemDiscountMap` | object | Per-line-item discount breakdown, keyed by line item |
+| `posCouponIdentifier` | string \| null | Identifier used to match this coupon in the POS system |
+| `giveAway` | boolean | Whether this is a giveaway offer |
+| `hiddenItemOffer` | boolean | Whether this offer hides its entitled item |
+| `freeItem` | boolean | Whether this offer grants a free item |
+| `loyaltyPointsGain` | number | Points the customer gains from this offer specifically |
+| `productInfo` | object \| null | Product metadata tied to the offer, if applicable |
+
+### Response Example
+
+```json
+{
+  "message": "SUCCESS",
+  "body": {
+    "userId": "1316x",
+    "discountDetails": [
+      {
+        "itemId": null,
+        "itemName": null,
+        "discountCode": "CART20",
+        "discountAmount": 2.6,
+        "discountType": "PERCENTAGE",
+        "orderType": ["TAKEAWAY", "DELIVERY", "CARHOP"],
+        "discountScope": "CART",
+        "cashbackAmount": null,
+        "pointsToRedeem": null,
+        "lineItemDiscountMap": {},
+        "posCouponIdentifier": null,
+        "giveAway": false,
+        "hiddenItemOffer": false,
+        "freeItem": false,
+        "loyaltyPointsGain": 0.0,
+        "productInfo": null
+      }
+    ],
+    "customRedemptionTransactionDetails": null,
+    "discountOnPoints": 0.0,
+    "pointsToRedeem": 0.0,
+    "totalDiscount": 2.6,
+    "walletInfo": null,
+    "giftCodeResponse": null,
+    "pointsCustomerCanEarn": 294.8
+  },
+  "messageKey": null
+}
+```
 
 ### Error Responses
 
@@ -795,7 +1125,6 @@ Validates a live cart against the customer's available rewards and returns the p
 | `401` | Invalid API key or JWT mismatch |
 | `422` | Customer not found, or order data is malformed |
 | `500` | Unexpected server error |
-
 ---
 
 ## POST /redeemReward
@@ -803,9 +1132,8 @@ Validates a live cart against the customer's available rewards and returns the p
 Finalises reward redemption at point of sale. Call this after the customer has confirmed they want to apply their rewards and the transaction is about to be settled. This endpoint deducts the appropriate points, wallet balance, or offer from the customer's account and returns the final adjusted cart.
 
 :::warning
-This endpoint makes irreversible changes to the customer's loyalty balance. Always call `/cartUpdate` first to preview the impact, then call this endpoint only when the customer explicitly confirms and the POS is ready to settle.
+This endpoint makes immediate changes to the customer's loyalty balance. Always call `/cartUpdate` first to preview the impact, then call this endpoint only when the customer explicitly confirms and the POS is ready to settle. If the transaction is later cancelled, use `/voidRedemption` to reverse the deduction — do not attempt to manually re-credit points or wallet balance.
 :::
-
 
 ### Request Headers
 
@@ -816,18 +1144,139 @@ This endpoint makes irreversible changes to the customer's loyalty balance. Alwa
 
 ### Request Body
 
-Same schema as `/cartUpdate`. Include the final confirmed basket in `order`. Set `discount.discountAmt` to the actual computed discount amount when a coupon is being applied.
+Same schema as `/cartUpdate`. Include the final confirmed basket in `order`.
+
+**Before calling this endpoint:**
+
+1. Set `discount.discountAmt` to the value returned in `/cartUpdate`'s `body.totalDiscount`.
+2. Subtract `discount.discountAmt` from `netAmount` before sending — `netAmount` in the request must already reflect the discount applied (i.e. `netAmount = grossAmount - discount.discountAmt`).
+
+### Request Example
+
+Using the `/cartUpdate` response from earlier (`body.totalDiscount = 2.6`), the `/redeemReward` request would be:
+
+```json
+{
+  "userId": null,
+  "mobile": "457790235",
+  "email": null,
+  "apiKey": "9e2d7c1a-5b8f-43e0-a2d6-4c9b1f8e7a25",
+  "order": {
+    "cartId": "20088",
+    "orderId": "20088",
+    "invoiceNumber": 904,
+    "orderType": "DELIVERY",
+    "screen": "CART",
+    "grossAmount": 67,
+    "netAmount": 64.4,
+    "subTotal": 70,
+    "tax": 1,
+    "source": "POS",
+    "platformName": "IOS",
+    "loyaltyPoints": 5,
+    "walletAmount": 10,
+    "platformVersion": "1.2.3.2",
+    "isLoyaltyToggleOn": false,
+    "isWalletToggleOn": false,
+    "discount": {
+      "discountId": "DESSERT",
+      "discountAmt": 2.6
+    },
+    "items": [
+      {
+        "sequenceId": 1,
+        "productName": "Brownie",
+        "productId": "50002",
+        "rate": 1.0,
+        "quantity": 2,
+        "level": 0,
+        "type": "item",
+        "subtotal": 20.0,
+        "categoryName": "Drink",
+        "categoryId": "888000",
+        "modifiers": [
+          {
+            "modifierName": "Regular",
+            "quantity": 1,
+            "rate": 0.0,
+            "subtotal": 0.0,
+            "modifierId": "64d8bc8cccc1395649653f2c"
+          }
+        ]
+      },
+      {
+        "sequenceId": 1,
+        "productName": "7 up Medium",
+        "productId": "50001",
+        "rate": 45.0,
+        "quantity": 1,
+        "level": 0,
+        "type": "item",
+        "subtotal": 45.0,
+        "categoryName": "Drink",
+        "categoryId": "888000",
+        "modifiers": [
+          {
+            "modifierName": "Regular",
+            "quantity": 1,
+            "rate": 0.0,
+            "subtotal": 0.0,
+            "modifierId": "64d8bc8cccc1395649653f2c"
+          }
+        ]
+      }
+    ],
+    "deliveryInfo": {
+      "deliveryCharge": 10,
+      "discount": {
+        "discountId": null,
+        "discountAmt": null
+      }
+    }
+  }
+}
+```
+
+**What changed from the `/cartUpdate` request:**
+
+| Field | `/cartUpdate` value | `/redeemReward` value | Why |
+|-------|---------------------|------------------------|-----|
+| `discount.discountAmt` | `null` | `2.6` | Copied from `/cartUpdate`'s `body.totalDiscount` |
+| `netAmount` | `67` | `64.4` | `grossAmount (67) - discountAmt (2.6)` |
+
+All other fields (`items`, `grossAmount`, `subTotal`, `tax`, etc.) remain as confirmed in the final cart.
 
 ### Response - 200 OK
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `data.redemptionId` | string | Unique reference for this redemption event. **Store for void eligibility.** |
-| `data.discountApplied` | number | Actual discount value deducted |
-| `data.pointsDeducted` | number | Loyalty points consumed |
-| `data.walletAmountDeducted` | number | Wallet cash consumed |
-| `data.updatedLoyaltyBalance` | number | Remaining loyalty points after deduction |
-| `data.updatedWalletBalance` | number | Remaining wallet cash after deduction |
+| `message` | string | Response status indicator (e.g., `"SUCCESS"`) |
+| `body.couponRedeemed` | string \| null | Offer/coupon code that was redeemed, if any |
+| `body.loyaltyDeductionSuccess` | boolean | Whether loyalty points were successfully deducted |
+| `body.loyaltyPointsDeducted` | number | Loyalty points actually consumed |
+| `body.walletDeductionSuccess` | boolean | Whether wallet balance was successfully deducted |
+| `body.walletInfo` | object \| null | Wallet redemption details, if wallet was applied |
+| `body.message` | string \| null | Additional status or error detail |
+| `body.isCouponRedeemed` | boolean | Whether the coupon/offer was successfully redeemed |
+| `messageKey` | string \| null | Localization key for the message, if applicable |
+
+### Response Example
+
+```json
+{
+  "message": "SUCCESS",
+  "body": {
+    "couponRedeemed": "CART20",
+    "loyaltyDeductionSuccess": false,
+    "loyaltyPointsDeducted": 0.0,
+    "walletDeductionSuccess": false,
+    "walletInfo": null,
+    "message": null,
+    "isCouponRedeemed": true
+  },
+  "messageKey": null
+}
+```
 
 ### Error Responses
 
@@ -852,7 +1301,7 @@ Cancels a previously completed redemption and returns the consumed points or wal
 
 ### Request Body
 
-Same schema as `/cartUpdate` — pass the full order object for the transaction being voided. Supply the same `cartId`, `orderId`, and amounts as the original redemption call.
+Same schema as `/redeemReward` — pass the full order object for the transaction being voided. Supply the same `cartId`, `orderId`, and amounts as the original redemption call.
 
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
@@ -915,7 +1364,21 @@ Same schema as `/cartUpdate` — pass the full order object for the transaction 
 
 ### Response - 200 OK
 
-Returns a confirmation string in `data` indicating the void was successful.
+| Field | Type | Description |
+|-------|------|-------------|
+| `message` | string | Response status indicator (e.g., `"SUCCESS"`) |
+| `body` | string | Confirmation string indicating the void was successful |
+| `messageKey` | string \| null | Localization key for the message, if applicable |
+
+### Response Example
+
+```json
+{
+  "message": "SUCCESS",
+  "body": "SUCCESS",
+  "messageKey": null
+}
+```
 
 ### Error Responses
 
@@ -944,6 +1407,8 @@ Loyalty point accrual is deferred until `cartClosure` is called. Do not skip thi
 
 ### Request Body
 
+Same schema as `/redeemReward`. Pass the final completed order — same `discount.discountAmt` and `netAmount` values used when settling the transaction.
+
 | Field | Type | Required | Description | Example |
 |-------|------|----------|-------------|---------|
 | `apiKey` | string | Yes | Merchant-level API key | `"39fb4bd2-cd35-480f-a9ac-4459669cf882"` |
@@ -956,74 +1421,86 @@ Loyalty point accrual is deferred until `cartClosure` is called. Do not skip thi
 
 ```json
 {
-    "userId": null,// unique customer id
-    "mobile" : "11124650",
-    "email" : null,
-    "apiKey": "39fb4bd2-cd35-480f-a9ac-4459669cf882",
-    "order": {
-        "cartId": "20088",
-        "orderId": "20088",
-        "invoiceNumber": null,
-        "orderType": "DELIVERY",
-        "screen": "CART",
-        "grossAmount": 55, //subtotal + delivery
-        "netAmount": 55, //subtotal + delivery - (offer/loyalty disocunt + ewallet)
-        "subTotal": 45, //includes tax
-        "tax": 1,
-        "source": "APP",
-        "platformName": "ANDROID",
-        "platformVersion": "13",
-        "isLoyaltyToggleOn": false, // whether qubriux loyalty points was used
-        "loyaltyPoints":0, //loyalty points applied on the order
-        "isWalletToggleOn": false, //whether qubriux wallet was used
-        "walletAmount": 0, // wallet amount used on the order
+  "userId": null,
+  "mobile": "11124650",
+  "email": null,
+  "apiKey": "39fb4bd2-cd35-480f-a9ac-4459669cf882",
+  "order": {
+    "cartId": "20088",
+    "orderId": "20088",
+    "invoiceNumber": null,
+    "orderType": "DELIVERY",
+    "screen": "CART",
+    "grossAmount": 55,
+    "netAmount": 55,
+    "subTotal": 45,
+    "tax": 1,
+    "source": "APP",
+    "platformName": "ANDROID",
+    "platformVersion": "13",
+    "isLoyaltyToggleOn": false,
+    "loyaltyPoints": 0,
+    "isWalletToggleOn": false,
+    "walletAmount": 0,
+    "discount": {
+      "discountId": null,
+      "discountAmt": null
+    },
+    "items": [
+      {
+        "sequenceId": 1,
+        "productName": "7 up Medium",
+        "productId": "18042",
+        "rate": 45.0,
+        "quantity": 1,
+        "level": 0,
+        "type": "item",
+        "subtotal": 45.0,
+        "categoryName": "Drink",
+        "categoryId": "888000",
         "discount": {
-            "discountId": null,
-            "discountAmt": null
+          "discountId": null,
+          "discountAmt": null
         },
-         "items": [
-            {
-                "sequenceId": 1,
-                "productName": "7 up Medium",
-                "productId": "18042",
-                "rate": 45.0,
-                "quantity": 1,
-                "level": 0, // 0/1/2 0-Reg, 1- Med ,2 -High
-                "type": "item", // item/combo
-                "subtotal": 45.0, //product amount
-                "categoryName": "Drink", //
-                "categoryId": "888000",
-                "discount": { 
-                    "discountId": null,
-                    "discountAmt": null
-                },
-                "modifiers": [
-                    {
-                        "modifierName": "Regular",
-                        "quantity": 1,
-                        "rate": 0.0,
-                        "subtotal": 0.0,
-                        "modifierId": "64d8bc8cccc1395649653f2c"
-                    }
-                ]
-            }
-        ],
-        "deliveryInfo": {
-            "deliveryCharge": 10,
-            "discount": {
-                "discountId": null,
-                "discountAmt": null
-            }
-        }
+        "modifiers": [
+          {
+            "modifierName": "Regular",
+            "quantity": 1,
+            "rate": 0.0,
+            "subtotal": 0.0,
+            "modifierId": "64d8bc8cccc1395649653f2c"
+          }
+        ]
+      }
+    ],
+    "deliveryInfo": {
+      "deliveryCharge": 10,
+      "discount": {
+        "discountId": null,
+        "discountAmt": null
+      }
     }
+  }
 }
-
-
 ```
 
 ### Response - 200 OK
 
-Returns a success confirmation string in `data`.
+| Field | Type | Description |
+|-------|------|-------------|
+| `message` | string | Response status indicator (e.g., `"SUCCESS"`) |
+| `body` | string | Confirmation string indicating cart closure was registered |
+| `messageKey` | string \| null | Localization key for the message, if applicable |
+
+### Response Example
+
+```json
+{
+  "message": "SUCCESS",
+  "body": "SUCCESS",
+  "messageKey": null
+}
+```
 
 ### Error Responses
 
@@ -1031,124 +1508,6 @@ Returns a success confirmation string in `data`.
 |--------|-----------------|
 | `401` | Invalid API key or JWT mismatch |
 | `422` | Customer not found, or order data malformed |
-| `500` | Unexpected server error |
-
----
-
-## POST /apply-coupon
-
-Validates a customer-submitted coupon code against the current cart and, if eligible, applies the discount. Returns the updated cart with the discount breakdown. This endpoint is for interactive coupon entry at checkout — the customer provides a code and the POS applies it.
-
-
-### Request Headers
-
-| Header | Required | Value |
-|--------|----------|-------|
-| `Authorization` | No | `Bearer <jwt_token>` |
-| `Content-Type` | Yes | `application/json` |
-
-### Request Body
-
-| Field | Type | Required | Description | Example |
-|-------|------|----------|-------------|---------|
-| `apiKey` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
-| `userId` | string | Yes | Customer identifier | `"APP-CUST-001234"` |
-| `couponCode` | string | Yes | The coupon code entered by the customer | `"WELCOME20"` |
-| `order` | object | Yes | Current basket (see [Order Fields](#order-fields)) | — |
-
-### Request Example
-
-```json
-{
-  "apiKey": "pk_live_abc123def456",
-  "userId": "APP-CUST-001234",
-  "couponCode": "WELCOME20",
-  "order": {
-    "order_id": "ORD-20240401-0012",
-    "gross_amount": 185.00,
-    "net_amount": 185.00,
-    "tax": 10.00,
-    "order_type": "dine_in",
-    "items": []
-  }
-}
-```
-
-### Response - 200 OK
-
-Same structure as `/cartUpdate` — returns the updated discount breakdown after the coupon is applied.
-
-### Error Responses
-
-| Status | When It Happens |
-|--------|-----------------|
-| `401` | Invalid API key or JWT mismatch |
-| `422` | Coupon code invalid, expired, customer ineligible, or cart does not meet minimum spend |
-| `500` | Wallet operation failed or unexpected server error |
-
----
-
-## POST /add-coupon
-
-Assigns a specific coupon directly to a customer's account — typically used for bulk issuance from a campaign or back-office assignment, rather than interactive entry.
-
-### Request Headers
-
-| Header | Required | Value |
-|--------|----------|-------|
-| `Authorization` | No | `Bearer <jwt_token>` |
-| `Content-Type` | Yes | `application/json` |
-
-### Request Body
-
-| Field | Type | Required | Description | Example |
-|-------|------|----------|-------------|---------|
-| `apiKey` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
-| `userId` | string | Yes | Customer identifier | `"APP-CUST-001234"` |
-| `couponCode` | string | Yes | Coupon code to assign | `"BIRTHDAY50"` |
-
-### Response - 200 OK
-
-Returns a success confirmation string in `data`.
-
-### Error Responses
-
-| Status | When It Happens |
-|--------|-----------------|
-| `401` | Invalid API key or JWT mismatch |
-| `422` | Customer or coupon not found |
-| `500` | Unexpected server error |
-
----
-
-## POST /getCouponDetails
-
-Returns the full details of an offer associated with a given coupon code — name, description, discount value, eligibility rules, and validity period. Use this to show a preview before applying.
-
-### Request Headers
-
-| Header | Required | Value |
-|--------|----------|-------|
-| `Authorization` | No | `Bearer <jwt_token>` |
-| `Content-Type` | Yes | `application/json` |
-
-### Request Body
-
-| Field | Type | Required | Description | Example |
-|-------|------|----------|-------------|---------|
-| `apiKey` | string | Yes | Merchant-level API key | `"pk_live_abc123def456"` |
-| `couponCode` | string | Yes | Coupon code to look up | `"WELCOME20"` |
-
-### Response - 200 OK
-
-Returns with the offer's metadata, including `offerName`, `offerType`, `discountValue`, `startDate`, `endDate`, and eligibility conditions.
-
-### Error Responses
-
-| Status | When It Happens |
-|--------|-----------------|
-| `401` | Invalid API key or JWT mismatch |
-| `422` | Coupon code not found |
 | `500` | Unexpected server error |
 
 ---
